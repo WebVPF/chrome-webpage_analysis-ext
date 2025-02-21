@@ -1,0 +1,115 @@
+.cb {
+    margin-bottom: 16px;
+}
+
+.cb__label {
+    cursor: pointer;
+}
+
+.cb__input {
+    display: none;
+    visibility: hidden;
+    height: 0;
+    width: 0;
+}
+
+.cb__fake-input {
+    display: inline-block;
+    position: relative;
+    width: 22px;
+    height: 22px;
+    /* margin-right: 10px; */
+    margin: 5px;
+    vertical-align: middle;
+    background-color: #4d4d4d;
+    border: 2px solid #b66e18;
+    border-radius: 3px;
+}
+
+.cb__input:checked ~ .cb__fake-input {
+    background-color: #33852d;
+    border-color: #33852d;
+}
+
+.cb__input:checked ~ .cb__fake-input:before,
+.cb__input:checked ~ .cb__fake-input:after {
+    opacity: 1;
+}
+
+.cb__fake-input:before,
+.cb__fake-input:after {
+    content: '';
+    position: absolute;
+    background-color: white;
+    opacity: 0;
+    transition: opacity 100ms ease-in-out;
+}
+
+.cb__fake-input:before {
+    top: 14px;
+    left: 0px;
+    height: 2px;
+    width: 7px;
+    transform-origin: right bottom;
+    transform: rotate(45deg);
+}
+
+.cb__fake-input:after {
+    top: 15px;
+    left: 8px;
+    height: 2px;
+    width: 16px;
+    transform-origin: left bottom;
+    transform: rotate(-45deg);
+}
+
+.cb__blob {
+    width: 20px;
+    height: 20px;
+    top: 50%;
+    left: 50%;
+    border-radius: 50%;
+    margin-left: -10px;
+    margin-top: -10px;
+    display: inline-block;
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+}
+
+.cb__input ~ .cb__fake-input--checked .cb__blob {
+    background-color: rgba(255, 108, 104, 0.3);
+    animation: blob 500ms ease-in-out;
+}
+
+.cb__input ~ .cb__fake-input--unchecked .cb__blob {
+    background-color: rgba(0, 0, 0, 0.3);
+    animation: blob 500ms ease-in-out;
+}
+
+@keyframes blob {
+	0% {
+		opacity: 0;
+		transform: scale(1.2);
+	}
+	
+	50% {
+		opacity: 0.3;
+	}
+	
+	100% {
+		opacity: 0;
+		transform: scale(2.5);
+	}
+}
+
+.cb__txt {
+    color: #bc7171;
+    display: inline-block;
+    vertical-align: middle;
+    transition: color 50ms ease-in-out;
+}
+
+.cb__input:checked ~ .cb__txt {
+    color: #82cc7c;
+}

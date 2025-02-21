@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<!-- <html data-theme="dark"> -->
+<head>
+	<meta charset="UTF-8">
+	<title data-lang="settingsTitle"></title>
+	<link rel="stylesheet" href="css/options/options.css">
+	<link rel="stylesheet" href="css/options/navbar.css">
+	<link rel="stylesheet" href="css/options/switch.css">
+	<!-- <link rel="stylesheet" href="css/options/checkbox.css"> -->
+	<link rel="stylesheet" href="css/options/buttons.css">
+</head>
+<body>
+	<nav>
+		<div class="blockNameApp">
+			<div class="nameApp" data-lang="extName"></div>
+			<div class="descApp" data-lang="extDescription"></div>
+		</div>
+		<ul>
+			<li class="active">
+				<a href="/pages/options.html">
+					<span class="nav-icon">
+						<svg viewBox="0 0 42 45" version="1.1" xmlns="https://www.w3.org/2000/svg">
+							<path fill="#3498db" d="M22.6,32.4 C22.7,32 22.7,31.5 22.7,31 C22.7,30.5 22.7,30.1 22.6,29.6 L25.4,27.6 C25.7,27.4 25.8,27 25.6,26.7 L22.9,22.1 C22.7,21.8 22.4,21.7 22.1,21.8 L19,23.3 C18.3,22.7 17.5,22.3 16.6,21.9 L16.3,18.5 C16.3,18.2 16,17.9 15.7,17.9 L10.4,17.9 C10.1,17.9 9.8,18.2 9.8,18.5 L9.4,22 C8.5,22.3 7.8,22.8 7,23.4 L3.9,22 C3.6,21.9 3.2,22 3.1,22.3 L0.4,26.9 C0.2,27.2 0.3,27.6 0.6,27.8 L3.4,29.8 C3.3,30.2 3.3,30.7 3.3,31.2 C3.3,31.7 3.3,32.1 3.4,32.6 L0.6,34.6 C0.3,34.8 0.2,35.2 0.4,35.5 L3.1,40.1 C3.3,40.4 3.6,40.5 3.9,40.4 L7,39 C7.7,39.6 8.5,40 9.4,40.4 L9.7,43.8 C9.7,44.1 10,44.4 10.3,44.4 L15.6,44.4 C15.9,44.4 16.2,44.1 16.2,43.8 L16.5,40.4 C17.4,40.1 18.1,39.6 18.9,39 L22,40.4 C22.3,40.5 22.7,40.4 22.8,40.1 L25.5,35.5 C25.7,35.2 25.6,34.8 25.3,34.6 L22.6,32.4 L22.6,32.4 Z M13,36 C10.2,36 8,33.8 8,31 C8,28.2 10.2,26 13,26 C15.8,26 18,28.2 18,31 C18,33.8 15.8,36 13,36 L13,36 Z"/>
+							<path fill="#607d8b" d="M38.9,13.3 C39,12.8 39,12.4 39,12 C39,11.6 39,11.2 38.9,10.7 L41.4,8.9 C41.7,8.7 41.7,8.4 41.6,8.1 L39.1,3.8 C38.9,3.5 38.6,3.4 38.3,3.6 L35.4,4.9 C34.7,4.4 34,4 33.2,3.6 L32.9,0.5 C33,0.2 32.8,0 32.5,0 L27.6,0 C27.3,0 27,0.2 27,0.5 L26.7,3.6 C25.9,3.9 25.2,4.3 24.5,4.9 L21.6,3.6 C21.3,3.5 21,3.6 20.8,3.8 L18.3,8.1 C18.1,8.4 18.2,8.7 18.5,8.9 L21,10.7 L21,12 C21,12.4 21,12.8 21.1,13.3 L18.6,15.1 C18.3,15.3 18.3,15.6 18.4,15.9 L20.9,20.2 C21.1,20.5 21.4,20.6 21.7,20.4 L24.6,19.1 C25.3,19.6 26,20 26.8,20.4 L27.1,23.5 C27.1,23.8 27.4,24 27.7,24 L32.6,24 C32.9,24 33.2,23.8 33.2,23.5 L33.5,20.4 C34.3,20.1 35,19.7 35.7,19.1 L38.6,20.4 C38.9,20.5 39.2,20.4 39.4,20.2 L41.9,15.9 C42.1,15.6 42,15.3 41.7,15.1 L38.9,13.3 L38.9,13.3 Z M30,17 C27.2,17 25,14.8 25,12 C25,9.2 27.2,7 30,7 C32.8,7 35,9.2 35,12 C35,14.8 32.8,17 30,17 L30,17 Z"/>
+						</svg>
+						<i class="svg-replace icon-clients"></i>
+					</span>
+					<span class="nav-label" data-lang="popup_settings"></span>
+				</a>
+				<span class="counter empty" data-menu-id="clients"></span>
+			</li>
+			<!-- <li>
+				<a href="/pages/import.html">
+					<span class="nav-icon">
+						<svg viewBox="0 0 512 512" xmlns="https://www.w3.org/2000/svg">
+							<path fill="currentColor" d="M16 288c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h112v-64zm489-183L407.1 7c-4.5-4.5-10.6-7-17-7H384v128h128v-6.1c0-6.3-2.5-12.4-7-16.9zm-153 31V0H152c-13.3 0-24 10.7-24 24v264h128v-65.2c0-14.3 17.3-21.4 27.4-11.3L379 308c6.6 6.7 6.6 17.4 0 24l-95.7 96.4c-10.1 10.1-27.4 3-27.4-11.3V352H128v136c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H376c-13.2 0-24-10.8-24-24z"/>
+						</svg>
+					</span>
+					<span class="nav-label">Import настроек</span>
+				</a>
+			</li> -->
+			<!-- <li>
+				<a href="/pages/export.html">
+					<span class="nav-icon">
+						<svg viewBox="0 0 576 512" xmlns="https://www.w3.org/2000/svg">
+							<path fill="currentColor" d="M384 121.9c0-6.3-2.5-12.4-7-16.9L279.1 7c-4.5-4.5-10.6-7-17-7H256v128h128zM571 308l-95.7-96.4c-10.1-10.1-27.4-3-27.4 11.3V288h-64v64h64v65.2c0 14.3 17.3 21.4 27.4 11.3L571 332c6.6-6.6 6.6-17.4 0-24zm-379 28v-32c0-8.8 7.2-16 16-16h176V160H248c-13.2 0-24-10.8-24-24V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V352H208c-8.8 0-16-7.2-16-16z"/>
+						</svg>
+					</span>
+					<span class="nav-label">Export настроек</span>
+				</a>
+			</li> -->
+			<!-- <li>
+				<a href="https://chromewebstore.google.com/detail/" target="_blank">
+					<span class="nav-icon">
+						<svg xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" viewBox="0 0 152.00976 132" version="1.1">
+							<defs>
+								<linearGradient id="SVGID-1" gradientUnits="userSpaceOnUse" x1="39.16" y1="775.01501" x2="152.84" y2="775.01501" gradientTransform="translate(0,-650)">
+									<stop offset="0" style="stop-color:#d93025" />
+									<stop offset="1" style="stop-color:#ea4335" />
+								</linearGradient>
+								<linearGradient id="SVGID-2" gradientUnits="userSpaceOnUse" x1="-1169.8269" y1="59.741402" x2="-1056.1232" y2="59.741402" gradientTransform="matrix(-0.5,-0.866,0.866,-0.5,-533.5404,-772.0297)">
+									<stop offset="0" style="stop-color:#1e8e3e" />
+									<stop offset="1" style="stop-color:#34a853" />
+								</linearGradient>
+								<linearGradient id="SVGID-3" gradientUnits="userSpaceOnUse" x1="56.7071" y1="-664.77472" x2="170.4071" y2="-664.77472" gradientTransform="matrix(-0.5,0.866,-0.866,-0.5,-403.9008,-264.818)">
+									<stop offset="0" style="stop-color:#fbbc04" id="stop12954"/>
+									<stop offset="1" style="stop-color:#fcc934" id="stop12956"/>
+								</linearGradient>
+								<linearGradient xlink:href="#SVGID-1" id="linearGradient1" gradientUnits="userSpaceOnUse" gradientTransform="translate(-20,-678)" x1="39.16" y1="775.01501" x2="152.84" y2="775.01501"/>
+								<linearGradient xlink:href="#SVGID-2" id="linearGradient2" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-0.5,-0.866,0.866,-0.5,-553.5404,-800.0297)" x1="-1169.8269" y1="59.741402" x2="-1056.1232" y2="59.741402"/>
+								<linearGradient xlink:href="#SVGID-3" id="linearGradient3" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-0.5,0.866,-0.866,-0.5,-423.9008,-292.818)" x1="56.7071" y1="-664.77472" x2="170.4071" y2="-664.77472"/>
+							</defs>
+							<path d="M 0,0 V 121.63086 C 0,127.35086 4.6391406,132 10.369141,132 H 141.64062 c 5.72,0 10.36915,-4.63914 10.36915,-10.36914 L 152,0 Z m 58.730469,14.519531 h 34.539062 c 3.82,0 6.910159,3.090157 6.910159,6.910157 0,3.809999 -3.090159,6.910156 -6.910159,6.910156 H 58.730469 c -3.82,0 -6.910157,-3.090156 -6.910157,-6.910156 0,-3.820001 3.090157,-6.910157 6.910157,-6.910157 z" fill="#f1f3f4"/>
+							<path d="M 0,0 V 121.63086 C 0,127.35086 4.6391406,132 10.369141,132 H 141.64062 c 5.72,0 10.36915,-4.63914 10.36915,-10.36914 L 152,0 Z m 58.730469,14.519531 h 34.539062 c 3.82,0 6.910159,3.090157 6.910159,6.910157 0,3.809999 -3.090159,6.910156 -6.910159,6.910156 H 58.730469 c -3.82,0 -6.910157,-3.090156 -6.910157,-6.910156 0,-3.820001 3.090157,-6.910157 6.910157,-6.910157 z" fill="#f1f3f4"/>
+							<path d="M 0,0 V 66.349609 H 152 V 0 Z m 58.730469,14.519531 h 34.539062 c 3.82,0 6.910159,3.090157 6.910159,6.910157 0,3.809999 -3.090159,6.910156 -6.910159,6.910156 H 58.730469 c -3.82,0 -6.910157,-3.090156 -6.910157,-6.910156 0,-3.820001 3.090157,-6.910157 6.910157,-6.910157 z" fill="#e8eaed"/>
+							<path style="fill:url(#linearGradient1)" d="m 76,55.990236 c -24.29,0 -45.48984,13.190544 -56.83984,32.810544 L 28.21094,116.41016 42.17969,132 h 8.89453 L 76,88.81055 l 56.83984,-0.01 C 121.48984,69.18078 100.29,55.990236 76,55.990236 Z"/>
+							<path style="fill:url(#linearGradient2)" d="M 19.16016,88.80078 C 11.69401,101.76587 8.79854,117.05336 11.18555,132 h 32.9082 z"/>
+							<path style="fill:url(#linearGradient3)" d="M 76,88.81055 100.93359,132 h 39.88086 c 2.38639,-14.943 -0.50881,-30.22498 -7.97461,-43.18945 z"/>
+							<path style="fill:#f1f3f4" d="m 76,88.81055 c -18.12046,0 -32.810541,14.69433 -32.810547,32.82031 0,3.62529 0.598449,7.10853 1.683594,10.36914 h 62.253903 c 1.08515,-3.26061 1.6836,-6.74385 1.6836,-10.36914 C 108.81054,103.50488 94.12046,88.81055 76,88.81055 Z"/>
+							<path d="M 76,94.96094 A 26.66,26.67 0 0 0 49.33984,121.63086 26.66,26.67 0 0 0 51.48633,132 h 49.02734 A 26.66,26.67 0 0 0 102.66016,121.63086 26.66,26.67 0 0 0 76,94.96094 Z" fill="#1a73e8"/>
+							<rect x="3.8146973e-06" y="66.350006" opacity="0.1" fill="#bdc1c6" width="152" height="0.86000001" />
+							<rect x="3.8146973e-06" y="65.480011" opacity="0.1" fill="#bdc1c6" width="152" height="0.86000001" />
+						</svg>
+					</span>
+					<span class="nav-label">Chrome Web Store</span>
+				</a>
+			</li> -->
+			<li>
+				<a href="https://github.com/WebVPF/chrome-webpage_analysis-ext" target="_blank">
+					<span class="nav-icon">
+						<svg role="img" viewBox="0 0 496 512" xmlns="https://www.w3.org/2000/svg">
+							<path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path>
+						</svg>
+					</span>
+					<span class="nav-label">GitHub</span>
+				</a>
+			</li>
+		</ul>
+	</nav>
+
+	<div class="container">
+
+		<div class="item__settings">
+			<div class="field-switch">
+				<label class="switch">
+					<input type="checkbox" id="analysis" name="settings">
+					<span>
+						<span data-lang="on"></span>
+						<span data-lang="off"></span>
+					</span>
+					<a class="slide-button"></a>
+				</label>
+				<div data-lang="settings_item_analysis_text"></div>
+			</div>
+		</div>
+
+		<div class="item__settings">
+			<div class="field-switch">
+				<label class="switch">
+					<input type="checkbox" id="domens" name="settings" data-view=".block_domens">
+					<span>
+						<span data-lang="on"></span>
+						<span data-lang="off"></span>
+					</span>
+					<a class="slide-button"></a>
+				</label>
+				<div data-lang="settings_item_domens_text"></div>
+			</div>
+			<div class="block_domens advanced-settings">
+				<div data-lang="settings_block_domens"></div>
+				<textarea id="domens_list"></textarea>
+				<p style="font-size:12px;margin-top:3px" data-lang-html="settings_block_domens_desc"></p>
+			</div>
+		</div>
+
+		<h2 data-lang="settings_options_title"></h2>
+
+		<div class="item__settings">
+			<div class="field-switch">
+				<label class="switch">
+					<input type="checkbox" id="metadesc" name="settings" data-view=".block_metadesc">
+					<span>
+						<span data-lang="on"></span>
+						<span data-lang="off"></span>
+					</span>
+					<a class="slide-button"></a>
+				</label>
+				<div data-lang="settings_item_metadesc_text"></div>
+			</div>
+			<div class="block_metadesc advanced-settings">
+				<span data-lang="settings_block_metadesc_1"></span> <input type="number" id="metadesc_min" value="140" data-property="min"> <span data-lang="settings_block_metadesc_2"></span> 
+				<input type="number" id="metadesc_max" value="160" data-property="max">
+			</div>
+		</div>
+
+		<div class="item__settings">
+			<div class="field-switch">
+				<label class="switch">
+					<input type="checkbox" id="metadesc_repeat" name="settings" data-view=".block_metadesc_repeat">
+					<span>
+						<span data-lang="on"></span>
+						<span data-lang="off"></span>
+					</span>
+					<a class="slide-button"></a>
+				</label>
+				<div data-lang="settings_item_metadesc_repeat_text"></div>
+			</div>
+			<div class="block_metadesc_repeat advanced-settings">
+				<table class="table table-bordered table-striped">
+					<thead>
+						<tr style="height: 44px;">
+							<th style="width: 220px;" data-lang="settings_block_metadesc_repeat_domen"></th>
+							<th>Meta Description</th>
+							<th style="width: 30px"></th>
+						</tr>
+					</thead>
+					<tfoot>
+						<tr>
+							<td colspan="3">
+								<button id="add_metadesc_repeat_item" class="btn btn-default" data-lang="add_domen"></button>
+							</td>
+						</tr>
+					</tfoot>
+					<tbody></tbody>
+				</table>
+			</div>
+		</div>
+
+		<div class="item__settings">
+			<div class="field-switch">
+				<label class="switch">
+					<input type="checkbox" id="metakey" name="settings">
+					<span>
+						<span data-lang="on"></span>
+						<span data-lang="off"></span>
+					</span>
+					<a class="slide-button"></a>
+				</label>
+				<div data-lang="settings_item_metakey_text"></div>
+			</div>
+		</div>
+
+		<div class="item__settings">
+			<div class="field-switch">
+				<label class="switch">
+					<input type="checkbox" id="headlines" name="settings" data-view=".block_headlines">
+					<span>
+						<span data-lang="on"></span>
+						<span data-lang="off"></span>
+					</span>
+					<a class="slide-button"></a>
+				</label>
+				<div class="item_headlines_text">Проверять заголовки</div>
+			</div>
+
+			<div class="block_headlines advanced-settings">
+				<input id="h2" type="checkbox" data-property="h2"><label for="h2">Заголовки H2</label>
+				<input id="h3" type="checkbox" data-property="h3"><label for="h3">Заголовки H3</label>
+				<input id="h4" type="checkbox" data-property="h4"><label for="h4">Заголовки H4</label>
+				<input id="h5" type="checkbox" data-property="h5"><label for="h5">Заголовки H5</label>
+				<input id="h6" type="checkbox" data-property="h6"><label for="h6">Заголовки H6</label>
+			</div>
+		</div>
+
+		<div class="item__settings">
+			<div class="field-switch">
+				<label class="switch">
+					<input type="checkbox" id="imgSortFormat" name="settings" data-view=".block_imgSearchFormats">
+					<span>
+						<span data-lang="on"></span>
+						<span data-lang="off"></span>
+					</span>
+					<a class="slide-button"></a>
+				</label>
+				<div data-lang="settings_item_imgSortFormat_text"></div>
+			</div>
+			<div class="block_imgSearchFormats advanced-settings">
+				<div data-lang="img_search_formats"></div>
+				<input id="imgSortFormat_list" type="text">
+				<div data-lang="img_search_formats_ex"></div>
+			</div>
+			<!-- <div class="block_imgSortFormat advanced-settings">
+				<span data-lang="settings_block_imgSortFormat_title"></span>: <input id="imgSortFormat_list" type="text">
+				<p style="font-size:12px;margin-top:3px" data-lang-html="settings_block_imgSortFormat_desc"></p>
+			</div> -->
+		</div>
+
+		<div class="item__settings">
+			<div class="field-switch">
+				<label class="switch">
+					<input type="checkbox" id="prefixIMG" name="settings" data-view=".block_prefixIMG">
+					<span>
+						<span data-lang="on"></span>
+						<span data-lang="off"></span>
+					</span>
+					<a class="slide-button"></a>
+				</label>
+				<div class="item_prefixIMG_text">Удалять в отчёте префиксы из путей url-адресов изображений</div>
+			</div>
+			<div class="block_prefixIMG advanced-settings">
+				<p data-lang="settings_block_prefixIMG_title"></p>
+				<textarea id="prefixIMG_list"></textarea>
+				<p style="font-size:12px;margin-top:3px" data-lang-html="settings_block_prefixIMG_desc"></p>
+			</div>
+		</div>
+
+		<div class="item__settings">
+			<div class="field-switch">
+				<label class="switch">
+					<input type="checkbox" id="outerLinks" name="settings">
+					<span>
+						<span data-lang="on"></span>
+						<span data-lang="off"></span>
+					</span>
+					<a class="slide-button"></a>
+				</label>
+				<div data-lang="settings_item_outerLinks_text"></div>
+			</div>
+		</div>
+
+	</div>
+
+	<div id="status"></div>
+	<div>
+		<button id="save" class="btn btn-success mx-auto" data-lang="settingsBtnSave" disabled></button>
+	</div>
+	<script src="js/translate.js"></script>
+	<script src="js/options.js"></script>
+</body>
+</html>

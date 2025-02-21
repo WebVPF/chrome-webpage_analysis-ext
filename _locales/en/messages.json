@@ -1,0 +1,215 @@
+{
+    "extName": {
+        "message": "Web Page Analysis"
+    },
+    "extDescription": {
+        "message": ""
+    },
+    "settingsTitle": {
+        "message": "Options - Site page analysis"
+    },
+    "settingsH1": {
+        "message": "Context menu item"
+    },
+    "settingsText": {
+        "message": "Определите какие из подпунктов показывать в контекстном меню в Анализ страницы сайта"
+    },
+    "settingsLabelOn": {
+        "message": "ON"
+    },
+    "settingsLabelOff": {
+        "message": "OFF"
+    },
+    "settingsBtnSave": {
+        "message": "Save settings"
+    },
+    "settingsSaveStatus": {
+        "message": "Options saved"
+    },
+    "settings_analise": {
+        "message": "Express site pages analysis"
+    },
+    "settings_item_analysis_text": {
+        "message": "Perform analysis"
+    },
+    "settings_item_domens_text": {
+        "message": "Analyze only selected sites"
+    },
+    "settings_block_domens": {
+        "message": "Domains:"
+    },
+    "settings_block_domens_desc": {
+        "message": "Specify the domains for which the extension should perform the analysis, separated by commas.<br> Example mysite.com, google.com (without https://, http://)"
+    },
+    "settings_options_title": {
+        "message": "Analysis Options"
+    },
+    "settings_item_metadesc_text": {
+        "message": "Check length of Meta Description"
+    },
+    "settings_block_metadesc_1": {
+        "message": "Number of characters in Meta Description: from"
+    },
+    "settings_block_metadesc_2": {
+        "message": "to"
+    },
+    "settings_item_metadesc_repeat_text": {
+        "message": "Check duplicate Meta Description"
+    },
+    "settings_block_metadesc_repeat_domen": {
+        "message": "Domain"
+    },
+    "settings_block_metadesc_repeat_add_domen": {
+        "message": "Add domain"
+    },
+    "settings_item_metakey_text": {
+        "message": "Check Meta Keywords"
+    },
+    "settings_item_headlines_text": {
+        "message": "Check headers"
+    },
+    "delete": {
+        "message": "Delete"
+    },
+    "settingsPageH1": {
+        "message": "Context menu items"
+    },
+    "settings_block_headlines_cb_txt": {
+        "message": "Headlines"
+    },
+    "settings_item_imgSortFormat_text": {
+        "message": "Search image formats"
+    },
+    "settings_block_imgSortFormat_title": {
+        "message": "Formats"
+    },
+    "settings_block_imgSortFormat_desc": {
+        "message": "Specify comma-separated image formats that extension should find and display in warning block. <br> Example: gif, png, bmp"
+    },
+    "settings_item_prefixIMG_text": {
+        "message": "Delete prefixes from image urls in the report"
+    },
+    "settings_block_prefixIMG_title": {
+        "message": "Prefixes:"
+    },
+    "settings_block_prefixIMG_desc": {
+        "message": "Specify prefixes separated by commas. <br/> Example: .pagespeed, .lazyload"
+    },
+    "settings_item_outerLinks_text": {
+        "message": "Search external links"
+    },
+    "settings_footer_link_1": {
+        "message": "Expansion site"
+    },
+    "settings_footer_link_2": {
+        "message": "Support"
+    },
+    "settings_footer_link_3": {
+        "message": "Translation to other languages"
+    },
+    "popup_title": {
+        "message": "Page analysis"
+    },
+    "popup_update": {
+        "message": "Refresh"
+    },
+    "popup_settings": {
+        "message": "Settings"
+    },
+    "popup_error_1": {
+        "message": "error"
+    },
+    "popup_errors_3": {
+        "message": "errors"
+    },
+    "popup_errors_10": {
+        "message": "errors"
+    },
+    "popup_warning_1": {
+        "message": "warning"
+    },
+    "popup_warnings_3": {
+        "message": "warnings"
+    },
+    "popup_warnings_10": {
+        "message": "warnings"
+    },
+    "popup_errors": {
+        "message": "Errors"
+    },
+    "popup_warnings": {
+        "message": "Warnings"
+    },
+    "popup_not_errors": {
+        "message": "No mistakes"
+    },
+    "popup_success_check": {
+        "message": "Successful checks"
+    },
+    "popup_suc_semantik": {
+        "message": "There is a semantic markup"
+    },
+    "popup_err_semantik": {
+        "message": "There is no semantic markup on page"
+    },
+    "popup_err_title": {
+        "message": "Page is missing Title"
+    },
+    "popup_suc_title": {
+        "message": "The page has a title"
+    },
+    "popup_err_metadesc": {
+        "message": "This page has no meta description"
+    },
+    "popup_err_metadesc_repeat": {
+        "message": "Meta description repeated"
+    },
+    "popup_suc_metakey": {
+        "message": "The page has meta keywords"
+    },
+    "popup_err_metakey": {
+        "message": "This page has no meta keywords"
+    },
+    "popup_err_h1": {
+        "message": "H1 header missing"
+    },
+    "popup_suc_h1": {
+        "message": "There is an H1 heading on the page"
+    },
+    "popup_err_not_headlines": {
+        "message": "There are no headlines on this page"
+    },
+    "popup_suc_emptyLinks": {
+        "message": "There are no empty links"
+    },
+    "popup_err_notAlt": {
+        "message": "Missing alt attribute:"
+    },
+    "popup_err_emptyAlt": {
+        "message": "Empty alt attribute:"
+    },
+    "popup_suc_alt": {
+        "message": "Alt attribute is full for all images"
+    },
+    "popup_err_non_optimized_images": {
+        "message": "Non-optimized image size"
+    },
+    "popup_err_non_optimized_images_desc": {
+        "message": "which display size is smaller than the original"
+    },
+    "popup_Images": {
+        "message": "Images"
+    },
+    "popup_downloadAll": {
+        "message": "Download all"
+    },
+    "popup_outerLinks": {
+        "message": "External links"
+    },
+    "popup_analysis_site_disabled": {
+        "message": "Analysis off for site"
+    },
+    "popup_analysis_disabled_settings": {
+        "message": "Analysis is disabled in the extension settings."
+    }
+}

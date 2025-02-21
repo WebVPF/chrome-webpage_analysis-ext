@@ -1,0 +1,44 @@
+{
+    "manifest_version": 3,
+    "name": "__MSG_extName__",
+    "description": "__MSG_extDescription__",
+    "author": "WebVPF",
+    "version": "0.0.1",
+    "icons": {
+        "16": "img/icon-16.png",
+        "48": "img/icon-48.png",
+        "128": "img/icon-128.png"
+    },
+
+    "content_scripts": [
+        {
+            "matches": ["*://*/*"],
+            "js": [
+                "js/analysis_page.js",
+                "js/analysis-new.js"
+            ]
+        }
+    ],
+
+    "permissions": [
+        "storage",
+        "activeTab"
+    ],
+
+    "background": {
+        "service_worker": "js/background.js"
+    },
+
+    "action": {
+        "default_title": "__MSG_extName__",
+        "default_icon": {
+          "16": "img/icon-16.png",
+          "24": "img/icon-24.png",
+          "32": "img/icon-32.png"
+        },
+        "default_popup": "popup.html"
+      },
+
+    "default_locale": "en",
+    "options_page": "options.html"
+}

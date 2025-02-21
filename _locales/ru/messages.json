@@ -1,0 +1,90 @@
+{
+    "extName": {"message": "Анализ веб-страниц"},
+    "extDescription": {"message": "Расширение выполняет анализ просматриваемых веб-страниц"},
+
+    "settingsTitle": {"message": "Настройки - Анализ веб-страниц"},
+    "settingsText": {"message": "Определите какие из пунктов показывать в контекстном меню в Анализ страницы сайта"},
+    "on": {"message": "ВКЛ"},
+    "off": {"message": "ВЫКЛ"},
+    "settingsBtnSave": {"message": "Сохранить настройки"},
+    "settingsSaveStatus": {"message": "Настройки сохранены"},
+
+    "settings_item_analysis_text": {"message": "Выполнять анализ"},
+    "settings_item_domens_text": {"message": "Анализировать только избранные сайты"},
+    "settings_block_domens": {"message": "Домены:"},
+    "settings_block_domens_desc": {"message": "Укажите через запятую домены сайтов для которых расширение должно выполнять анализ.<br/>Пример: example.com, google.com (без https://, http://)"},
+
+    "settings_options_title": {"message": "Опции анализа"},
+    "settings_item_metadesc_text": {"message": "Проверять длину Meta Description"},
+    "settings_block_metadesc_1": {"message": "Кол-во символов в Meta Description: от "},
+    "settings_block_metadesc_2": {"message": "до"},
+    "settings_item_metadesc_repeat_text": {"message": "Проверять повторяющийся Meta Description"},
+    "settings_block_metadesc_repeat_domen": {"message": "Домен"},
+    "add_domen": {"message": "Добавить домен"},
+    "delete": {"message": "Удалить"},
+    "settings_item_metakey_text": {"message": "Проверять Meta Keywords"},
+    "settings_item_headlines_text": {"message": "Проверять заголовки"},
+    "settings_block_headlines_cb_txt": {"message": "Заголовки"},
+    "settings_item_imgSortFormat_text": {"message": "Искать форматы изображений"},
+    "img_search_formats": {"message": "Укажите через запятую форматы изображений, которые расширение должно найти и вывести в блоке предупреждений:"},
+    "img_search_formats_ex": {"message": "Пример: gif, png, bmp"},
+    "settings_item_prefixIMG_text": {"message": "Удалять в отчёте префиксы из путей url-адресов изображений"},
+    "settings_block_prefixIMG_title": {"message": "Префиксы:"},
+    "settings_block_prefixIMG_desc": {"message": "Укажите через запятую префиксы.<br/>Пример: .pagespeed, .lazyload"},
+    "settings_item_outerLinks_text": {"message": "Искать внешние ссылки"},
+
+    "settings_footer_link_1": {"message": "Сайт расширения"},
+    "settings_footer_link_2": {"message": "Перевод на другие языки"},
+
+
+
+    "page_analysis": {"message": "Анализ страницы"},
+    "update": {"message": "Обновить"},
+    "update_data": {"message": "Обновить данные"},
+    "settings": {"message": "Настройки"},
+    "settings_ext": {"message": "Настройки расширения"},
+
+    "popup_error_1": {"message": "ошибка"},
+    "popup_errors_3": {"message": "ошибки"},
+    "popup_errors_10": {"message": "ошибок"},
+    "popup_warning_1": {"message": "предупреждение"},
+    "popup_warnings_3": {"message": "предупреждения"},
+    "popup_warnings_10": {"message": "предупреждений"},
+    "popup_errors": {"message": "Ошибки"},
+    "popup_warnings": {"message": "Предупреждения"},
+    "popup_not_errors": {"message": "Нет ошибок"},
+
+    "popup_success_check": {"message": "Успешные проверки"},
+    "popup_suc_semantik": {"message": "Есть семантическая разметка"},
+    "popup_err_semantik": {"message": "На странице нет семантической разметки"},
+    "popup_err_title": {"message": "У страницы отсутствует Title"},
+    "popup_suc_title": {"message": "У страницы есть Title"},
+
+    "popup_err_metadesc": {"message": "У страницы нет Meta Description"},
+    "popup_err_metadesc_repeat": {"message": "Meta-Description повторяется"},
+    "popup_suc_metakey": {"message": "У страницы есть Meta Keywords"},
+    "popup_err_metakey": {"message": "У страницы нет Meta Keywords"},
+    "popup_err_h1": {"message": "Отсутствует заголовок H1"},
+
+
+    "popup_suc_h1": {"message": "На странице есть заголовок H1"},
+    "popup_err_not_headlines": {"message": "На странице отсутствуют заголовки"},
+
+
+    "popup_suc_emptyLinks": {"message": "Пустых ссылок нет"},
+    "popup_err_notAlt": {"message": "Отсутствует атрибут alt:"},
+    "popup_err_emptyAlt": {"message": "Пустой атрибут alt:"},
+    "popup_suc_alt": {"message": "Атрибут Alt заполнен у всех изображений"},
+
+    "popup_err_non_optimized_images": {"message": "Изображения неоптимизированного размера"},
+    "popup_err_non_optimized_images_desc": {"message": "у которых отображаемый размер меньше оригинального"},
+    "popup_Images": {"message": "Изображения"},
+
+    "popup_downloadAll": {"message": "Скачать все"},
+    "popup_outerLinks": {"message": "Внешние ссылки"},
+
+    "popup_analysis_site_disabled": {"message": "Анализ выключен для сайта"},
+    "popup_analysis_disabled_settings": {"message": "Анализ выключен в настройках расширения."},
+
+    "bg_not_errors_txt": {"message": "На странице ошибок не обнаружено"}
+}

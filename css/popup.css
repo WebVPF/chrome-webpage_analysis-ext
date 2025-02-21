@@ -1,0 +1,218 @@
+body {
+    width: 300px;
+    padding-bottom: 20px;
+    font-size: 13px;
+    color: #dbdbdb;
+    font-family: Verdana, sans-serif;
+    font-size: 15px;
+    font-weight: normal;
+    background: #3b3f46;
+}
+.header {
+    font-size: 13px;
+}
+h1 {
+    padding-bottom: 6px;
+    text-align: center;
+    line-height: 19px;
+    font-size: 19px;
+    text-shadow: 1px 1px 0px #000;
+    border-bottom: solid 2px #646464;
+}
+h2 {
+    text-align: center;
+    
+}
+.block__errors h2 {color: #dc3545}
+.block__warning h2 {color: #ffc107}
+.block__success h2 {color: #32cd32}
+
+h3 {
+    font-size: 13px;
+    font-weight: bold;
+}
+p.small {
+    font-size: 11px;
+    margin-top: -11px;
+    color: #ff8c00;
+}
+
+.block_button {
+    display: flex;
+    justify-content: space-between;
+}
+button {
+    display: inline-block;
+    background: #17777a;
+    padding: 5px 17px;
+    border: 0;
+    border-radius: 4px;
+    color: #ffdea3;
+    font-size: 13px;
+    cursor: pointer;
+}
+button:hover {
+    background: #0e6b6e;
+    color: #fff;
+}
+
+.err-images > div {
+    display: flex;
+    align-items: center;
+    margin: 3px 0;
+    padding: 2px;
+    background: #504e49;
+    color: #f0e68c;
+    font-size: 11px;
+    border: solid 1px #989898;
+    background: #484848;
+}
+
+.err-images > div:hover {
+    background: #333230;
+}
+
+.err-images > div > div {
+    width: 240px;
+    margin-left: 6px;
+    word-wrap: break-word;
+}
+
+.badge {
+    display: inline-block;
+    padding: .25em .4em;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    font-weight: normal;
+    font-size: 15px;
+    border-radius: 3px;
+}
+.badge-danger {
+    color: #fff;
+    background-color: #dc3545;
+}
+.badge-success {
+    color: #fff;
+    background-color: #28a745;
+}
+.badge-warning {
+    color: #212529;
+    background-color: #ffc107;
+}
+
+img.notAlt,
+img.emptyAlt,
+img.exceedingSize,
+img.imgSortFormat {
+    width: 50px;
+    height: 50px;
+    background-color: #fff;
+    background-image: -webkit-linear-gradient(45deg,#c3c3c3 25%,transparent 25%,transparent 75%,#c3c3c3 75%,#c3c3c3),-webkit-linear-gradient(45deg,#c3c3c3 25%,transparent 25%,transparent 75%,#c3c3c3 75%,#c3c3c3);
+    background-position: 0 0,7px 7px;
+    -webkit-background-size: 15px 15px;
+    background-size: 15px 15px;
+    border: solid 1px #7d7d7d;
+}
+
+img.notAlt:hover,
+img.emptyAlt:hover,
+img.exceedingSize:hover,
+img.imgSortFormat:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+    border: solid 1px #008305;
+}
+
+.btn-img-download {
+    display: block;
+    margin: 8px 0 0px 175px;
+}
+
+.btn__empty_link,
+.btn__outer_link {
+    display: inline-block;
+    margin-right: 4px;
+    padding: 3px;
+    width: 20px;
+    height: 20px;
+    background: #333c73;
+    text-align: center;
+    color: #fff;
+    cursor: pointer;
+    border: solid 1px #ccc;
+    border-radius: 3px;
+}
+.btn__empty_link:hover,
+.btn__outer_link:hover {
+    background: #354191;
+}
+
+.text__analysis {
+    margin-bottom: 15px;
+    padding: 5px;
+    font-size: 11px;
+    overflow: hidden;
+    transition: height .3s ease-out;
+    border: solid 1px #ccc;
+}
+.text__analysis.active {
+    height: max-content;
+}
+.block__errors .text__analysis {
+    background: #7b0000;
+}
+.block__success .text__analysis {
+    background: #143615;
+}
+
+label.mtkey {
+    display: inline-block;
+    margin: 0 3px 5px 0;
+    padding: 3px 5px;
+    background: #2f4f4f;
+    font-size: 11px;
+    color: #f0fff0;
+    border: solid 1px #ccc;
+    border-radius: 2px;
+}
+
+
+::-webkit-scrollbar {
+    width:7px;
+}
+::-webkit-scrollbar-thumb {
+    border-color: #777;
+    background-color: #16bad2d9;
+    border-width:1px 1px 1px 2px;
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background-color: #777777b5;
+    border-width: 1px 1px 1px 2px;
+    border-radius: 5px;
+    border-color: #555;
+}
+::-webkit-scrollbar-track {
+    border-width:0;
+}
+::-webkit-scrollbar-track:hover {
+    background-color: #eee;
+    border-left: solid 1px #aaa;
+}
+
+
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+  vertical-align: top;
+}
+.icon-forum {
+  width: 1.125em;
+}

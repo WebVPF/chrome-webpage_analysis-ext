@@ -1,0 +1,265 @@
+html[data-theme="dark"] {
+    --color: #cecece;
+    --bg-body: #0d1117;
+    --bgc-a: #0d1117;
+    --bgc-b: #161b22;
+    --bgc-c: #1b222c;
+    --txt-color: #8b949e;
+    --txt-checked-color: #c9d1d9;
+    --btn-color: #2ea043;
+    --btn-bg: #21262d;
+    --btn-brd: solid 1px #074a14;
+    --btn-hover-bg: #2ea043;
+    --btn-hover-color: #c9d1d9;
+    --btn-disabled-color: #7e7e7e;
+    --btn-disabled-bg: #1e2024;
+    --btn-disabled-brd-color: #343434;
+
+
+    --bgc-inputs: #010409;
+    --table-brd-color: #404040;
+
+    --drk-bg-color-fancy: #113040;
+    --drk-bg-color-inset: #010409;
+    --color-a: #c9d1d9;
+    --drk-color-b: #8b949e;
+    --drk-color-c: #757575;
+    --drk-color-danger: #f85149;
+    --drk-brd-color: #30363d;
+    --drk-hover-bg-color-a: #1f242c;
+    --drk-hover-bg-color-b: #263850;
+    --drk-box-shadow: 0 8px 24px #010409;
+}
+*,
+:after,
+:before {
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+    padding-bottom: 30px;
+    background-color: var(--bg-body, #f9f9f9);
+    color: var(--color, #333);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 15px;
+    font-weight: normal;
+    line-height: 20px;
+}
+.container {
+    margin: 50px auto 30px;
+    padding: 20px;
+    max-width: 700px;
+    background-color: var(--bgc-c, #fff);
+    /* box-shadow: 0px 0px 5px 2px #cfcfcf; */
+}
+h1 {
+    text-align: center;
+}
+h2 {
+    margin-top: 54px;
+    margin-bottom: 30px;
+    /* text-align: center; */
+}
+.mx-auto {
+    display: block !important;
+    margin-left: auto;
+    margin-right: auto;
+}
+.item__settings {
+    margin-bottom: 30px;
+}
+.advanced-settings {
+    margin-left: 80px;
+}
+textarea {
+    width: 100%;
+    background-color: var(--bgc-inputs, #fff);
+    color: var(--color-a, #385487);
+    border: solid 1px var(--drk-brd-color, #d1d6d9);
+    border-radius: 3px;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+input[type="text"],
+input[type="number"],
+select {
+    width: 100%;
+    height: 38px;
+    background-color: var(--bgc-inputs, #fff);
+    color: var(--color-a, #385487);
+    font-size: 14px;
+    background-image: none;
+    border: solid 1px var(--drk-brd-color, #d1d6d9);
+    border-radius: 3px;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+input[type="text"],
+input[type="number"] {
+    padding: 8px 13px 9px;
+    background-image: none;
+}
+/* .block_domens__item input[type="text"] {
+    width: calc(100% - 65px - 40px - 36px);
+} */
+textarea:focus,
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
+    border-color: #1f6feb;
+    box-shadow: 0 0 0 3px #0c2d6b;
+    outline: 0;
+}
+input[type="number"] {
+    text-align: right;
+}
+select {
+    padding: 8px 25px 8px 13px;
+    line-height: 1.42857143;
+}
+
+
+#status {
+    display: none;
+    position: fixed;
+    width: 300px;
+    top: 50px;
+    left: 50%;
+    margin-left: -150px;
+    padding: 15px;
+    text-align: center;
+    background: darkgreen;
+    border: solid 2px #b6b6b6;
+    border-radius: 6px;
+}
+.block_domens,
+.block_metadesc,
+.block_metadesc_repeat,
+.block_headlines,
+.block_imgSortFormat,
+.block_prefixIMG {
+    height: 0;
+    overflow: hidden;
+    transition: height .3s ease-out;
+}
+
+.block_metadesc_repeat.active {height: auto}
+
+.block_domens.active,
+.block_prefixIMG.active {height:210px}
+.block_metadesc.active {height:65px}
+.block_headlines.active {
+    height: 50px;
+}
+.block_imgSortFormat.active {height:150px}
+
+/* textarea,
+input[type="text"],
+input[type="number"] {
+    background-color: #010409;
+    color: #c9d1d9;
+    font-size: 14px;
+    border: solid 1px #30363d;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+input[type="text"],
+input[type="number"] {
+    height: 38px;
+    box-sizing: border-box;
+}
+textarea:focus,
+input[type="text"]:focus,
+input[type="number"]:focus {
+    border-color: #1f6feb;
+    box-shadow: 0 0 0 3px #0c2d6b;
+    outline: 0;
+} */
+
+
+/* input[type="text"] {
+    height: 21px;
+    margin-bottom: 9px;
+    padding: 3px;
+}
+textarea {
+    padding: 9px 13px;
+    resize: none;
+} */
+textarea#domens_list,
+textarea#prefixIMG_list {
+    height: 100px;
+}
+
+.block_metadesc_repeat td {
+    padding: 5px;
+}
+.block_metadesc_repeat table textarea {
+    height: 75px;
+}
+.block_metadesc input[type="number"] {
+    width: 60px;
+    margin-bottom: 9px;
+    padding: 3px;
+    box-shadow: 0 0 transparent;
+}
+#imgSortFormat_list {
+    width: 560px;
+}
+
+
+table {
+    border-collapse: collapse;
+}
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    background-color: transparent;
+}
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #35393e;
+}
+.table-bordered {
+    border: 1px solid #828588;
+}
+.table-bordered td, .table-bordered th {
+    border: 1px solid #828588;
+}
+
+img {
+    vertical-align: middle;
+}
+
+footer {
+    min-height: 80px;
+    background: #000;
+    padding: 3px 15px;
+    display: block;
+}
+footer ul {
+    display: flex;
+    flex-wrap: wrap;
+    /* justify-content: space-between; */
+    justify-content: space-around;
+}
+footer ul li {
+    list-style: none;
+}
+footer ul li a {
+    color: #ccc;
+    text-decoration: none;
+}
+footer ul li a:hover {
+    color: gold;
+}
+
+
+.icon {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    stroke-width: 0;
+    stroke: currentColor;
+    fill: currentColor;
+    vertical-align: middle;
+}
+.icon-forum {
+    width: 1.125em;
+}
