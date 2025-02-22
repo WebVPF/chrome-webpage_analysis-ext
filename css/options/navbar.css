@@ -10,6 +10,31 @@ nav {
     line-height: 0;
     white-space: nowrap;
 }
+.logo {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+}
+.logo img {
+    margin-top: 6px;
+}
+.blockNameApp {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.nameApp {
+    height: 27px;
+    font-size: 27px;
+    line-height: 1;
+    color: #52b9ff;
+}
+.descApp {
+    font-size: 12px;
+    line-height: 1;
+    color: var(--app-desc-color, #cecece);
+}
+
 nav ul {
     display: inline-block;
     margin: 0;
@@ -62,23 +87,4 @@ nav ul li a .nav-icon {
 }
 nav ul li a .nav-label {
     line-height: 30px;
-}
-
-
-.blockNameApp {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-}
-.nameApp {
-    height: 27px;
-    font-size: 27px;
-    line-height: 1;
-    color: #3498db;
-    color: #52b9ff;
-}
-.descApp {
-    font-size: 12px;
-    line-height: 1;
-    color: var(--app-desc-color, #cecece);
 }

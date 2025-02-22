@@ -11,8 +11,8 @@
 
     "settings_item_analysis_text": {"message": "Выполнять анализ"},
     "settings_item_domens_text": {"message": "Анализировать только избранные сайты"},
-    "settings_block_domens": {"message": "Домены:"},
-    "settings_block_domens_desc": {"message": "Укажите через запятую домены сайтов для которых расширение должно выполнять анализ.<br/>Пример: example.com, google.com (без https://, http://)"},
+    "domens_desc": {"message": "Укажите через запятую домены сайтов для которых расширение должно выполнять анализ:"},
+    "domens_ex": {"message": "Пример: example.com, google.com (без https://, http://)"},
 
     "settings_options_title": {"message": "Опции анализа"},
     "settings_item_metadesc_text": {"message": "Проверять длину Meta Description"},
@@ -29,8 +29,8 @@
     "img_search_formats": {"message": "Укажите через запятую форматы изображений, которые расширение должно найти и вывести в блоке предупреждений:"},
     "img_search_formats_ex": {"message": "Пример: gif, png, bmp"},
     "settings_item_prefixIMG_text": {"message": "Удалять в отчёте префиксы из путей url-адресов изображений"},
-    "settings_block_prefixIMG_title": {"message": "Префиксы:"},
-    "settings_block_prefixIMG_desc": {"message": "Укажите через запятую префиксы.<br/>Пример: .pagespeed, .lazyload"},
+    "img_prefix_desc": {"message": "Укажите через запятую префиксы:"},
+    "img_prefix_ex": {"message": "Пример: .pagespeed, .lazyload"},
     "settings_item_outerLinks_text": {"message": "Искать внешние ссылки"},
 
     "settings_footer_link_1": {"message": "Сайт расширения"},

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html>
-<!-- <html data-theme="dark"> -->
+<!-- <html> -->
+<html data-theme="dark">
 <head>
 	<meta charset="UTF-8">
 	<title data-lang="settingsTitle"></title>
@@ -12,9 +12,12 @@
 </head>
 <body>
 	<nav>
-		<div class="blockNameApp">
-			<div class="nameApp" data-lang="extName"></div>
-			<div class="descApp" data-lang="extDescription"></div>
+		<div class="logo">
+			<img src="/img/icon.svg" width="48" height="48" alt="logo">
+			<div class="blockNameApp">
+				<div class="nameApp" data-lang="extName"></div>
+				<div class="descApp" data-lang="extDescription"></div>
+			</div>
 		</div>
 		<ul>
 			<li class="active">
@@ -128,9 +131,9 @@
 				<div data-lang="settings_item_domens_text"></div>
 			</div>
 			<div class="block_domens advanced-settings">
-				<div data-lang="settings_block_domens"></div>
+				<div data-lang="domens_desc"></div>
 				<textarea id="domens_list"></textarea>
-				<p style="font-size:12px;margin-top:3px" data-lang-html="settings_block_domens_desc"></p>
+				<div style="font-size: 12px; margin-top: 3px;" data-lang="domens_ex"></div>
 			</div>
 		</div>
 
@@ -259,9 +262,9 @@
 				<div class="item_prefixIMG_text">Удалять в отчёте префиксы из путей url-адресов изображений</div>
 			</div>
 			<div class="block_prefixIMG advanced-settings">
-				<p data-lang="settings_block_prefixIMG_title"></p>
+				<div data-lang="img_prefix_desc"></div>
 				<textarea id="prefixIMG_list"></textarea>
-				<p style="font-size:12px;margin-top:3px" data-lang-html="settings_block_prefixIMG_desc"></p>
+				<div style="font-size: 12px; margin-top: 3px" data-lang="img_prefix_ex"></div>
 			</div>
 		</div>
 

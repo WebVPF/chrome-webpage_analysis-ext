@@ -13,8 +13,19 @@ const analysis = {
      *
      * Не анализирует есть ли указанное изображение на сервере.
      */
-    images() {
+    getImages() {
+        let images = [];
+
         document.querySelectorAll('img').forEach(img => {
+            let error = false;
+
+            // let imgLogs = {
+            //     path: '',
+            //     src: '',
+            //     srcEmpty: '',
+            //     alt: '',
+            //     altEmpty: '',
+            // }
 
             /**
              * Массив ошибок (string) у исследуемого изображения
@@ -64,6 +75,14 @@ const analysis = {
 
             if (imgErrors.length > 0) {
                 // images.push(img, imgErrors);
+            }
+
+
+
+
+
+            if (error) {
+                images.push(imgLogs);
             }
         });
     },
@@ -135,6 +154,40 @@ const analysis = {
 
     },
 
+    controlAnalysis() {
+        // this.getImages();
+
+        let headers = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+
+        
+
+        console.log(headers);
+
+
+    },
+
+    init() {
+        if (this.settings.analysis) {
+            if (this.settings.domens.active) {
+                let domens = this.stringListToArray(this.settings.domens.list);
+
+                if (domens.includes(window.location.hostname)) {
+                    this.controlAnalysis();
+                }
+            }
+            else {
+                this.controlAnalysis();
+            }
+        }
+        else {
+            // Анализ выключен в настройках
+            // chrome.runtime.sendMessage({
+            //     errors: this.reply.errors,
+            //     warnings: this.reply.warnings
+            // });
+        }
+    },
+
     settingsInit() {
 
         /**
@@ -158,29 +211,10 @@ const analysis = {
 
             this.init();
         });
-    },
-
-    init() {
-        if (this.settings.analysis) {
-            if (this.settings.domens.active) {
-                let domens = this.stringListToArray(this.settings.domens.list);
-
-                if (domens.includes(window.location.hostname)) {
-                    this.controlAnalysis();
-                }
-            }
-            else {
-                this.controlAnalysis();
-            }
-        }
-        else {
-            // Анализ выключен в настройках
-            // chrome.runtime.sendMessage({
-            //     errors: this.reply.errors,
-            //     warnings: this.reply.warnings
-            // });
-        }
     }
 }
+
+addEventListener('load', analysis.settingsInit.bind(analysis));
+// addEventListener('load', (e) => analysis.settingsInit());
 
 console.log('analysis-new');
