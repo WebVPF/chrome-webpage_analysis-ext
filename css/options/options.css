@@ -69,9 +69,28 @@ h2 {
 .item__settings {
     margin-bottom: 30px;
 }
-.advanced-settings {
+.sub-settings {
+    height: 0;
     margin-left: 80px;
+    overflow: hidden;
+    transition: height .3s ease-out;
 }
+.sub-settings.h-auto.active {
+    height: auto;
+}
+.sub-settings.h-50.active {
+    height: 50px;
+}
+.sub-settings.h-100.active {
+    height: 100px;
+}
+.sub-settings.h-150.active {
+    height: 150px;
+}
+.sub-settings.h-170.active {
+    height: 170px;
+}
+
 textarea {
     width: 100%;
     background-color: var(--bgc-inputs, #fff);
@@ -98,9 +117,6 @@ input[type="number"] {
     padding: 8px 13px 9px;
     background-image: none;
 }
-/* .block_domens__item input[type="text"] {
-    width: calc(100% - 65px - 40px - 36px);
-} */
 textarea:focus,
 input[type="text"]:focus,
 input[type="number"]:focus,
@@ -116,103 +132,21 @@ select {
     padding: 8px 25px 8px 13px;
     line-height: 1.42857143;
 }
-
-
-#status {
-    display: none;
-    position: fixed;
-    width: 300px;
-    top: 50px;
-    left: 50%;
-    margin-left: -150px;
-    padding: 15px;
-    text-align: center;
-    background: darkgreen;
-    border: solid 2px #b6b6b6;
-    border-radius: 6px;
-}
-.block_domens,
-.block_metadesc,
-.block_metadesc_repeat,
-.block_headlines,
-.block_imgSearchFormats,
-.block_prefixIMG {
-    height: 0;
-    overflow: hidden;
-    transition: height .3s ease-out;
-}
-
-.block_metadesc_repeat.active {height: auto}
-
-.block_domens.active {
-    height: 170px;
-}
-.block_prefixIMG.active {
-    height: 150px;
-}
-.block_metadesc.active {
-    height: 65px;
-}
-.block_headlines.active {
-    height: 50px;
-}
-.block_imgSearchFormats.active {
-    height: 100px;
-}
-
-/* textarea,
-input[type="text"],
 input[type="number"] {
-    background-color: #010409;
-    color: #c9d1d9;
-    font-size: 14px;
-    border: solid 1px #30363d;
-    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-}
-input[type="text"],
-input[type="number"] {
-    height: 38px;
-    box-sizing: border-box;
-}
-textarea:focus,
-input[type="text"]:focus,
-input[type="number"]:focus {
-    border-color: #1f6feb;
-    box-shadow: 0 0 0 3px #0c2d6b;
-    outline: 0;
-} */
-
-
-/* input[type="text"] {
-    height: 21px;
-    margin-bottom: 9px;
-    padding: 3px;
-}
-textarea {
-    padding: 9px 13px;
-    resize: none;
-} */
-textarea#domens_list,
-textarea#prefixIMG_list {
-    height: 100px;
-}
-
-.block_metadesc_repeat td {
-    padding: 5px;
-}
-.block_metadesc_repeat table textarea {
-    height: 75px;
-}
-.block_metadesc input[type="number"] {
     width: 60px;
     margin-bottom: 9px;
     padding: 3px;
     box-shadow: 0 0 transparent;
 }
-#imgSortFormat_list {
-    width: 560px;
+textarea#domens_list,
+textarea#suffixIMG_list {
+    height: 100px;
+    resize: none;
 }
-
+textarea#domens_list + div,
+textarea#suffixIMG_list + div {
+    font-size: 12px;
+}
 
 table {
     border-collapse: collapse;
@@ -228,47 +162,27 @@ table {
 .table-bordered {
     border: 1px solid #828588;
 }
-.table-bordered td, .table-bordered th {
+.table-bordered th,
+.table-bordered td {
     border: 1px solid #828588;
 }
-
-img {
-    vertical-align: middle;
+td {
+    padding: 5px;
+}
+table textarea {
+    height: 75px;
 }
 
-footer {
-    min-height: 80px;
-    background: #000;
-    padding: 3px 15px;
-    display: block;
-}
-footer ul {
-    display: flex;
-    flex-wrap: wrap;
-    /* justify-content: space-between; */
-    justify-content: space-around;
-}
-footer ul li {
-    list-style: none;
-}
-footer ul li a {
-    color: #ccc;
-    text-decoration: none;
-}
-footer ul li a:hover {
-    color: gold;
-}
-
-
-.icon {
-    display: inline-block;
-    width: 1em;
-    height: 1em;
-    stroke-width: 0;
-    stroke: currentColor;
-    fill: currentColor;
-    vertical-align: middle;
-}
-.icon-forum {
-    width: 1.125em;
+#status {
+    display: none;
+    position: fixed;
+    width: 300px;
+    top: 50px;
+    left: 50%;
+    margin-left: -150px;
+    padding: 15px;
+    text-align: center;
+    background: darkgreen;
+    border: solid 2px #b6b6b6;
+    border-radius: 6px;
 }

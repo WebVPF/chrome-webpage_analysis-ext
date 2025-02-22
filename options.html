@@ -121,7 +121,7 @@
 		<div class="item__settings">
 			<div class="field-switch">
 				<label class="switch">
-					<input type="checkbox" id="domens" name="settings" data-view=".block_domens">
+					<input type="checkbox" id="domens" name="settings">
 					<span>
 						<span data-lang="on"></span>
 						<span data-lang="off"></span>
@@ -130,10 +130,10 @@
 				</label>
 				<div data-lang="settings_item_domens_text"></div>
 			</div>
-			<div class="block_domens advanced-settings">
+			<div class="sub-settings h-170">
 				<div data-lang="domens_desc"></div>
 				<textarea id="domens_list"></textarea>
-				<div style="font-size: 12px; margin-top: 3px;" data-lang="domens_ex"></div>
+				<div data-lang="domens_ex"></div>
 			</div>
 		</div>
 
@@ -142,7 +142,7 @@
 		<div class="item__settings">
 			<div class="field-switch">
 				<label class="switch">
-					<input type="checkbox" id="metadesc" name="settings" data-view=".block_metadesc">
+					<input type="checkbox" id="metadesc" name="settings">
 					<span>
 						<span data-lang="on"></span>
 						<span data-lang="off"></span>
@@ -151,7 +151,7 @@
 				</label>
 				<div data-lang="settings_item_metadesc_text"></div>
 			</div>
-			<div class="block_metadesc advanced-settings">
+			<div class="sub-settings h-50">
 				<span data-lang="settings_block_metadesc_1"></span> <input type="number" id="metadesc_min" value="140" data-property="min"> <span data-lang="settings_block_metadesc_2"></span> 
 				<input type="number" id="metadesc_max" value="160" data-property="max">
 			</div>
@@ -160,7 +160,7 @@
 		<div class="item__settings">
 			<div class="field-switch">
 				<label class="switch">
-					<input type="checkbox" id="metadesc_repeat" name="settings" data-view=".block_metadesc_repeat">
+					<input type="checkbox" id="metadesc_repeat" name="settings">
 					<span>
 						<span data-lang="on"></span>
 						<span data-lang="off"></span>
@@ -169,7 +169,7 @@
 				</label>
 				<div data-lang="settings_item_metadesc_repeat_text"></div>
 			</div>
-			<div class="block_metadesc_repeat advanced-settings">
+			<div class="sub-settings h-auto">
 				<table class="table table-bordered table-striped">
 					<thead>
 						<tr style="height: 44px;">
@@ -207,7 +207,7 @@
 		<div class="item__settings">
 			<div class="field-switch">
 				<label class="switch">
-					<input type="checkbox" id="headlines" name="settings" data-view=".block_headlines">
+					<input type="checkbox" id="headlines" name="settings">
 					<span>
 						<span data-lang="on"></span>
 						<span data-lang="off"></span>
@@ -216,20 +216,34 @@
 				</label>
 				<div class="item_headlines_text">Проверять заголовки</div>
 			</div>
-
-			<div class="block_headlines advanced-settings">
-				<input id="h2" type="checkbox" data-property="h2"><label for="h2">Заголовки H2</label>
-				<input id="h3" type="checkbox" data-property="h3"><label for="h3">Заголовки H3</label>
-				<input id="h4" type="checkbox" data-property="h4"><label for="h4">Заголовки H4</label>
-				<input id="h5" type="checkbox" data-property="h5"><label for="h5">Заголовки H5</label>
-				<input id="h6" type="checkbox" data-property="h6"><label for="h6">Заголовки H6</label>
+			<div class="sub-settings h-50">
+				<div>
+					<input id="h2" type="checkbox" data-property="h2">
+					<label for="h2">Заголовки H2</label>
+				</div>
+				<div>
+					<input id="h3" type="checkbox" data-property="h3">
+					<label for="h3">Заголовки H3</label>
+				</div>
+				<div>
+					<input id="h4" type="checkbox" data-property="h4">
+					<label for="h4">Заголовки H4</label>
+				</div>
+				<div>
+					<input id="h5" type="checkbox" data-property="h5">
+					<label for="h5">Заголовки H5</label>
+				</div>
+				<div>
+					<input id="h6" type="checkbox" data-property="h6">
+					<label for="h6">Заголовки H6</label>
+				</div>
 			</div>
 		</div>
 
 		<div class="item__settings">
 			<div class="field-switch">
 				<label class="switch">
-					<input type="checkbox" id="imgSortFormat" name="settings" data-view=".block_imgSearchFormats">
+					<input type="checkbox" id="imgSearchFormats" name="settings">
 					<span>
 						<span data-lang="on"></span>
 						<span data-lang="off"></span>
@@ -238,33 +252,29 @@
 				</label>
 				<div data-lang="settings_item_imgSortFormat_text"></div>
 			</div>
-			<div class="block_imgSearchFormats advanced-settings">
+			<div class="sub-settings h-100">
 				<div data-lang="img_search_formats"></div>
-				<input id="imgSortFormat_list" type="text">
+				<input id="imgSearchFormats_list" type="text">
 				<div data-lang="img_search_formats_ex"></div>
 			</div>
-			<!-- <div class="block_imgSortFormat advanced-settings">
-				<span data-lang="settings_block_imgSortFormat_title"></span>: <input id="imgSortFormat_list" type="text">
-				<p style="font-size:12px;margin-top:3px" data-lang-html="settings_block_imgSortFormat_desc"></p>
-			</div> -->
 		</div>
 
 		<div class="item__settings">
 			<div class="field-switch">
 				<label class="switch">
-					<input type="checkbox" id="prefixIMG" name="settings" data-view=".block_prefixIMG">
+					<input type="checkbox" id="prefixIMG" name="settings">
 					<span>
 						<span data-lang="on"></span>
 						<span data-lang="off"></span>
 					</span>
 					<a class="slide-button"></a>
 				</label>
-				<div class="item_prefixIMG_text">Удалять в отчёте префиксы из путей url-адресов изображений</div>
+				<div data-lang="settings_item_suffixIMG_text"></div>
 			</div>
-			<div class="block_prefixIMG advanced-settings">
-				<div data-lang="img_prefix_desc"></div>
-				<textarea id="prefixIMG_list"></textarea>
-				<div style="font-size: 12px; margin-top: 3px" data-lang="img_prefix_ex"></div>
+			<div class="sub-settings h-150">
+				<div data-lang="img_suffix_desc"></div>
+				<textarea id="suffixIMG_list"></textarea>
+				<div data-lang="img_suffix_ex"></div>
 			</div>
 		</div>
 

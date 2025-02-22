@@ -28,9 +28,9 @@
     "settings_item_imgSortFormat_text": {"message": "Искать форматы изображений"},
     "img_search_formats": {"message": "Укажите через запятую форматы изображений, которые расширение должно найти и вывести в блоке предупреждений:"},
     "img_search_formats_ex": {"message": "Пример: gif, png, bmp"},
-    "settings_item_prefixIMG_text": {"message": "Удалять в отчёте префиксы из путей url-адресов изображений"},
-    "img_prefix_desc": {"message": "Укажите через запятую префиксы:"},
-    "img_prefix_ex": {"message": "Пример: .pagespeed, .lazyload"},
+    "settings_item_suffixIMG_text": {"message": "Удалять в отчёте суффиксы из путей url-адресов изображений"},
+    "img_suffix_desc": {"message": "Укажите суффиксы через запятую:"},
+    "img_suffix_ex": {"message": "Пример: .pagespeed, .lazyload"},
     "settings_item_outerLinks_text": {"message": "Искать внешние ссылки"},
 
     "settings_footer_link_1": {"message": "Сайт расширения"},

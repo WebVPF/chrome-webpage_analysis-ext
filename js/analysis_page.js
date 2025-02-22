@@ -220,21 +220,25 @@ const analysisApp = {
      * Устанавливает свойство settings - объект содержащий настройки расширения
      */
     settingsInit() {
-        const keysId = [
-            'analysis',
-            'domens',
-            'metadesc',
-            'metadesc_repeat',
-            'metakey',
-            'headlines',
-            'imgSortFormat',
-            'prefixIMG',
-            'outerLinks'
-        ];
+        // const keysId = [
+        //     'analysis',
+        //     'domens',
+        //     'metadesc',
+        //     'metadesc_repeat',
+        //     'metakey',
+        //     'headlines',
+        //     'imgSortFormat',
+        //     'prefixIMG',
+        //     'outerLinks'
+        // ];
 
-        chrome.storage.sync.get(keysId, params => {
-            this.settings = {};
-            keysId.forEach(key => this.settings[key] = params[key]);
+        // chrome.storage.sync.get(keysId, params => {
+        chrome.storage.sync.get('settings', params => {
+            // console.log(params);
+
+            // this.settings = {};
+            this.settings = params.settings;
+            // keysId.forEach(key => this.settings[key] = params[key]);
 
             this.init();
         });
