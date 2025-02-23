@@ -146,27 +146,41 @@ const analysis = {
     },
 
     /**
-     * 
+     * Анализ meta
+     *
      * Длина Meta Description
      * Meta Keywords
      */
-    seo() {
+    metaAnalysis() {
 
+    },
+
+    /**
+     * Анализ заголовков
+     */
+    headlineAnalysis() {
+        let headlines = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+
+        headlines.forEach(headline => {
+
+        });
     },
 
     controlAnalysis() {
+        this.metaAnalysis();
+        this.headlineAnalysis();
+
+        // this.;
+
         // this.getImages();
 
-        let headers = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
 
-        
-
-        console.log(headers);
-
-
+        // console.log();
     },
 
     init() {
+        // console.log(this.settings);
+
         if (this.settings.analysis) {
             if (this.settings.domens.active) {
                 let domens = this.stringListToArray(this.settings.domens.list);
@@ -188,33 +202,18 @@ const analysis = {
         }
     },
 
-    settingsInit() {
-
-        /**
-         * Ключи пунктов настроек в хранилище chrome.storage
-         */
-        const KEYS_ID = [
-            'analysis',
-            'domens',
-            'metadesc',
-            'metadesc_repeat',
-            'metakey',
-            'headlines',
-            'imgSortFormat',
-            'prefixIMG',
-            'outerLinks'
-        ];
-
-        chrome.storage.sync.get(KEYS_ID, params => {
-            this.settings = {};
-            KEYS_ID.forEach(key => this.settings[key] = params[key]);
+    /**
+     * Устанавливает свойство settings - объект содержащий настройки расширения
+     */
+    setSettings() {
+        chrome.storage.sync.get(['settings']).then((result) => {
+            this.settings = result.settings;
 
             this.init();
         });
     }
 }
 
-addEventListener('load', analysis.settingsInit.bind(analysis));
-// addEventListener('load', (e) => analysis.settingsInit());
+addEventListener('load', analysis.setSettings.bind(analysis));
 
 console.log('analysis-new');

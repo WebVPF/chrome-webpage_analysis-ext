@@ -47,7 +47,7 @@ const analysisApp = {
             emptyAlt      : [],
             exceedingSize : [],
             exceedingSizeProportions : []
-            // + добавлены в analysisApp.init(): ['formats'] - string; ['imgSortFormat'] - array; ['prefix'] - string;
+            // + добавлены в analysisApp.init(): ['formats'] - string; ['imgSearchFormats'] - array; ['suffix'] - string;
         },
         links: {
             empty: document.querySelectorAll('a:empty').length, // Ссылки без содержимого (нет текста или картинки)
@@ -103,7 +103,7 @@ const analysisApp = {
     img: {
         notAlt        : [],
         emptyAlt      : [], // пустой alt - alt=""
-        imgSortFormat : [], // Устаревший формат
+        imgSearchFormats : [], // Устаревший формат
         exceedingSize : [],
         // currentSrc: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
 
@@ -136,14 +136,14 @@ const analysisApp = {
                         this.exceedingSize.push(img);
                     }
 
-                    if (analysisApp.settings.imgSortFormat.active) {
-                        !analysisApp.reply.img.imgSortFormat ? analysisApp.reply.img['imgSortFormat'] = new Array() : 0;
+                    if (analysisApp.settings.imgSearchFormats.active) {
+                        !analysisApp.reply.img.imgSearchFormats ? analysisApp.reply.img['imgSearchFormats'] = new Array() : 0;
 
-                        let arrFormats = analysisApp.stringListToArray(analysisApp.settings.imgSortFormat.list);
+                        let arrFormats = analysisApp.stringListToArray(analysisApp.settings.imgSearchFormats.list);
 
                         if (arrFormats.includes(format)) {
-                            analysisApp.reply.img['imgSortFormat'].push(url);
-                            this.imgSortFormat.push(img);
+                            analysisApp.reply.img['imgSearchFormats'].push(url);
+                            this.imgSearchFormats.push(img);
                         }
                     }
 
@@ -167,7 +167,7 @@ const analysisApp = {
     //         active: true,
     //         h2: false, h3: true, h4: true, h5: false, h6: false
     //     },
-    //     imgSortFormat: {
+    //     imgSearchFormats: {
     //         active: true,
     //         list: 'gif, png, bmp'
     //     },
@@ -185,7 +185,7 @@ const analysisApp = {
     //     },
     //     metakey: true,
     //     outerLinks: true,
-    //     prefixIMG: {
+    //     suffixIMG: {
     //         active: false,
     //         list: '.pagespeed, .lazyload'
     //     }
@@ -214,34 +214,6 @@ const analysisApp = {
         if ( this.metakeywords ) {
             this.reply.meta.keywords = this.metakeywords.content;
         }
-    },
-
-    /**
-     * Устанавливает свойство settings - объект содержащий настройки расширения
-     */
-    settingsInit() {
-        // const keysId = [
-        //     'analysis',
-        //     'domens',
-        //     'metadesc',
-        //     'metadesc_repeat',
-        //     'metakey',
-        //     'headlines',
-        //     'imgSortFormat',
-        //     'prefixIMG',
-        //     'outerLinks'
-        // ];
-
-        // chrome.storage.sync.get(keysId, params => {
-        chrome.storage.sync.get('settings', params => {
-            // console.log(params);
-
-            // this.settings = {};
-            this.settings = params.settings;
-            // keysId.forEach(key => this.settings[key] = params[key]);
-
-            this.init();
-        });
     },
 
     analysis() {
@@ -274,8 +246,8 @@ const analysisApp = {
         if (this.img.notAlt.length >= 1) this.reply.errors += this.img.notAlt.length;
         if (this.img.emptyAlt.length >= 1) this.reply.errors += this.img.emptyAlt.length;
         if (this.img.exceedingSize.length >= 1) this.reply.errors += this.img.exceedingSize.length;
-        if (this.settings.imgSortFormat) {
-            if (this.img.imgSortFormat.length >= 1) this.reply.warnings += this.img.imgSortFormat.length;
+        if (this.settings.imgSearchFormats) {
+            if (this.img.imgSearchFormats.length >= 1) this.reply.warnings += this.img.imgSearchFormats.length;
         }
 
         if (this.reply.links.empty.length >= 1) this.reply.errors += this.reply.links.empty.length;
@@ -319,7 +291,7 @@ const analysisApp = {
 
                         let el_id = request.el;
 
-                        if (request.el == 'notAlt' || request.el == 'emptyAlt' || request.el == 'exceedingSize' || request.el == 'imgSortFormat') {
+                        if (request.el == 'notAlt' || request.el == 'emptyAlt' || request.el == 'exceedingSize' || request.el == 'imgSearchFormats') {
                             analysisApp.img[el_id][request.index].scrollIntoView({ block: "center", behavior: "smooth" });
                             analysisApp.img[el_id][request.index].classList.add('analysis_page_error');
                         }
@@ -345,14 +317,14 @@ const analysisApp = {
                     }
 
                     if (request.popup == 'download_img') {
-                        if (request.id == 'imgSortFormat' || request.id == 'exceedingSize') {
+                        if (request.id == 'imgSearchFormats' || request.id == 'exceedingSize') {
                             let arr = analysisApp.img[request.id];
 
                             for (let i = 0; i < arr.length; i++) {
                                 let imgPath = arr[i].currentSrc.split('/').pop() || arr[i];
 
-                                if (analysisApp.settings.prefixIMG) {
-                                    analysisApp.settings.prefixIMG_list.forEach(pref => imgPath = imgPath.split(pref)[0]);
+                                if (analysisApp.settings.suffixIMG) {
+                                    analysisApp.settings.suffixIMG.list.forEach(pref => imgPath = imgPath.split(pref)[0]);
                                 }
 
                                 let a = document.createElement('a');
@@ -382,6 +354,8 @@ const analysisApp = {
     },
 
     metadescRepeat(params, metaTxt) {
+        console.log(params);
+
         for (let i = 0; i < params.length; i++) {
             if (params[i][0] == window.location.hostname) {
                 return params[i][1] == metaTxt;
@@ -409,13 +383,13 @@ const analysisApp = {
 
         this.reply.img.notAlt = [];
         this.reply.img.emptyAlt = [];
-        this.reply.img.imgSortFormat = [];
+        this.reply.img.imgSearchFormats = [];
         this.reply.img.exceedingSize = [];
         this.reply.img.exceedingSizeProportions = [];
 
         this.img.notAlt = [];
         this.img.emptyAlt = [];
-        this.img.imgSortFormat = [];
+        this.img.imgSearchFormats = [];
         this.img.exceedingSize = [];
 
         this.links.outer = [];
@@ -432,8 +406,8 @@ const analysisApp = {
     controlAnalysis() {
         this.reply.meta.min = this.settings.metadesc.min;
         this.reply.meta.max = this.settings.metadesc.max;
-        this.reply.img.formats = this.settings.imgSortFormat.list;
-        this.reply.img.prefix = this.settings.prefixIMG.list;
+        this.reply.img.formats = this.settings.imgSearchFormats.list;
+        this.reply.img.suffix = this.settings.suffixIMG.list;
 
         this.metainfo();
 
@@ -445,6 +419,8 @@ const analysisApp = {
     },
 
     init() {
+        // console.log(this.settings);
+
         if (this.settings.analysis) {
             if (this.settings.domens.active) {
                 let domens = this.stringListToArray(this.settings.domens.list);
@@ -464,6 +440,17 @@ const analysisApp = {
             //     warnings: this.reply.warnings
             // });
         }
+    },
+
+    /**
+     * Устанавливает свойство settings - объект содержащий настройки расширения
+     */
+    settingsInit() {
+        chrome.storage.sync.get(['settings']).then((result) => {
+            this.settings = result.settings;
+
+            this.init();
+        });
     }
 }
 

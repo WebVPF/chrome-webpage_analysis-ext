@@ -101,6 +101,9 @@ const optionsApp = {
             if (params.hasOwnProperty('settings')) {
                 let settings = params.settings;
 
+                console.log(settings);
+                
+
                 this.switchInputs.forEach(switchEl => {
                     let idEl = switchEl.id;
 
@@ -232,6 +235,6 @@ const optionsApp = {
     }
 }
 
-// chrome.storage.sync.clear();
-
 optionsApp.init();
+
+// chrome.storage.sync.clear();

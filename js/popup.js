@@ -9,7 +9,7 @@ const popupApp = {
             chrome.tabs.sendMessage(tabs[0].id, {popup: 'request_analysis'}, function (response) {
                 console.log(response);
 
-                const blockHeader = document.querySelector('.header'),
+                const popupHeader = document.querySelector('.header'),
                     blockErrors = document.querySelector('.block__errors'),
                     blockWarning = document.querySelector('.block__warning'),
                     blockSuccess = document.querySelector('.block__success');
@@ -31,7 +31,7 @@ const popupApp = {
                     }
                 } else errWarn.innerHTML = '<span class="badge badge-success">✔</span> ' + chrome.i18n.getMessage("popup_not_errors");// 'Нет ошибок';
 
-                blockHeader.append(errWarn);
+                popupHeader.append(errWarn);
 
                 let titleBlockSuccess = document.createElement('h2');
                 titleBlockSuccess.textContent = chrome.i18n.getMessage("popup_success_check");// 'Успешные проверки';
@@ -318,28 +318,15 @@ const popupApp = {
     },
 
     init() {
-        // document.querySelector('h2.title').innerHTML = chrome.i18n.getMessage("popup_title");
         // document.querySelector('button.update').innerHTML = '<svg class="icon icon-update"><use xlink:href="#icon-update"></use></svg> ' + chrome.i18n.getMessage("popup_update");
         // document.querySelector('button#settings_page').innerHTML = '<svg class="icon icon-settings"><use xlink:href="#icon-settings"></use></svg> ' + chrome.i18n.getMessage("popup_settings");
 
-        const keysId = [
-            'analysis',
-            'domens',
-            'metadesc',
-            'metadesc_repeat',
-            'metakey',
-            'headlines',
-            'imgSortFormat',
-            'prefixIMG',
-            'outerLinks'
-        ];
-
         // Получение настроек
-        chrome.storage.sync.get(keysId, function (result) {
-            keysId.forEach(key => popupApp.settings[key] = result[key]);
+        chrome.storage.sync.get(['settings']).then((result) => {
+            this.settings = result.settings;
 
-            if (result.analysis) {
-                if (result.domens.active) {
+            if (result.settings.analysis) {
+                if (result.settings.domens.active) {
                     chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {                  // запрос домена
                         chrome.tabs.sendMessage(tabs[0].id, { popup: "request_host" }, function (response) {
                             console.log(response);
