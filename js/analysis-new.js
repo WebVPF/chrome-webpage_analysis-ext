@@ -1,6 +1,3 @@
-/**
- * Каждый из методов имеет настройку в настройках расширения
- */
 const analysis = {
 
     /**
@@ -10,6 +7,7 @@ const analysis = {
      * - наличие атрибута src
      * - пустой атрибут src
      * - наличие атрибута alt
+     * - закрывающий тэг со слэшем
      *
      * Не анализирует есть ли указанное изображение на сервере.
      */
@@ -19,36 +17,32 @@ const analysis = {
         document.querySelectorAll('img').forEach(img => {
             let error = false;
 
-            // let imgLogs = {
+            // console.dir(img);
+
+            // let imgData = {
             //     path: '',
-            //     src: '',
+            //     src: '', // false, 'empty' или ''
             //     srcEmpty: '',
             //     alt: '',
             //     altEmpty: '',
             // }
 
-            /**
-             * Массив ошибок (string) у исследуемого изображения
-             * - noSrc
-             * - emptySrc
-             * - noAlt
-             * - emptyAlt
-             */
-            let imgErrors = [];
-
+            let imgData = {};
 
             if (!img.hasAttribute('src')) {
-                // отсутствует урл-адресс изображения
-                imgErrors.push('noSrc');
+                imgData.src = false;
             }
             else if (img.getAttribute('src') == '') {
-                imgErrors.push('emptySrc');
+                imgData.srcEmpty = true;
+                imgData.src = 'empty';
             }
             else {
+                imgData.src = img.currentSrc;
+
                 /**
                  * Искать форматы изображений
                  */
-                if (settings.imgExt) {
+                if (this.settings.imgSearchFormats.active) {
                     // if (formats.includes(imgExtension)) {
 
                     // }
@@ -167,20 +161,32 @@ const analysis = {
     },
 
     controlAnalysis() {
-        this.metaAnalysis();
-        this.headlineAnalysis();
+        // this.metaAnalysis();
+        // this.headlineAnalysis();
 
         // this.;
 
-        // this.getImages();
+        this.getImages();
 
 
         // console.log();
     },
 
-    init() {
-        // console.log(this.settings);
+    /**
+     * Преобразовует строку в массив
+     *
+     * @param {string} string - Строка с перечисленными через запятую элементами
+     * @returns {Array} - Массив из строк
+     */
+    stringListToArray(string) {
+        if (typeof string === 'string') {
+            return string.split(',').map(el => el.trim());
+        }
 
+        return [];
+    },
+
+    init() {
         if (this.settings.analysis) {
             if (this.settings.domens.active) {
                 let domens = this.stringListToArray(this.settings.domens.list);
@@ -195,10 +201,6 @@ const analysis = {
         }
         else {
             // Анализ выключен в настройках
-            // chrome.runtime.sendMessage({
-            //     errors: this.reply.errors,
-            //     warnings: this.reply.warnings
-            // });
         }
     },
 

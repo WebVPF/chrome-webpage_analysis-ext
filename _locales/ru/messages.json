@@ -33,10 +33,6 @@
     "img_suffix_ex": {"message": "Пример: .pagespeed, .lazyload"},
     "settings_item_outerLinks_text": {"message": "Искать внешние ссылки"},
 
-    "settings_footer_link_1": {"message": "Сайт расширения"},
-    "settings_footer_link_2": {"message": "Перевод на другие языки"},
-
-
 
     "page_analysis": {"message": "Анализ страницы"},
     "update": {"message": "Обновить"},

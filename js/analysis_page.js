@@ -419,8 +419,6 @@ const analysisApp = {
     },
 
     init() {
-        // console.log(this.settings);
-
         if (this.settings.analysis) {
             if (this.settings.domens.active) {
                 let domens = this.stringListToArray(this.settings.domens.list);
@@ -435,10 +433,6 @@ const analysisApp = {
         }
         else {
             // Анализ выключен в настройках
-            // chrome.runtime.sendMessage({
-            //     errors: this.reply.errors,
-            //     warnings: this.reply.warnings
-            // });
         }
     },
 
