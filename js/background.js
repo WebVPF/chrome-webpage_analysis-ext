@@ -14,27 +14,39 @@ chrome.runtime.onInstalled.addListener(function(details) {
 
         if (details.OnInstalledReason == 'install') {
             const params = {
-                settings_analysis: true,
-                settings_domens: false,
-                settings_domens_list: [],
-
-                settings_metadesc: false,
-                settings_metadesc_max: 200,
-                settings_metadesc_min: 140,
-                settings_metadesc_repeat: false,
-                settings_metadesc_repeat_params: [],
-
-                settings_metakey: false,
-
-                settings_headlines: false,
-                settings_headlines_checkbox: [false, false, false, false, false],
-
-                settings_imgSortFormat: false,
-                settings_imgSortFormat_list: [],
-                settings_prefixIMG: false,
-                settings_prefixIMG_list: [],
-
-                settings_outerLinks: false
+                settings: {
+                    analysis: true,
+                    domens: {
+                        active: false,
+                        list: ''
+                    },
+                    headlines: {
+                        active: false,
+                        h2: false,
+                        h3: false,
+                        h4: false,
+                        h5: false,
+                        h6: false
+                    },
+                    imgSearchFormats: {
+                        active: true,
+                        list: 'gif, png, bmp'
+                    },
+                    metadesc: {
+                        active: true,
+                        max: 160,
+                        min: 140
+                    },
+                    metadesc_repeat: {
+                        active: false
+                    },
+                    metakey: true,
+                    outerLinks: true,
+                    suffixIMG: {
+                        active: false,
+                        list: '.pagespeed, .lazyload'
+                    }
+                }
             }
 
             chrome.storage.sync.set(params);
