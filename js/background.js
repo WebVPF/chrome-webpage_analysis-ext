@@ -1,5 +1,8 @@
 /**
- * Событие при установке или обновлении расширения https://developer.chrome.com/apps/runtime#event-onInstalled
+ * Событие при установке или обновлении расширения
+ *
+ * https://developer.chrome.com/docs/extensions/reference/api/runtime#event-onInstalled
+ * https://developer.chrome.com/docs/extensions/reference/api/runtime#type-OnInstalledReason
  *
  * @param {string} OnInstalledReason ["install", "update", "chrome_update" или "shared_module_update"]
  * @param {string} id - id расширения

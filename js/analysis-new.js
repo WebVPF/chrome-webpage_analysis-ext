@@ -25,15 +25,22 @@ const analysis = {
             //     srcEmpty: '',
             //     alt: '',
             //     altEmpty: '',
+            //     searchExt: true,
             // }
 
+            /**
+             * @namespace
+             * @property {string|boolean} src - Атрибут src изображения: false - отсутствует, 'empty' - пустой, 'string' - 
+             * @property {string} ext - Расширение изображения: png, gif и т.д.
+             * @property {boolean} searchExt - Изображение с расширением которое задано в настройках в поиске изображений заданных форматов
+             */
             let imgData = {};
 
             if (!img.hasAttribute('src')) {
                 imgData.src = false;
             }
             else if (img.getAttribute('src') == '') {
-                imgData.srcEmpty = true;
+                // imgData.srcEmpty = true;
                 imgData.src = 'empty';
             }
             else {
@@ -43,18 +50,33 @@ const analysis = {
                  * Искать форматы изображений
                  */
                 if (this.settings.imgSearchFormats.active) {
-                    // if (formats.includes(imgExtension)) {
+                    let formats = this.stringListToArray(this.settings.imgSearchFormats.list);
 
-                    // }
+                    let arr = img.currentSrc.split('.');
+
+                    imgData.ext = arr[arr.length - 1];
+
+                    if (formats.includes(imgData.ext)) {
+                        imgData.searchExt = true;
+                    }
                 }
+
+                /**
+                 * Слэш в закрывающем теге
+                 * Браузер удаляет слэш и поэтому его не видно???
+                 */
+                // img.outerHTML.substring(img.outerHTML.length - 2);
+                // console.log(img.outerHTML.substring(img.outerHTML.length - 2));
+                
             }
 
 
             if (!img.hasAttribute('alt')) {
                 // у изображения отсутствует alt-атрибут
+                imgData.alt = false;
             }
             else if (img.getAttribute('alt') == '') {
-                imgErrors.push('emptyAlt');
+                imgData.alt = 'empty';
             }
 
 
@@ -67,17 +89,15 @@ const analysis = {
 
 
 
-            if (imgErrors.length > 0) {
-                // images.push(img, imgErrors);
-            }
-
-
-
 
 
             if (error) {
                 images.push(imgLogs);
             }
+
+            console.dir(img);
+            console.log(imgData);
+
         });
     },
 
@@ -140,6 +160,20 @@ const analysis = {
     },
 
     /**
+     * Проверка длины текста на заданный диапазон (от .. до ..)
+     *
+     * @param {string} txt
+     * @returns {boolean}
+     */
+    checkLengthInGivenRange(txt) {
+        if (txt.length >= this.settings.metadesc.min && txt.length <= this.settings.metadesc.max) {
+            return true;
+        }
+
+        return false;
+    },
+
+    /**
      * Анализ meta
      *
      * Длина Meta Description
@@ -164,7 +198,6 @@ const analysis = {
         // this.metaAnalysis();
         // this.headlineAnalysis();
 
-        // this.;
 
         this.getImages();
 
