@@ -321,17 +321,20 @@ const popupApp = {
         // document.querySelector('button.update').innerHTML = '<svg class="icon icon-update"><use xlink:href="#icon-update"></use></svg> ' + chrome.i18n.getMessage("popup_update");
         // document.querySelector('button#settings_page').innerHTML = '<svg class="icon icon-settings"><use xlink:href="#icon-settings"></use></svg> ' + chrome.i18n.getMessage("popup_settings");
 
-        // Получение настроек
+        /**
+         * Получение и установка настроек, запрос анализа
+         */
         chrome.storage.sync.get(['settings']).then((result) => {
             this.settings = result.settings;
 
             if (result.settings.analysis) {
                 if (result.settings.domens.active) {
-                    chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {                  // запрос домена
-                        chrome.tabs.sendMessage(tabs[0].id, { popup: "request_host" }, function (response) {
-                            console.log(response);
-
-                            if (popupApp.settings.domens_list.includes(response.request_host)) {
+                    chrome.tabs.query({active: true, currentWindow: true}, tabs => {
+                        /**
+                         * Запрос анализируемого домена
+                         */
+                        chrome.tabs.sendMessage(tabs[0].id, {popup: 'getHostname'}, response => {
+                            if (popupApp.settings.domens_list.includes(response.hostname)) {
                                 popupApp.event();
                                 popupApp.request_analysis();
                             }
@@ -361,4 +364,4 @@ const popupApp = {
 
 popupApp.init();
 
-document.querySelector('#settings_page').addEventListener('click', () => chrome.runtime.openOptionsPage());
+document.getElementById('btn_open_options').addEventListener('click', () => chrome.runtime.openOptionsPage());

@@ -1,4 +1,84 @@
 const analysis = {
+    extIdDevelop: 'iflkknjnoociemphgnbobbjgkghanofl',
+    extIdMarket: '', // TODO
+
+    listens() {
+        /**
+         * Слушатель запросов из popup.js
+         */
+        chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+            // console.log(this);
+
+
+            if (sender.id == this.idMarket || sender.id == this.extIdDevelop) {
+                // if (request.popup == "request_analysis") {
+                //     sendResponse(analysisApp.reply);
+                // }
+
+                // if (request.popup == 'scroll_el') {
+
+                //     if (!analysisApp.styles) {
+                //         let styles = document.createElement('style');
+                //         styles.textContent = '.analysis_page_error{border:solid 4px red !important}.analysis_page_error__links{padding:2px 8px;background:#ffdead;border:solid 4px red!important}';
+                //         document.querySelector('body').appendChild(styles);
+
+                //         analysisApp.styles = true;
+                //     }
+
+                //     document.querySelector('.analysis_page_error') ? document.querySelector('.analysis_page_error').classList.remove('analysis_page_error') : 0;
+                //     document.querySelector('.analysis_page_error__links') ? document.querySelector('.analysis_page_error__links').classList.remove('analysis_page_error__links') : 0;
+
+                //     let el_id = request.el;
+
+                //     if (request.el == 'notAlt' || request.el == 'emptyAlt' || request.el == 'exceedingSize' || request.el == 'imgSearchFormats') {
+                //         analysisApp.img[el_id][request.index].scrollIntoView({ block: "center", behavior: "smooth" });
+                //         analysisApp.img[el_id][request.index].classList.add('analysis_page_error');
+                //     }
+
+
+                //     if (request.el == 'emptylink') {
+                //         analysisApp.links.empty[request.index].scrollIntoView({ block: "center", behavior: "smooth" });
+                //         analysisApp.links.empty[request.index].classList.add('analysis_page_error__links');
+                //     }
+                //     if (request.el == 'outerlink') {
+                //         analysisApp.links.outer[request.index].scrollIntoView({ block: "center", behavior: "smooth" });
+                //         analysisApp.links.outer[request.index].classList.add('analysis_page_error__links');
+                //     }
+
+                // }
+
+                // if (request.popup == 'updates') {
+                //     analysisApp.update();
+                // }
+
+                if (request.popup == 'getHostname') {
+                    sendResponse({hostname: window.location.hostname});
+                }
+
+                // if (request.popup == 'download_img') {
+                //     if (request.id == 'imgSearchFormats' || request.id == 'exceedingSize') {
+                //         let arr = analysisApp.img[request.id];
+
+                //         for (let i = 0; i < arr.length; i++) {
+                //             let imgPath = arr[i].currentSrc.split('/').pop() || arr[i];
+
+                //             if (analysisApp.settings.suffixIMG) {
+                //                 analysisApp.settings.suffixIMG.list.forEach(pref => imgPath = imgPath.split(pref)[0]);
+                //             }
+
+                //             let a = document.createElement('a');
+                //             a.href = '';
+                //             a.download = imgPath;
+                //             a.style.display = 'none';
+                //             document.body.appendChild(a);
+                //             a.click();
+                //             a.remove();
+                //         }
+                //     }
+                // }
+            }
+        });
+    },
 
     /**
      * Анализ изображений на странице
@@ -95,8 +175,8 @@ const analysis = {
                 images.push(imgLogs);
             }
 
-            console.dir(img);
-            console.log(imgData);
+            // console.dir(img);
+            // console.log(imgData);
 
         });
     },
@@ -155,8 +235,33 @@ const analysis = {
 
     },
 
-    links() {
+    linksAnalysis() {
+        let links = [];
 
+        document.querySelectorAll('a').forEach(link => {
+            /**
+             * @namespace
+             * @property {object} data - Данные с анализом ссылки
+             * @property {boolean} data.empty - Отсутствует атрибут href
+             * @property {boolean} data.external - Внешняя ссылка
+             */
+            let data = {};
+
+            if (link.hasAttribute('href')) {
+                data.empty = false;
+
+                if (link.getAttribute('href') === '') {
+
+                }
+
+                if (link.hostname && link.hostname !== window.location.hostname) {
+                    data.external = true;
+                }
+            }
+            else {
+                data.empty = true;
+            }
+        });
     },
 
     /**
@@ -190,7 +295,7 @@ const analysis = {
         let headlines = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
 
         headlines.forEach(headline => {
-
+            // let currentH = headline.tagName.replace('H', '');
         });
     },
 
@@ -202,6 +307,8 @@ const analysis = {
         this.getImages();
 
 
+
+        this.listens();
         // console.log();
     },
 

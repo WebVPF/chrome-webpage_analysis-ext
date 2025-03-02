@@ -122,7 +122,7 @@ input[type="text"]:focus,
 input[type="number"]:focus,
 select:focus {
     border-color: var(--focus-brd-color, #599aff);
-    box-shadow: 0 0 0 3px var(--focus-shadow-color, #b0e4fd);
+    box-shadow: 0 0 6px 3px var(--focus-shadow-color, #b0e4fd);
     outline: 0;
 }
 input[type="number"] {
@@ -144,7 +144,8 @@ textarea#suffixIMG_list {
     resize: none;
 }
 textarea#domens_list + div,
-textarea#suffixIMG_list + div {
+textarea#suffixIMG_list + div,
+#imgSearchFormats_list + div {
     font-size: 12px;
 }
 

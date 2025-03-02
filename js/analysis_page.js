@@ -268,79 +268,75 @@ const analysisApp = {
         /**
          * Слушатель запросов из popup.js
          */
-        chrome.runtime.onMessage.addListener(
-            function (request, sender, sendResponse) {
+        chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+            if (sender.id == analysisApp.idMarket || sender.id == analysisApp.idDevelop) {
+                if (request.popup == "request_analysis") {
+                    sendResponse(analysisApp.reply);
+                }
 
-                if (sender.id == analysisApp.idMarket || sender.id == analysisApp.idDevelop) {
-                    if (request.popup == "request_analysis") {
-                        sendResponse(analysisApp.reply);
+                if (request.popup == "scroll_el") {
+
+                    if (!analysisApp.styles) {
+                        let styles = document.createElement('style');
+                        styles.textContent = '.analysis_page_error{border:solid 4px red !important}.analysis_page_error__links{padding:2px 8px;background:#ffdead;border:solid 4px red!important}';
+                        document.querySelector('body').appendChild(styles);
+
+                        analysisApp.styles = true;
                     }
 
-                    if (request.popup == "scroll_el") {
+                    document.querySelector('.analysis_page_error') ? document.querySelector('.analysis_page_error').classList.remove('analysis_page_error') : 0;
+                    document.querySelector('.analysis_page_error__links') ? document.querySelector('.analysis_page_error__links').classList.remove('analysis_page_error__links') : 0;
 
-                        if (!analysisApp.styles) {
-                            let styles = document.createElement('style');
-                            styles.textContent = '.analysis_page_error{border:solid 4px red !important}.analysis_page_error__links{padding:2px 8px;background:#ffdead;border:solid 4px red!important}';
-                            document.querySelector('body').appendChild(styles);
+                    let el_id = request.el;
 
-                            analysisApp.styles = true;
-                        }
-
-                        document.querySelector('.analysis_page_error') ? document.querySelector('.analysis_page_error').classList.remove('analysis_page_error') : 0;
-                        document.querySelector('.analysis_page_error__links') ? document.querySelector('.analysis_page_error__links').classList.remove('analysis_page_error__links') : 0;
-
-                        let el_id = request.el;
-
-                        if (request.el == 'notAlt' || request.el == 'emptyAlt' || request.el == 'exceedingSize' || request.el == 'imgSearchFormats') {
-                            analysisApp.img[el_id][request.index].scrollIntoView({ block: "center", behavior: "smooth" });
-                            analysisApp.img[el_id][request.index].classList.add('analysis_page_error');
-                        }
-
-
-                        if (request.el == 'emptylink') {
-                            analysisApp.links.empty[request.index].scrollIntoView({ block: "center", behavior: "smooth" });
-                            analysisApp.links.empty[request.index].classList.add('analysis_page_error__links');
-                        }
-                        if (request.el == 'outerlink') {
-                            analysisApp.links.outer[request.index].scrollIntoView({ block: "center", behavior: "smooth" });
-                            analysisApp.links.outer[request.index].classList.add('analysis_page_error__links');
-                        }
-
+                    if (request.el == 'notAlt' || request.el == 'emptyAlt' || request.el == 'exceedingSize' || request.el == 'imgSearchFormats') {
+                        analysisApp.img[el_id][request.index].scrollIntoView({ block: "center", behavior: "smooth" });
+                        analysisApp.img[el_id][request.index].classList.add('analysis_page_error');
                     }
 
-                    if (request.popup == "updates") {
-                        analysisApp.update();
+
+                    if (request.el == 'emptylink') {
+                        analysisApp.links.empty[request.index].scrollIntoView({ block: "center", behavior: "smooth" });
+                        analysisApp.links.empty[request.index].classList.add('analysis_page_error__links');
+                    }
+                    if (request.el == 'outerlink') {
+                        analysisApp.links.outer[request.index].scrollIntoView({ block: "center", behavior: "smooth" });
+                        analysisApp.links.outer[request.index].classList.add('analysis_page_error__links');
                     }
 
-                    if (request.popup == 'request_host') {
-                        sendResponse({ request_host: window.location.hostname });
-                    }
+                }
 
-                    if (request.popup == 'download_img') {
-                        if (request.id == 'imgSearchFormats' || request.id == 'exceedingSize') {
-                            let arr = analysisApp.img[request.id];
+                if (request.popup == "updates") {
+                    analysisApp.update();
+                }
 
-                            for (let i = 0; i < arr.length; i++) {
-                                let imgPath = arr[i].currentSrc.split('/').pop() || arr[i];
+                // if (request.popup == 'request_host') {
+                //     sendResponse({ request_host: window.location.hostname });
+                // }
 
-                                if (analysisApp.settings.suffixIMG) {
-                                    analysisApp.settings.suffixIMG.list.forEach(pref => imgPath = imgPath.split(pref)[0]);
-                                }
+                if (request.popup == 'download_img') {
+                    if (request.id == 'imgSearchFormats' || request.id == 'exceedingSize') {
+                        let arr = analysisApp.img[request.id];
 
-                                let a = document.createElement('a');
-                                a.href = '';
-                                a.download = imgPath;
-                                a.style.display = 'none';
-                                document.body.appendChild(a);
-                                a.click();
-                                a.remove();
+                        for (let i = 0; i < arr.length; i++) {
+                            let imgPath = arr[i].currentSrc.split('/').pop() || arr[i];
+
+                            if (analysisApp.settings.suffixIMG) {
+                                analysisApp.settings.suffixIMG.list.forEach(pref => imgPath = imgPath.split(pref)[0]);
                             }
+
+                            let a = document.createElement('a');
+                            a.href = '';
+                            a.download = imgPath;
+                            a.style.display = 'none';
+                            document.body.appendChild(a);
+                            a.click();
+                            a.remove();
                         }
                     }
                 }
-
             }
-        );
+        });
     },
 
     scrollLazyload() {
