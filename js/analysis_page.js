@@ -216,14 +216,17 @@ const analysisApp = {
         }
     },
 
+    /**
+     * TODO проверить все настройки
+     */
     analysis() {
         if (this.semantic.all < 1) this.reply.errors++;
 
         if (this.reply.meta.desc) {
-            if (this.settings['metadesc']) {
-                this.reply.meta.descSize <= this.settings['metadesc_min'] || this.reply.meta.descSize >= this.settings['metadesc_max'] ? this.reply.errors++ : 0;
+            if (this.settings.metadesc.active) {
+                this.reply.meta.descSize <= this.settings.metadesc.min || this.reply.meta.descSize >= this.settings.metadesc.max ? this.reply.errors++ : 0;
             }
-            if (this.settings['metadesc_repeat'] && window.location.pathname !== '/') {
+            if (this.settings.metadesc_repeat.active && window.location.pathname !== '/') {
                 let control = this.metadescRepeat(this.settings.metadesc_repeat.list, this.reply.meta.desc);
                 control ? this.reply.errors++ : 0;
                 this.reply.meta.repeat = control;
@@ -233,7 +236,7 @@ const analysisApp = {
             this.reply.errors++
         }
 
-        if (this.settings['metakey']) {
+        if (this.settings.metakey) {
             if ( this.reply.meta.keywords ) {
                 this.reply.meta.keywords.split(',').length >= 1 ? 0 : this.reply.errors++;
             }
@@ -246,7 +249,7 @@ const analysisApp = {
         if (this.img.notAlt.length >= 1) this.reply.errors += this.img.notAlt.length;
         if (this.img.emptyAlt.length >= 1) this.reply.errors += this.img.emptyAlt.length;
         if (this.img.exceedingSize.length >= 1) this.reply.errors += this.img.exceedingSize.length;
-        if (this.settings.imgSearchFormats) {
+        if (this.settings.imgSearchFormats.active) {
             if (this.img.imgSearchFormats.length >= 1) this.reply.warnings += this.img.imgSearchFormats.length;
         }
 

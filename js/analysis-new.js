@@ -1,4 +1,15 @@
 const analysis = {
+    /**
+     * @namespace
+     * @property {object} count - Счётчик ошибок и предупреждений
+     * @property {number} count.errors - Кол-во обнаруженных ошибок
+     * @property {number} count.warnings - Кол-во предупреждений
+     */
+    count: {
+        errors: 0,
+        warnings: 0
+    },
+
     extIdDevelop: 'iflkknjnoociemphgnbobbjgkghanofl',
     extIdMarket: '', // TODO
 
@@ -9,8 +20,8 @@ const analysis = {
         chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             // console.log(this);
 
-
-            if (sender.id == this.idMarket || sender.id == this.extIdDevelop) {
+            // TODO расскоментировать после присвоения ID
+            // if (sender.id == this.idMarket || sender.id == this.extIdDevelop) {
                 // if (request.popup == "request_analysis") {
                 //     sendResponse(analysisApp.reply);
                 // }
@@ -76,7 +87,7 @@ const analysis = {
                 //         }
                 //     }
                 // }
-            }
+            // }
         });
     },
 
@@ -235,33 +246,50 @@ const analysis = {
 
     },
 
-    linksAnalysis() {
+    /**
+     * 
+     * @returns {Array}
+     */
+    getLinks() {
         let links = [];
 
         document.querySelectorAll('a').forEach(link => {
             /**
              * @namespace
              * @property {object} data - Данные с анализом ссылки
-             * @property {boolean} data.empty - Отсутствует атрибут href
-             * @property {boolean} data.external - Внешняя ссылка
+             * @property {boolean} data.missingHref - Отсутствует атрибут href
+             * @property {boolean} data.emptyHref - Пустой атрибут href
+             * @property {boolean} data.external - Это внешняя ссылка
+             * @property {NodeElement} data.node - Сама ссылка как DOM-элемент
              */
-            let data = {};
+            let data = {
+                node: link
+            }
+
 
             if (link.hasAttribute('href')) {
-                data.empty = false;
+                data.missingHref = false;
 
-                if (link.getAttribute('href') === '') {
+                data.emptyHref = link.getAttribute('href') === '';
 
-                }
-
-                if (link.hostname && link.hostname !== window.location.hostname) {
-                    data.external = true;
+                if (data.emptyHref) {
+                    data.external = link.hostname !== window.location.hostname;
                 }
             }
             else {
-                data.empty = true;
+                data.missingHref = true;
+            }
+
+
+            if (data.missingHref || data.emptyHref) {
+                links.push(data);
+            }
+            else if (this.settings.outerLinks && data.external) {
+                links.push(data);
             }
         });
+
+        return links;
     },
 
     /**
@@ -271,21 +299,53 @@ const analysis = {
      * @returns {boolean}
      */
     checkLengthInGivenRange(txt) {
-        if (txt.length >= this.settings.metadesc.min && txt.length <= this.settings.metadesc.max) {
+        let min = this.settings.metadesc.min || 140;
+        let max = this.settings.metadesc.max || 160;
+
+        if (txt.length >= min && txt.length <= max) {
             return true;
         }
+        // if (txt.length >= this.settings.metadesc.min && txt.length <= this.settings.metadesc.max) {
+        //     return true;
+        // }
 
         return false;
     },
 
     /**
      * Анализ meta
-     *
-     * Длина Meta Description
-     * Meta Keywords
      */
     metaAnalysis() {
+        let metadesc = document.querySelector('meta[name="description"]');
 
+        /**
+         * Длина Meta Description
+         */
+        if (this.settings.metadesc.active) {
+            if (metadesc === null) {
+                // error++;
+                // У страницы нет Meta Description
+            }
+            else {
+                // if () {
+                //     metadesc.content.length
+                // }
+            }
+        }
+
+        /**
+         * Повторяющийся Meta Description
+         */
+        if (this.settings.metadesc_repeat.active) {
+
+        }
+
+        /**
+         * Meta Keywords
+         */
+        if (this.settings.metakey) {
+
+        }
     },
 
     /**
@@ -300,7 +360,11 @@ const analysis = {
     },
 
     controlAnalysis() {
-        // this.metaAnalysis();
+        this.metaAnalysis();
+
+        console.log(this.getLinks());
+
+
         // this.headlineAnalysis();
 
 
