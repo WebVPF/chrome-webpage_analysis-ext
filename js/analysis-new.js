@@ -362,7 +362,7 @@ const analysis = {
     controlAnalysis() {
         this.metaAnalysis();
 
-        console.log(this.getLinks());
+        // console.log(this.getLinks());
 
 
         // this.headlineAnalysis();
