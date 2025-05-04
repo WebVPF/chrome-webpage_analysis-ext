@@ -1,14 +1,11 @@
 const analysis = {
+
     /**
-     * @namespace
-     * @property {object} count - Счётчик ошибок и предупреждений
-     * @property {number} count.errors - Кол-во обнаруженных ошибок
-     * @property {number} count.warnings - Кол-во предупреждений
+     * @namespace {Array.<Object>} - Массив объектов, где каждый элемент это лог с результатом проверки.
+     * @property {string} Object[].type - Тип результата проверки: 'success', 'warning' или 'error'
+     * @property {string} Object[].msg - Сообщение о результате проверки
      */
-    count: {
-        errors: 0,
-        warnings: 0
-    },
+    logs: [],
 
     extIdDevelop: 'iflkknjnoociemphgnbobbjgkghanofl',
     extIdMarket: '', // TODO
@@ -228,14 +225,25 @@ const analysis = {
     },
 
     /**
-     * 
+     * Проверка тэга <title></title>
      */
-    title() {
+    titleAnalysis() {
         if (document.querySelectorAll('head title').length === 1) {
-
+            if (document.querySelector('head title').textContent === '') {
+                this.logs.push({
+                    type: 'error',
+                    msg: 'У страницы пустой тэг title.'
+                });
+            }
+            else {
+                this.logs.push({type: 'success'});
+            }
         }
         else {
-
+            this.logs.push({
+                type: 'error',
+                msg: 'На странице отсутствует тэг title.'
+            });
         }
     },
 
@@ -313,7 +321,7 @@ const analysis = {
     },
 
     /**
-     * Анализ meta
+     * Анализ meta тэгов
      */
     metaAnalysis() {
         let metadesc = document.querySelector('meta[name="description"]');
@@ -360,6 +368,7 @@ const analysis = {
     },
 
     controlAnalysis() {
+        this.titleAnalysis();
         this.metaAnalysis();
 
         // console.log(this.getLinks());
