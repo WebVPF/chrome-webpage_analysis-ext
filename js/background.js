@@ -57,10 +57,18 @@ chrome.runtime.onInstalled.addListener(function(details) {
 
 
 /**
- * Слушатель на получение данных из analysis_page
+ * Слушатель на получение данных из analysis.js (в методе controlAnalysis)
  * Принимает ошибки
  */
 chrome.runtime.onMessage.addListener(
+
+    /**
+     * TODO 
+     * @param {Object} request 
+     * @property {number} request.errors - Кол-во ошибок
+     * @property {number} request.warnings - Кол-во предупреждений
+     * @param {Object} sender - Набор сведений об отправителе (в том числе id-расширения, активная вкладка и ещё).
+     */
     function (request, sender) {
 
         function sklonenie(num, txt) {

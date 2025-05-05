@@ -14,8 +14,7 @@
         {
             "matches": ["*://*/*"],
             "js": [
-                "js/analysis_page.js",
-                "js/analysis-new.js"
+                "js/analysis.js"
             ]
         }
     ],

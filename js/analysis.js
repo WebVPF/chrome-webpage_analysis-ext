@@ -426,14 +426,12 @@ const analysis = {
 
     controlAnalysis() {
         console.log(this.settings);
+
         this.titleAnalysis();
         this.metaAnalysis();
 
-        // console.log(this.getLinks());
-
-
         // this.headlineAnalysis();
-
+        // console.log(this.getLinks());
 
         this.getImages();
 
@@ -441,6 +439,14 @@ const analysis = {
 
         this.listens();
         console.log(this.logs);
+
+        /**
+         * Отправка кол-ва ошибок и предупреждений в background.js для вывода их в бейдже на иконке расширения
+         */
+        let countWarningLogs = this.logs.filter(log => log.type == 'warning').length;
+        let countErrorLogs = this.logs.filter(log => log.type == 'error').length;
+
+        chrome.runtime.sendMessage({errors: countErrorLogs, warnings: countWarningLogs});
     },
 
     /**

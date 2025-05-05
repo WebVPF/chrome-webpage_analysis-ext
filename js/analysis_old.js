@@ -264,7 +264,7 @@ const analysisApp = {
         chrome.runtime.sendMessage({
             errors: this.reply.errors,
             warnings: this.reply.warnings
-        })
+        });
     },
 
     event() {

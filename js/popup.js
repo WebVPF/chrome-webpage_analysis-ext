@@ -18,6 +18,12 @@ const popupApp = {
                 let warningLogs = logs.filter(log => log.type == 'warning');
                 let errorLogs = logs.filter(log => log.type == 'error');
 
+                // ['error', 'warning', 'success'].forEach(typeEl => {
+                //     let typeLogs = logs.filter(log => log.type == typeEl);
+
+
+                // });
+
 
                 let p = document.createElement('p');
                 if (errorLogs.length >= 1 || warningLogs.length >= 1) {
