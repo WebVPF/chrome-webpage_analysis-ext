@@ -50,6 +50,10 @@
     "popup_warnings": {"message": "Предупреждения"},
     "popup_not_errors": {"message": "Нет ошибок"},
 
+    "heading_error": {"message": "Ошибки"},
+    "heading_warning": {"message": "Предупреждения"},
+    "heading_success": {"message": "Успешные проверки"},
+
     "popup_success_check": {"message": "Успешные проверки"},
     "popup_suc_semantik": {"message": "Есть семантическая разметка"},
     "popup_err_semantik": {"message": "На странице нет семантической разметки"},

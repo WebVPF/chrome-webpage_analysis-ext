@@ -307,7 +307,17 @@ const analysis = {
          * Повторяющийся Meta Description
          */
         if (this.settings.metadesc_repeat.active) {
+            let domensRepeat = this.settings.metadesc_repeat.list.filter(item => item[0] == window.location.hostname);
 
+            domensRepeat.forEach(d => {
+                if (d[1] === metadesc.content && metadesc.content.length) {
+                    this.logs.push({
+                        type: 'warning',
+                        msg: 'Обнаружено повторяющийся Meta Description',
+                        content: metadesc.content
+                    });
+                }
+            });
         }
 
         /**

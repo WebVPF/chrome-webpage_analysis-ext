@@ -9,49 +9,35 @@ const popupApp = {
             chrome.tabs.sendMessage(tabs[0].id, {popup: 'request_analysis'}, logs => {
                 console.log(logs);
 
-                const popupHeader = document.querySelector('.header'),
-                    // blockErrors = document.querySelector('.block__errors'),
-                    blockWarning = document.querySelector('.block__warning'),
-                    blockSuccess = document.querySelector('.block__success');
+                ['error', 'warning', 'success'].forEach(typeTxt => {
+                    let typeLogs = logs.filter(log => log.type == typeTxt);
 
-                let successLogs = logs.filter(log => log.type == 'success');
-                let warningLogs = logs.filter(log => log.type == 'warning');
-                let errorLogs = logs.filter(log => log.type == 'error');
+                    if (typeLogs.length >= 1) {
+                        const blockLogs = document.querySelector(`.block__${ typeTxt }`);
 
-                // ['error', 'warning', 'success'].forEach(typeEl => {
-                //     let typeLogs = logs.filter(log => log.type == typeEl);
+                        let titleBlock = document.createElement('h2');
+                        titleBlock.textContent = chrome.i18n.getMessage(`heading_${ typeTxt }`);
+                        blockLogs.append(titleBlock);
 
-
-                // });
-
-
-                let p = document.createElement('p');
-                if (errorLogs.length >= 1 || warningLogs.length >= 1) {
-                    p.innerHTML = `<span class="badge badge-danger">${ errorLogs.length }</span> - ${popupApp.sklonenie(errorLogs.length, [chrome.i18n.getMessage("popup_error_1"), chrome.i18n.getMessage("popup_errors_3"), chrome.i18n.getMessage("popup_errors_10")/*'ошибка', 'ошибки', 'ошибок'*/])}, <span class="badge badge-warning">${warningLogs.length}</span> - ${popupApp.sklonenie(warningLogs.length, [chrome.i18n.getMessage("popup_warning_1"), chrome.i18n.getMessage("popup_warnings_3"), chrome.i18n.getMessage("popup_warnings_10")/*'предупреждение', 'предупреждения', 'предупреждений'*/])}`;
-
-                    if (errorLogs.length >= 1) {
-                        const blockErrors = document.querySelector('.block__errors');
-
-                        errorLogs.forEach(log => {
-                            let div = document.createElement('div');
+                        typeLogs.forEach(log => {
+                            let wrap = document.createElement('div');
 
                             let badge = document.createElement('span');
-                            badge.classList.add('badge', 'badge-danger');
+                            badge.classList.add('badge', `badge-${ typeTxt }`);
                             badge.textContent = log.hasOwnProperty('count') ? log.count : 1;
 
-                            div.append(badge);
+                            let div = document.createElement('div');
                             div.insertAdjacentText('beforeend', log.msg);
 
-                            /**
-                             * TODO есть только в отчёте правильных проверок
-                             */
+                            wrap.append(badge, div);
+
                             if (log.hasOwnProperty('tags')) {
                                 let blockListTags = document.createElement('div');
 
                                 log.tags.forEach(tag => {
                                     let label = document.createElement('span');
                                     label.classList.add('mtkey');
-                                    label.innerHTML = `<svg class="icon icon-settings"><use xlink:href="#icon-tag"></use></svg> ${ tag }`;
+                                    label.innerHTML = `<svg class="icon icon-settings"><use xlink:href="#icon-key"></use></svg> ${ tag }`;
 
                                     blockListTags.append(label);
                                 });
@@ -59,21 +45,67 @@ const popupApp = {
                                 div.append(blockListTags);
                             }
 
-                            blockErrors.append(div);
+                            if (log.hasOwnProperty('content')) {
+                                let contentDiv = document.createElement('blockquote');
+                                contentDiv.textContent = log.content;
+                                div.append(contentDiv);
+                            }
+
+                            blockLogs.append(wrap);
                         });
                     }
-                }
-                else {
-                    // Нет ошибок
-                    p.innerHTML = '<span class="badge badge-success">✔</span> ' + chrome.i18n.getMessage("popup_not_errors");
-                }
+                });
 
-                popupHeader.append(p);
+                // let p = document.createElement('p');
+                // if (errorLogs.length >= 1 || warningLogs.length >= 1) {
+                //     p.innerHTML = `<span class="badge badge-danger">${ errorLogs.length }</span> - ${popupApp.sklonenie(errorLogs.length, [chrome.i18n.getMessage("popup_error_1"), chrome.i18n.getMessage("popup_errors_3"), chrome.i18n.getMessage("popup_errors_10")/*'ошибка', 'ошибки', 'ошибок'*/])}, <span class="badge badge-warning">${warningLogs.length}</span> - ${popupApp.sklonenie(warningLogs.length, [chrome.i18n.getMessage("popup_warning_1"), chrome.i18n.getMessage("popup_warnings_3"), chrome.i18n.getMessage("popup_warnings_10")/*'предупреждение', 'предупреждения', 'предупреждений'*/])}`;
+
+                //     if (errorLogs.length >= 1) {
+                //         const blockErrors = document.querySelector('.block__error');
+
+                //         errorLogs.forEach(log => {
+                //             let div = document.createElement('div');
+
+                //             let badge = document.createElement('span');
+                //             badge.classList.add('badge', 'badge-danger');
+                //             badge.textContent = log.hasOwnProperty('count') ? log.count : 1;
+
+                //             div.append(badge);
+                //             div.insertAdjacentText('beforeend', log.msg);
+
+                //             /**
+                //              * TODO есть только в отчёте правильных проверок
+                //              */
+                //             if (log.hasOwnProperty('tags')) {
+                //                 let blockListTags = document.createElement('div');
+
+                //                 log.tags.forEach(tag => {
+                //                     let label = document.createElement('span');
+                //                     label.classList.add('mtkey');
+                //                     label.innerHTML = `<svg class="icon icon-settings"><use xlink:href="#icon-tag"></use></svg> ${ tag }`;
+
+                //                     blockListTags.append(label);
+                //                 });
+
+                //                 div.append(blockListTags);
+                //             }
+
+                //             blockErrors.append(div);
+                //         });
+                //     }
+                // }
+                // else {
+                //     // Нет ошибок
+                //     p.innerHTML = '<span class="badge badge-success">✔</span> ' + chrome.i18n.getMessage("popup_not_errors");
+                // }
+
+                // popupHeader.append(p);
 
 
-                console.log(successLogs);
-                console.log(warningLogs);
-                console.log(errorLogs);
+                // console.log(successLogs);
+                // console.log(warningLogs);
+                // console.log(errorLogs);
+                console.log(logs);
             });
         });
     },
@@ -130,7 +162,7 @@ const popupApp = {
     update() {
         popupApp.settings.updates = true;
 
-        let containers = ['header', 'block__errors', 'block__warning', 'block__success'];
+        let containers = ['header', 'block__error', 'block__warning', 'block__success'];
 
         containers.forEach(blok => {
             let elPopup = document.querySelector('.' + blok);
@@ -148,11 +180,11 @@ const popupApp = {
 
     event() {
         if (!popupApp.settings.updates) {
-            document.querySelector('.block__errors').addEventListener('click', e => popupApp.scroll(e));
+            document.querySelector('.block__error').addEventListener('click', e => popupApp.scroll(e));
             document.querySelector('.block__warning').addEventListener('click', e => popupApp.scroll(e));
             document.querySelector('.update').addEventListener('click', () => this.update());
 
-            document.querySelector('.block__errors').addEventListener('click', e => popupApp.imgSave(e));
+            document.querySelector('.block__error').addEventListener('click', e => popupApp.imgSave(e));
             document.querySelector('.block__warning').addEventListener('click', e => popupApp.imgSave(e));
         }
     },
