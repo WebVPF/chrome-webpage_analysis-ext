@@ -6,214 +6,68 @@ const popupApp = {
     request_analysis() {
         // Запрос в analysis_page.js → analysisApp → event
         chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
-            chrome.tabs.sendMessage(tabs[0].id, {popup: 'request_analysis'}, function (response) {
-                console.log(response);
+            chrome.tabs.sendMessage(tabs[0].id, {popup: 'request_analysis'}, logs => {
+                console.log(logs);
 
                 const popupHeader = document.querySelector('.header'),
-                    blockErrors = document.querySelector('.block__errors'),
+                    // blockErrors = document.querySelector('.block__errors'),
                     blockWarning = document.querySelector('.block__warning'),
                     blockSuccess = document.querySelector('.block__success');
 
-
-                let errWarn = document.createElement('p');
-                if (response.errors >= 1 || response.warnings >= 1) {
-                    errWarn.innerHTML = `<span class="badge badge-danger">${response.errors}</span> - ${popupApp.sklonenie(response.errors, [chrome.i18n.getMessage("popup_error_1"), chrome.i18n.getMessage("popup_errors_3"), chrome.i18n.getMessage("popup_errors_10")/*'ошибка', 'ошибки', 'ошибок'*/])}, <span class="badge badge-warning">${response.warnings}</span> - ${popupApp.sklonenie(response.warnings, [chrome.i18n.getMessage("popup_warning_1"), chrome.i18n.getMessage("popup_warnings_3"), chrome.i18n.getMessage("popup_warnings_10")/*'предупреждение', 'предупреждения', 'предупреждений'*/])}`;
-
-                    if (response.errors >= 1) {
-                        let title = document.createElement('h2');
-                        title.innerHTML = chrome.i18n.getMessage("popup_errors");// 'Ошибки';
-                        blockErrors.append(title);
-                    }
-                    if (response.warnings >= 1) {
-                        let title = document.createElement('h2');
-                        title.textContent = chrome.i18n.getMessage("popup_warnings");// 'Предупреждения';
-                        blockWarning.append(title);
-                    }
-                } else errWarn.innerHTML = '<span class="badge badge-success">✔</span> ' + chrome.i18n.getMessage("popup_not_errors");// 'Нет ошибок';
-
-                popupHeader.append(errWarn);
-
-                let titleBlockSuccess = document.createElement('h2');
-                titleBlockSuccess.textContent = chrome.i18n.getMessage("popup_success_check");// 'Успешные проверки';
-                blockSuccess.append(titleBlockSuccess);
+                let successLogs = logs.filter(log => log.type == 'success');
+                let warningLogs = logs.filter(log => log.type == 'warning');
+                let errorLogs = logs.filter(log => log.type == 'error');
 
 
-                let errSemantic = document.createElement('p');
-                if (response.semantic.tags) {
-                    errSemantic.innerHTML = '<span class="badge badge-success">✔</span> ' + chrome.i18n.getMessage("popup_suc_semantik");// 'Есть семантическая разметка';
-                    blockSuccess.append(errSemantic);
+                let p = document.createElement('p');
+                if (errorLogs.length >= 1 || warningLogs.length >= 1) {
+                    p.innerHTML = `<span class="badge badge-danger">${ errorLogs.length }</span> - ${popupApp.sklonenie(errorLogs.length, [chrome.i18n.getMessage("popup_error_1"), chrome.i18n.getMessage("popup_errors_3"), chrome.i18n.getMessage("popup_errors_10")/*'ошибка', 'ошибки', 'ошибок'*/])}, <span class="badge badge-warning">${warningLogs.length}</span> - ${popupApp.sklonenie(warningLogs.length, [chrome.i18n.getMessage("popup_warning_1"), chrome.i18n.getMessage("popup_warnings_3"), chrome.i18n.getMessage("popup_warnings_10")/*'предупреждение', 'предупреждения', 'предупреждений'*/])}`;
 
-                } else {
-                    errSemantic.innerHTML = '<span class="badge badge-danger">1</span>' + chrome.i18n.getMessage("popup_err_semantik");// 'На странице нет семантической разметки';
-                    blockErrors.append(errSemantic);
-                }
+                    if (errorLogs.length >= 1) {
+                        const blockErrors = document.querySelector('.block__errors');
 
+                        errorLogs.forEach(log => {
+                            let div = document.createElement('div');
 
-                let siteTitle = document.createElement('p');
-                if (!response.title) {
-                    siteTitle.innerHTML = '<span class="badge badge-danger">1</span> ' + chrome.i18n.getMessage("popup_err_title");// 'У страницы отсутствует Title';
-                    blockErrors.append(siteTitle);
-                } else {
-                    siteTitle.innerHTML = '<span class="badge badge-success">✔</span> ' + chrome.i18n.getMessage("popup_suc_title");// 'У страницы есть Title';
-                    blockSuccess.append(siteTitle);
-                }
+                            let badge = document.createElement('span');
+                            badge.classList.add('badge', 'badge-danger');
+                            badge.textContent = log.hasOwnProperty('count') ? log.count : 1;
 
+                            div.append(badge);
+                            div.insertAdjacentText('beforeend', log.msg);
 
-                if (response.meta) {
-                    let metadesc = document.createElement('div'),
-                        metatitle = document.createElement('p'),
-                        metaText = document.createElement('div');
+                            /**
+                             * TODO есть только в отчёте правильных проверок
+                             */
+                            if (log.hasOwnProperty('tags')) {
+                                let blockListTags = document.createElement('div');
 
-                    metaText.className = 'text__analysis';
+                                log.tags.forEach(tag => {
+                                    let label = document.createElement('span');
+                                    label.classList.add('mtkey');
+                                    label.innerHTML = `<svg class="icon icon-settings"><use xlink:href="#icon-tag"></use></svg> ${ tag }`;
 
-                    if (popupApp.settings.metadesc) {
-                        if (response.meta['desc']) {
-                            if (response.meta['descSize'] < response.meta['min'] || response.meta['descSize'] > response.meta['max']) {
-                                metatitle.innerHTML = `<span class="badge badge-danger">1</span> Длина Meta-Description ${response.meta.descSize} ${popupApp.sklonenie(response.meta.descSize, ['символ', 'символа', 'символов'])} (не входит в диапазон ${response.meta['min']}-${response.meta['max']} символов)`;
-                                metaText.innerHTML = response.meta['desc'];
-                                metadesc.append(metatitle);
-                                metadesc.append(metaText);
-                                blockErrors.append(metadesc);
+                                    blockListTags.append(label);
+                                });
+
+                                div.append(blockListTags);
                             }
-                            else {
-                                metatitle.innerHTML = `<span class="badge badge-success">✔</span> Длина Meta-Description ${response.meta.descSize} ${popupApp.sklonenie(response.meta.descSize, ['символ', 'символа', 'символов'])}`;
-                                metaText.innerHTML = response.meta['desc'];
-                                metadesc.append(metatitle);
-                                metadesc.append(metaText);
-                                blockSuccess.append(metadesc);
-                            }
-                        }
-                        else { // Отсутствует Meta Description
-                            metatitle.innerHTML = `<span class="badge badge-danger">1</span> ${chrome.i18n.getMessage("popup_err_metadesc")}`;
-                            metadesc.append(metatitle);
-                            blockErrors.append(metadesc);
-                        }
-                    }
-                } else {
-                    let metadescErr = document.createElement('p');
-                    metadescErr.innerHTML = '<span class="badge badge-danger">1</span> ' + chrome.i18n.getMessage("popup_err_metadesc");// 'У страницы нет Meta Description';
-                    blockErrors.append(metadescErr);
-                }
 
-                if (popupApp.settings.metadesc_repeat) {
-                    if (response.meta.repeat) {
-                        let metarepeat = document.createElement('p');
-                        metarepeat.innerHTML = '<span class="badge badge-danger">1</span> ' + chrome.i18n.getMessage("popup_err_metadesc_repeat");// 'Meta-Description повторяется';
-                        blockErrors.append(metarepeat);
+                            blockErrors.append(div);
+                        });
                     }
                 }
-
-                if (popupApp.settings.metakey) {
-                    let mtkey = document.createElement('div');
-                    if ( response.meta.keywords && response.meta.keywords !== '' ) {
-                        let metakey = response.meta.keywords.split(','),
-                        tags = '';
-
-                        for (let i = 0; i < metakey.length; i++) {
-                            tags += `<label class="mtkey"><svg class="icon icon-settings"><use xlink:href="#icon-tag"></use></svg> ${metakey[i]}</label>`;
-                        }
-                        mtkey.innerHTML = `<p><span class="badge badge-success">✔</span> ${chrome.i18n.getMessage("popup_suc_metakey")}</p><div>${tags}</div>`;// 'У страницы есть Meta Keywords'
-                        blockSuccess.append(mtkey); 
-                    }
-                    else {
-                        mtkey.innerHTML = '<span class="badge badge-danger">1</span> ' + chrome.i18n.getMessage("popup_err_metakey");// 'У страницы нет Meta Keywords';
-                        blockErrors.append(mtkey);
-                    }
+                else {
+                    // Нет ошибок
+                    p.innerHTML = '<span class="badge badge-success">✔</span> ' + chrome.i18n.getMessage("popup_not_errors");
                 }
 
-                if (response.headlines) {
-                    if (response.headlines.h1 !== 1) {
-                        let h1 = document.createElement('p');
-                        if (response.headlines.h1 < 1) {
-                            h1.innerHTML = '<span class="badge badge-danger">1</span> ' + chrome.i18n.getMessage("popup_err_h1");// 'Отсутствует заголовок H1';
-                            blockErrors.append(h1);
-                        }
-                        else if (response.headlines.h1 > 1) {
-                            h1.innerHTML = `<span class="badge badge-danger">${response.headlines.h1}</span> На странице ${response.headlines.h1} ${popupApp.sklonenie(response.headlines.h1, ['заголовок', 'заголовка', 'заголовков'])} H1`;
-                            blockErrors.append(h1);
-                        }
-                        else {
-                            h1.innerHTML = '<span class="badge badge-success">✔</span> ' + chrome.i18n.getMessage("popup_suc_h1");// 'На странице есть заголовок H1';
-                            blockSuccess.append(h1);
-                        }
-                    }
-                } else {
-                    let headlines = document.createElement('p');
-                    headlines.innerHTML = '<span class="badge badge-danger">1</span> ' + chrome.i18n.getMessage("popup_err_not_headlines");// 'На странице отсутствуют заголовки';
-                    blockErrors.append(headlines);
-                }
+                popupHeader.append(p);
 
-                if (response.links.empty >= 1) {
-                    let a = `<h3><span class="badge badge-danger">${response.links.empty}</span> На странице ${response.links.empty} ${popupApp.sklonenie(response.links.empty, ['пустая ссылка', 'пустых ссылки', 'пустых ссылок'])}:</h3>`;
-                    let l = (function () {
-                        for (let i = 0; i < response.links.empty; i++) {
-                            a += `<div class="btn__empty_link">${i + 1}</div>`;
-                        }
-                        return a;
-                    })();
-                    let links = document.createElement('div');
-                    links.classList = 'err_links';
-                    links.innerHTML = l + '<hr>';
-                    blockErrors.append(links);
-                } else {
-                    let emptyLinks = document.createElement('p');
-                    emptyLinks.innerHTML = '<span class="badge badge-success">✔</span> ' + chrome.i18n.getMessage("popup_suc_emptyLinks");// 'Пустых ссылок нет';
-                    blockSuccess.append(emptyLinks);
-                }
 
-                if (response.img.notAlt.length >= 1 || response.img.emptyAlt.length >= 1) {
-                    if (response.img.notAlt.length >= 1) {
-                        let title = `<h3><span class="badge badge-danger">${response.img.notAlt.length}</span> ${chrome.i18n.getMessage("popup_err_notAlt")}</h3>`;// Отсутствует атрибут alt:
-
-                        popupApp.generatorImgItems('notAlt', response.img.notAlt, 'errors', title, response.img.prefix);
-                    }
-
-                    if (response.img.emptyAlt.length >= 1) {
-                        let title = `<h3><span class="badge badge-danger">${response.img.emptyAlt.length}</span> ${chrome.i18n.getMessage("popup_err_emptyAlt")}</h3>`;// Пустой атрибут alt:
-
-                        popupApp.generatorImgItems('emptyAlt', response.img.emptyAlt, 'errors', title, response.img.prefix);
-                    }
-                } else {
-                    let imgAlt = document.createElement('p');
-                    imgAlt.innerHTML = '<span class="badge badge-success">✔</span> ' + chrome.i18n.getMessage("popup_suc_alt");// 'Атрибут Alt заполнен у всех изображений';
-                    blockSuccess.append(imgAlt);
-                }
-
-                if (response.img.exceedingSize.length >= 1) { // exceedingSizeProportions [clientWidth, clientHeight, naturalWidth, naturalHeight]
-                    let title = `<h3><span class="badge badge-danger">${response.img.exceedingSize.length}</span> ${chrome.i18n.getMessage("popup_err_non_optimized_images")}</h3>
-                    <p class="small">${chrome.i18n.getMessage("popup_err_non_optimized_images_desc")}</p>`;//у которых отображаемый размер меньше оригинального
-
-                    popupApp.generatorImgItems('exceedingSize', response.img.exceedingSize, 'errors', title, response.img.prefix, response.img.exceedingSizeProportions);
-                }
-
-                if (response.img.imgSortFormat && response.img.imgSortFormat.length >= 1) { // Поиск изображений заданный форматов (png, gif)
-                    let title = `<h3><span class="badge badge-warning">${response.img.imgSortFormat.length}</span> ${chrome.i18n.getMessage("popup_Images")} ${response.img.formats.join(', ')}:</h3>`;// Изображения
-
-                    popupApp.generatorImgItems('imgSortFormat', response.img.imgSortFormat, 'warning', title, response.img.prefix);
-                }
-
-                if (response.links.outer >= 1) {
-                    let outerLinks = document.createElement('div');
-                    outerLinks.classList = 'outer_links';
-                    let html = `<h3><span class="badge badge-warning">${response.links.outer}</span> ${chrome.i18n.getMessage("popup_outerLinks")}</h3><p>На странице ${response.links.outer} ${popupApp.sklonenie(response.links.outer, ['внешняя ссылка', 'внешние ссылки', 'внешних ссылок'])}:</p>`;// Внешние ссылки + 
-                    let l = (function () {
-                        for (let i = 0; i < response.links.outer; i++) {
-                            html += `<div class="btn__outer_link">${i + 1}</div>`;
-                        }
-                        return html;
-                    })();
-                    outerLinks.innerHTML = l + '<hr>';
-                    blockWarning.append(outerLinks);
-                }
-
-                if (response.errors >= 1) {
-                    let hrE = document.createElement('hr');
-                    blockErrors.append(hrE);
-                }
-                if (response.warnings >= 1) {
-                    let hrW = document.createElement('hr');
-                    blockWarning.append(hrW);
-                }
+                console.log(successLogs);
+                console.log(warningLogs);
+                console.log(errorLogs);
             });
         });
     },

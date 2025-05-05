@@ -27,6 +27,14 @@ h2 {
 .block__warning h2 {color: #ffc107}
 .block__success h2 {color: #32cd32}
 
+.block__errors > div {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    gap: 8px;
+    margin-block-end: 12px;
+}
+
 h3 {
     font-size: 13px;
     font-weight: bold;

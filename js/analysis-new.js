@@ -4,6 +4,7 @@ const analysis = {
      * @namespace {Array.<Object>} - Массив объектов, где каждый элемент это лог с результатом проверки.
      * @property {string} Object[].type - Тип результата проверки: 'success', 'warning' или 'error'
      * @property {string} Object[].msg - Сообщение о результате проверки
+     * @property {number} Object[].count - Кол-во ошибок. Необязательно. Если нет, то например для бейджа выводится 1
      */
     logs: [],
 
@@ -19,9 +20,9 @@ const analysis = {
 
             // TODO расскоментировать после присвоения ID
             // if (sender.id == this.idMarket || sender.id == this.extIdDevelop) {
-                // if (request.popup == "request_analysis") {
-                //     sendResponse(analysisApp.reply);
-                // }
+                if (request.popup == "request_analysis") {
+                    sendResponse(analysis.logs);
+                }
 
                 // if (request.popup == 'scroll_el') {
 
@@ -86,6 +87,17 @@ const analysis = {
                 // }
             // }
         });
+    },
+
+    /**
+     * Склонение окончаний
+     * @param {number} n - Число для которого склоняется слово.
+     * @param {Array} txt - Вырианты склонений (слова или окончания). Пример: ['1-ошибка', '3-ошибки', '10-ошибок']
+     * @returns {string} - Вариант склонения для указанного числа
+     */
+    sklonenie(n, txt) {
+        let cases = [2, 0, 1, 1, 1, 2];
+        return txt[(n % 100 > 4 && n % 100 < 20) ? 2 : cases[(n % 10 < 5) ? n % 10 : 5]];
     },
 
     /**
@@ -236,7 +248,7 @@ const analysis = {
                 });
             }
             else {
-                this.logs.push({type: 'success'});
+                this.logs.push({type: 'success', msg: 'У страницы есть тэг title.'});
             }
         }
         else {
@@ -244,6 +256,87 @@ const analysis = {
                 type: 'error',
                 msg: 'На странице отсутствует тэг title.'
             });
+        }
+    },
+
+    /**
+     * Анализ meta тэгов
+     */
+    metaAnalysis() {
+        let metadesc = document.querySelector('meta[name="description"]');
+
+        /**
+         * Длина Meta Description
+         */
+        if (this.settings.metadesc.active) {
+            if (metadesc === null) {
+                this.logs.push({
+                    type: 'error',
+                    msg: 'У страницы нет Meta Description'
+                });
+            }
+            else if (!metadesc.content.length) {
+                this.logs.push({
+                    type: 'error',
+                    msg: 'Пустой Meta Description'
+                });
+            }
+            else if (this.settings.metadesc.active) { // Проверять длину
+                if (metadesc.content.length < this.settings.metadesc.min) {
+                    this.logs.push({
+                        type: 'error',
+                        msg: `Длина Meta Description меньше ${ this.settings.metadesc.min } символ${ this.sklonenie(metadesc.content.length, ['а', 'ов', 'ов']) }`
+                    });
+                }
+                else if (metadesc.content.length > this.settings.metadesc.max) {
+                    this.logs.push({
+                        type: 'error',
+                        msg: `Длина Meta Description больше ${ this.settings.metadesc.min } символ${ this.sklonenie(metadesc.content.length, ['а', 'ов', 'ов']) }`
+                    });
+                }
+                else {
+                    this.logs.push({
+                        type: 'success',
+                        msg: `Длина Meta Description ${ metadesc.content.length } символ${ this.sklonenie(metadesc.content.length, ['', 'а', 'ов']) }`
+                    });
+                }
+            }
+        }
+
+        /**
+         * Повторяющийся Meta Description
+         */
+        if (this.settings.metadesc_repeat.active) {
+
+        }
+
+        /**
+         * Meta Keywords
+         */
+        if (this.settings.metakey) {
+            let metakey = document.querySelector('meta[name="keywords"]');
+
+            if (metakey === null) {
+                this.logs.push({
+                    type: 'error',
+                    msg: 'У страницы нет Meta Keywords'
+                });
+            }
+            else if (!metakey.content.length) {
+                this.logs.push({
+                    type: 'error',
+                    msg: 'Пустой Meta Keywords'
+                });
+            }
+            else {
+                let arrKeywords = metakey.content.split(',').map(str => str.trim());
+
+                this.logs.push({
+                    type: 'success',
+                    msg: 'У страницы есть Meta Keywords',
+                    tags: arrKeywords // TODO определить ключ согласно выводу. Вырианты: tags, keys, labels
+                });
+            }
         }
     },
 
@@ -321,42 +414,6 @@ const analysis = {
     },
 
     /**
-     * Анализ meta тэгов
-     */
-    metaAnalysis() {
-        let metadesc = document.querySelector('meta[name="description"]');
-
-        /**
-         * Длина Meta Description
-         */
-        if (this.settings.metadesc.active) {
-            if (metadesc === null) {
-                // error++;
-                // У страницы нет Meta Description
-            }
-            else {
-                // if () {
-                //     metadesc.content.length
-                // }
-            }
-        }
-
-        /**
-         * Повторяющийся Meta Description
-         */
-        if (this.settings.metadesc_repeat.active) {
-
-        }
-
-        /**
-         * Meta Keywords
-         */
-        if (this.settings.metakey) {
-
-        }
-    },
-
-    /**
      * Анализ заголовков
      */
     headlineAnalysis() {
@@ -368,6 +425,7 @@ const analysis = {
     },
 
     controlAnalysis() {
+        console.log(this.settings);
         this.titleAnalysis();
         this.metaAnalysis();
 
@@ -382,7 +440,7 @@ const analysis = {
 
 
         this.listens();
-        // console.log();
+        console.log(this.logs);
     },
 
     /**
