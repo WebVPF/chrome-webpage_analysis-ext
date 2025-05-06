@@ -4,7 +4,10 @@ const popupApp = {
     },
 
     request_analysis() {
-        // Запрос в analysis_page.js → analysisApp → event
+
+        /**
+         * Запрос в analysis_page.js → analysisApp → event
+         */
         chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
             chrome.tabs.sendMessage(tabs[0].id, {popup: 'request_analysis'}, logs => {
                 console.log(logs);
@@ -33,11 +36,12 @@ const popupApp = {
 
                             if (log.hasOwnProperty('tags')) {
                                 let blockListTags = document.createElement('div');
+                                blockListTags.classList.add('flex-mtkey');
 
                                 log.tags.forEach(tag => {
-                                    let label = document.createElement('span');
+                                    let label = document.createElement('div');
                                     label.classList.add('mtkey');
-                                    label.innerHTML = `<svg class="icon icon-settings"><use xlink:href="#icon-key"></use></svg> ${ tag }`;
+                                    label.innerHTML = `<svg class="icon"><use xlink:href="#icon-key"></use></svg> ${ tag }`;
 
                                     blockListTags.append(label);
                                 });
@@ -51,6 +55,23 @@ const popupApp = {
                                 div.append(contentDiv);
                             }
 
+                            if (log.hasOwnProperty('links')) {
+                                let blockListLinks = document.createElement('div');
+                                blockListLinks.classList.add('flex-links');
+
+                                log.links.forEach(link => {
+                                    let a = document.createElement('div');
+                                    a.classList.add('link');
+                                    a.innerHTML = '<svg class="icon"><use xlink:href="#icon-link"></use></svg>';
+
+                                    // a.addEventListener('click', () => scrollToElement(link));
+
+                                    blockListLinks.append(a);
+                                });
+
+                                div.append(blockListLinks);
+                            }
+
                             blockLogs.append(wrap);
                         });
                     }
@@ -59,40 +80,6 @@ const popupApp = {
                 // let p = document.createElement('p');
                 // if (errorLogs.length >= 1 || warningLogs.length >= 1) {
                 //     p.innerHTML = `<span class="badge badge-danger">${ errorLogs.length }</span> - ${popupApp.sklonenie(errorLogs.length, [chrome.i18n.getMessage("popup_error_1"), chrome.i18n.getMessage("popup_errors_3"), chrome.i18n.getMessage("popup_errors_10")/*'ошибка', 'ошибки', 'ошибок'*/])}, <span class="badge badge-warning">${warningLogs.length}</span> - ${popupApp.sklonenie(warningLogs.length, [chrome.i18n.getMessage("popup_warning_1"), chrome.i18n.getMessage("popup_warnings_3"), chrome.i18n.getMessage("popup_warnings_10")/*'предупреждение', 'предупреждения', 'предупреждений'*/])}`;
-
-                //     if (errorLogs.length >= 1) {
-                //         const blockErrors = document.querySelector('.block__error');
-
-                //         errorLogs.forEach(log => {
-                //             let div = document.createElement('div');
-
-                //             let badge = document.createElement('span');
-                //             badge.classList.add('badge', 'badge-danger');
-                //             badge.textContent = log.hasOwnProperty('count') ? log.count : 1;
-
-                //             div.append(badge);
-                //             div.insertAdjacentText('beforeend', log.msg);
-
-                //             /**
-                //              * TODO есть только в отчёте правильных проверок
-                //              */
-                //             if (log.hasOwnProperty('tags')) {
-                //                 let blockListTags = document.createElement('div');
-
-                //                 log.tags.forEach(tag => {
-                //                     let label = document.createElement('span');
-                //                     label.classList.add('mtkey');
-                //                     label.innerHTML = `<svg class="icon icon-settings"><use xlink:href="#icon-tag"></use></svg> ${ tag }`;
-
-                //                     blockListTags.append(label);
-                //                 });
-
-                //                 div.append(blockListTags);
-                //             }
-
-                //             blockErrors.append(div);
-                //         });
-                //     }
                 // }
                 // else {
                 //     // Нет ошибок
@@ -100,12 +87,6 @@ const popupApp = {
                 // }
 
                 // popupHeader.append(p);
-
-
-                // console.log(successLogs);
-                // console.log(warningLogs);
-                // console.log(errorLogs);
-                console.log(logs);
             });
         });
     },

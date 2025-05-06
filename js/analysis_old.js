@@ -1,36 +1,11 @@
-/**
- * Анализ страницы
- *
- * В event закомментировать тестовое id расширения
- *
- * ⍻ - не реализовано; ✓ - в разработке; ✔ - реализовано; ⚡
- *
- * ⍻ - Проверка симантических тэгов
- * ✔ - Проверка title
- * ✔ - Проверка Meta Description
- * ✔ - Проверка Мета-тег Keywords
- * ✔ - Проверка повторяющегося Meta Description сайта !== страницы
- * ⍻ - Проверка заголовков (h1, h2, h3, h4, h5, h6)
- * ✔ - Проверка наличия alt для img
- * ✔ - Поиск изображений устаревших форматов: .png
- * ✓ - Проверка номинальных и фактических размеров изображений
- * ✔ - Проверка пустых ссылок
- * ✔ - Поиск внешних ссылок
- *
- * analysisApp.settings['analysis'] - Настройки
- */
-
 const analysisApp = {
     counter_errors  : 0,
     counter_warnings: 0,
 
-    idMarket: 'fmfleoecibhnakeklbfnaeobghmgnfja', // TODO id расширения в Chrome-маркете
+    // idMarket: '', // TODO id расширения в Chrome-маркете
     idDevelop: 'iflkknjnoociemphgnbobbjgkghanofl',
 
-    metadesc     : document.querySelector('meta[name="description"]'),
     metakeywords : document.querySelector('meta[name="keywords"]') || document.querySelector('meta[name="news_keywords"]'),
-
-    styles       : false,
 
     reply: { // Ответ для запроса на ошибки
         errors  : 0,
@@ -152,11 +127,6 @@ const analysisApp = {
         }
     },
 
-    links: {
-        empty: document.querySelectorAll('a:empty'), // Ссылки без содержимого (нет текста или картинки)
-        outer: []
-    },
-
     // settings: {
     //     analysis: true,
     //     domens: {
@@ -203,17 +173,6 @@ const analysisApp = {
         }
 
         return [];
-    },
-
-    metainfo() {
-        if ( this.metadesc ) {
-            this.reply.meta.desc = this.metadesc.content;
-            this.reply.meta.descSize = this.metadesc.content.length;
-        }
-
-        if ( this.metakeywords ) {
-            this.reply.meta.keywords = this.metakeywords.content;
-        }
     },
 
     /**
@@ -352,17 +311,6 @@ const analysisApp = {
         window.scroll(x, y);
     },
 
-    metadescRepeat(params, metaTxt) {
-        console.log(params);
-
-        for (let i = 0; i < params.length; i++) {
-            if (params[i][0] == window.location.hostname) {
-                return params[i][1] == metaTxt;
-            }
-            else return false;
-        }
-    },
-
     outerLinks() {
         let outers = [];
 
@@ -448,9 +396,6 @@ const analysisApp = {
 }
 
 analysisApp.settingsInit();
-
-console.log('analysis_page.js');
-
 
 // Слушатель изменения настроек
 // chrome.storage.onChanged.addListener(() => { console.log('Настройки приложения были изменены') });

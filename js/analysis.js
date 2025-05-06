@@ -351,10 +351,43 @@ const analysis = {
     },
 
     /**
-     * 
+     * Анализ ссылок
      */
-    tags() {
+    linksAnalysis() {
+        /**
+         * Ссылки без содержимого (нет текста или картинки)
+         */
+        let emptyLinks = document.querySelectorAll('a:empty');
 
+        if (emptyLinks.length >= 1) {
+            this.logs.push({
+                type: 'error',
+                msg: 'На странице обнаружено пустые ссылки без содержимого.',
+                count: emptyLinks.length,
+                links: emptyLinks
+            });
+        }
+
+
+        /**
+         * Внешние ссылки
+         */
+        let outerLinks = [];
+
+        document.querySelectorAll('a').forEach(link => {
+            if (link.hostname && link.hostname !== window.location.hostname) {
+                outerLinks.push(link);
+            }
+        });
+
+        if (outerLinks.length >= 1) {
+            this.logs.push({
+                type: 'warning',
+                // msg: `На странице обнаружено ${ outerLinks.length } внешних ссылки.`,
+                msg: `На странице обнаружено ${ outerLinks.length } ${ this.sklonenie(outerLinks.length, ['внешняя ссылка', 'внешних ссылки', 'внешних ссылок']) }.`,
+                links: outerLinks
+            });
+        }
     },
 
     /**
@@ -439,6 +472,8 @@ const analysis = {
 
         this.titleAnalysis();
         this.metaAnalysis();
+
+        this.linksAnalysis();
 
         // this.headlineAnalysis();
         // console.log(this.getLinks());
