@@ -41,7 +41,8 @@ const popupApp = {
                                 log.tags.forEach(tag => {
                                     let label = document.createElement('div');
                                     label.classList.add('mtkey');
-                                    label.innerHTML = `<svg class="icon"><use xlink:href="#icon-key"></use></svg> ${ tag }`;
+                                    // label.innerHTML = `<svg class="icon"><use xlink:href="#icon-key"></use></svg> ${ tag }`;
+                                    label.innerHTML = tag;
 
                                     blockListTags.append(label);
                                 });
@@ -59,11 +60,13 @@ const popupApp = {
                                 let blockListLinks = document.createElement('div');
                                 blockListLinks.classList.add('flex-links');
 
+                                // console.log(log.links);
+
                                 log.links.forEach(link => {
                                     let a = document.createElement('div');
                                     a.classList.add('link');
                                     a.innerHTML = '<svg class="icon"><use xlink:href="#icon-link"></use></svg>';
-
+                                    // a.setAttribute('title', );
                                     // a.addEventListener('click', () => scrollToElement(link));
 
                                     blockListLinks.append(a);
