@@ -136,7 +136,7 @@ button:hover {
     background-color: #ffc107;
 }
 
-img.notAlt,
+/* img.notAlt,
 img.emptyAlt,
 img.exceedingSize,
 img.imgSortFormat {
@@ -157,7 +157,7 @@ img.imgSortFormat:hover {
     cursor: pointer;
     transform: scale(1.05);
     border: solid 1px #008305;
-}
+} */
 
 .btn-img-download {
     display: block;
@@ -294,4 +294,10 @@ img.imgSortFormat:hover {
     stroke: currentColor;
     fill: currentColor;
     vertical-align: middle;
+}
+
+.img-el svg {
+    width: 23px;
+    height: 23px;
+    cursor: pointer;
 }

@@ -3,13 +3,13 @@ const popupApp = {
         updates: false // Уже обновлялся? Чтоб не дублировать вызов event() в init()
     },
 
-    request_analysis() {
+    getAnalysis() {
 
         /**
          * Запрос в analysis_page.js → analysisApp → event
          */
         chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
-            chrome.tabs.sendMessage(tabs[0].id, {popup: 'request_analysis'}, logs => {
+            chrome.tabs.sendMessage(tabs[0].id, {action: 'request_analysis'}, logs => {
                 console.log(logs);
 
                 ['error', 'warning', 'success'].forEach(typeTxt => {
@@ -60,19 +60,46 @@ const popupApp = {
                                 let blockListLinks = document.createElement('div');
                                 blockListLinks.classList.add('flex-links');
 
-                                // console.log(log.links);
-
-                                log.links.forEach(link => {
+                                for (let i = 0; i < log.count; i++) {
                                     let a = document.createElement('div');
                                     a.classList.add('link');
                                     a.innerHTML = '<svg class="icon"><use xlink:href="#icon-link"></use></svg>';
-                                    // a.setAttribute('title', );
-                                    // a.addEventListener('click', () => scrollToElement(link));
+
+                                    if (log.links[i].hasOwnProperty('href')) {
+                                        a.setAttribute('title', log.links[i].href);
+                                    }
+
+                                    a.addEventListener('click', () => popupApp.scrollToElement({
+                                        target: 'links',
+                                        type: log.typeLinks,
+                                        index: i
+                                    }));
 
                                     blockListLinks.append(a);
-                                });
+                                }
 
                                 div.append(blockListLinks);
+                            }
+
+                            if (log.hasOwnProperty('typeImages')) {
+                                let blockListImages = document.createElement('div');
+                                blockListImages.classList.add('flex-links');
+
+                                for (let i = 0; i < log.count; i++) {
+                                    let imgEl = document.createElement('div');
+                                    imgEl.classList.add('img-el');
+                                    imgEl.innerHTML = '<svg class="icon"><use xlink:href="#icon-image"></use></svg>';
+
+                                    imgEl.addEventListener('click', () => popupApp.scrollToElement({
+                                        target: 'images',
+                                        type: log.typeImages,
+                                        index: i
+                                    }));
+
+                                    blockListImages.append(imgEl);
+                                }
+
+                                div.append(blockListImages);
                             }
 
                             blockLogs.append(wrap);
@@ -120,27 +147,40 @@ const popupApp = {
         })
     },
 
-    scroll(e) {
-        let el = e.target;
+    // scroll(e) {
+    //     let el = e.target;
 
-        if (el.classList == 'notAlt' || el.classList == 'emptyAlt' || el.classList == 'exceedingSize' || el.classList == 'imgSortFormat') {
-            let index = (function () {
-                let images = el.parentNode.parentNode.querySelectorAll('img');
-                for (let i = 0; i < images.length; i++) {
-                    if (images[i] === el) return i;
-                }
-            })();
+    //     if (el.classList == 'notAlt' || el.classList == 'emptyAlt' || el.classList == 'exceedingSize' || el.classList == 'imgSortFormat') {
+    //         let index = (function () {
+    //             let images = el.parentNode.parentNode.querySelectorAll('img');
+    //             for (let i = 0; i < images.length; i++) {
+    //                 if (images[i] === el) return i;
+    //             }
+    //         })();
 
-            popupApp.scrollItems(el.getAttribute('class'), index);
-        }
+    //         popupApp.scrollItems(el.getAttribute('class'), index);
+    //     }
 
-        if (el.classList == 'btn__empty_link') {
-            popupApp.scrollItems('emptylink', el.textContent - 1)
-        }
-        if (el.classList == 'btn__outer_link') {
-            popupApp.scrollItems('outerlink', el.textContent - 1)
-        }
+    //     if (el.classList == 'btn__empty_link') {
+    //         popupApp.scrollItems('emptylink', el.textContent - 1)
+    //     }
+    //     if (el.classList == 'btn__outer_link') {
+    //         popupApp.scrollItems('outerlink', el.textContent - 1)
+    //     }
 
+    // },
+
+    /**
+     * @namespace
+     * @param {object} params 
+     * @property {string} params.target - 'link', 'img'
+     * @property {string} params.type 
+     * @property {number} params.index - порядковый номер элемента
+     */
+    scrollToElement(params) {
+        chrome.tabs.query({active: true, currentWindow: true}, tabs => {
+            chrome.tabs.sendMessage(tabs[0].id, Object.assign({action: 'scroll_el'}, params));
+        });
     },
 
     update() {
@@ -164,8 +204,8 @@ const popupApp = {
 
     event() {
         if (!popupApp.settings.updates) {
-            document.querySelector('.block__error').addEventListener('click', e => popupApp.scroll(e));
-            document.querySelector('.block__warning').addEventListener('click', e => popupApp.scroll(e));
+            // document.querySelector('.block__error').addEventListener('click', e => popupApp.scroll(e));
+            // document.querySelector('.block__warning').addEventListener('click', e => popupApp.scroll(e));
             document.querySelector('.update').addEventListener('click', () => this.update());
 
             document.querySelector('.block__error').addEventListener('click', e => popupApp.imgSave(e));
@@ -209,10 +249,10 @@ const popupApp = {
                         /**
                          * Запрос анализируемого домена
                          */
-                        chrome.tabs.sendMessage(tabs[0].id, {popup: 'getHostname'}, response => {
+                        chrome.tabs.sendMessage(tabs[0].id, {action: 'getHostname'}, response => {
                             if (popupApp.settings.domens_list.includes(response.hostname)) {
                                 popupApp.event();
-                                popupApp.request_analysis();
+                                popupApp.getAnalysis();
                             }
                             else {
                                 let messageNotAnalysis = document.createElement('div');
@@ -223,7 +263,7 @@ const popupApp = {
                     });
                 }
                 else {
-                    popupApp.request_analysis();
+                    popupApp.getAnalysis();
                     popupApp.event();
                 }
             }

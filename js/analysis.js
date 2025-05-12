@@ -1,4 +1,4 @@
-const analysis = {
+const analysisApp = {
 
     /**
      * @namespace {Array.<Object>} - Массив объектов, где каждый элемент это лог с результатом проверки.
@@ -8,59 +8,127 @@ const analysis = {
      */
     logs: [],
 
+    links: {
+        /**
+         * Ссылки без содержимого (нет текста, картинки или какого либо контента)
+         */
+        empty: document.querySelectorAll('a:empty'),
+
+        /**
+         * Внешние ссылки
+         */
+        outer: [],
+
+        /**
+         * @namespace {Array.<Object>} - Данные внешних ссылок
+         * @property {string} Object[].href - Url внешней ссылки для вывода в всплывающей подсказке через атрибут title
+         */
+        outerLinksData: []
+    },
+
+    images: {
+
+        /**
+         * Изображения без атрибута alt
+         */
+        noAlt: document.querySelectorAll('img:not([alt])'),
+
+        /**
+         * Изображения с пустым атрибутом alt
+         */
+        emptyAlt: document.querySelectorAll('img[alt=""]'),
+
+        /**
+         * Изображения у которых фактический размер которых больше отображаемого
+         */
+        sizes: []
+    },
+
     extIdDevelop: 'iflkknjnoociemphgnbobbjgkghanofl',
     extIdMarket: '', // TODO
 
     listens() {
+
         /**
          * Слушатель запросов из popup.js
+         *
+         * @param {object} request 
+         * @property {string} request.action - Действие, которое активирует запрос
+         * @property {string} request.target - 
+         * @property {string} request.type - 
+         * @property {number} request.index - 
+         * @param {object} sender - Отправитель.
+         * @property {string} sender.id
+         * @property {string} sender.origin
+         * @param {function} sendResponse - отправить ответ
          */
         chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             // console.log(this);
 
             // TODO расскоментировать после присвоения ID
-            // if (sender.id == this.idMarket || sender.id == this.extIdDevelop) {
-                if (request.popup == "request_analysis") {
-                    sendResponse(analysis.logs);
+            // if (sender.id == this.extIdMarket || sender.id == this.extIdDevelop) {
+
+                if (request.action == "request_analysis") {
+                    sendResponse(analysisApp.logs);
                 }
 
-                // if (request.popup == 'scroll_el') {
+                /**
+                 * Прокрутка к элементу
+                 */
+                else if (request.action == 'scroll_el') {
+                    console.log(request); // {action: 'scroll_el', target: 'link', type: 'TODO', index: 2}
 
-                //     if (!analysisApp.styles) {
-                //         let styles = document.createElement('style');
-                //         styles.textContent = '.analysis_page_error{border:solid 4px red !important}.analysis_page_error__links{padding:2px 8px;background:#ffdead;border:solid 4px red!important}';
-                //         document.querySelector('body').appendChild(styles);
+                    /**
+                     * Иньекция стилей необходимых для стилизации (подсветки) элементов
+                     */
+                    if (!analysisApp.cssInjection) {
+                        let styles = document.createElement('style');
+                        styles.textContent = '.analysis_page_error{border:solid 4px red !important}.analysis_page_error__links{padding:2px 8px;background:#ffdead;border:solid 4px red!important}';
+                        // document.querySelector('body').appendChild(styles);
 
-                //         analysisApp.styles = true;
-                //     }
+                        if (document.querySelector('head')) {
+                            document.querySelector('head').append(styles);
+                        }
+                        else {
+                            document.querySelector('body').append(styles);
+                        }
 
-                //     document.querySelector('.analysis_page_error') ? document.querySelector('.analysis_page_error').classList.remove('analysis_page_error') : 0;
-                //     document.querySelector('.analysis_page_error__links') ? document.querySelector('.analysis_page_error__links').classList.remove('analysis_page_error__links') : 0;
+                        analysisApp.cssInjection = true;
+                    }
 
-                //     let el_id = request.el;
+                    /**
+                     * Удаление классов analysis_page_error и analysis_page_error__links
+                     */
+                    document.querySelector('.analysis_page_error') ? document.querySelector('.analysis_page_error').classList.remove('analysis_page_error') : 0;
+                    document.querySelector('.analysis_page_error__links') ? document.querySelector('.analysis_page_error__links').classList.remove('analysis_page_error__links') : 0;
 
-                //     if (request.el == 'notAlt' || request.el == 'emptyAlt' || request.el == 'exceedingSize' || request.el == 'imgSearchFormats') {
-                //         analysisApp.img[el_id][request.index].scrollIntoView({ block: "center", behavior: "smooth" });
-                //         analysisApp.img[el_id][request.index].classList.add('analysis_page_error');
-                //     }
+                    // let el_id = request.el;
+
+                    // if (request.el == 'notAlt' || request.el == 'emptyAlt' || request.el == 'exceedingSize' || request.el == 'imgSearchFormats') {
+                    //     analysisApp.img[el_id][request.index].scrollIntoView({ block: "center", behavior: "smooth" });
+                    //     analysisApp.img[el_id][request.index].classList.add('analysis_page_error');
+                    // }
 
 
-                //     if (request.el == 'emptylink') {
-                //         analysisApp.links.empty[request.index].scrollIntoView({ block: "center", behavior: "smooth" });
-                //         analysisApp.links.empty[request.index].classList.add('analysis_page_error__links');
-                //     }
-                //     if (request.el == 'outerlink') {
-                //         analysisApp.links.outer[request.index].scrollIntoView({ block: "center", behavior: "smooth" });
-                //         analysisApp.links.outer[request.index].classList.add('analysis_page_error__links');
-                //     }
+                    // if (request.el == 'emptylink') {
+                    //     analysisApp.links.empty[request.index].scrollIntoView({ block: "center", behavior: "smooth" });
+                    //     analysisApp.links.empty[request.index].classList.add('analysis_page_error__links');
+                    // }
+                    // if (request.el == 'outerlink') {
+                    //     analysisApp.links.outer[request.index].scrollIntoView({ block: "center", behavior: "smooth" });
+                    //     analysisApp.links.outer[request.index].classList.add('analysis_page_error__links');
+                    // }
 
-                // }
+                    let element = analysisApp[request.target][request.type][request.index];
+                    element.classList.add('analysis_page_error__links');
+                    element.scrollIntoView({block: "center", behavior: "smooth"});
+                }
 
                 // if (request.popup == 'updates') {
                 //     analysisApp.update();
                 // }
 
-                if (request.popup == 'getHostname') {
+                else if (request.action == 'getHostname') {
                     sendResponse({hostname: window.location.hostname});
                 }
 
@@ -220,7 +288,7 @@ const analysis = {
                     msg: 'Пустой Meta Description'
                 });
             }
-            else if (this.settings.metadesc.active) { // Проверять длину
+            else if (this.settings.metadesc.active) {
                 if (metadesc.content.length < this.settings.metadesc.min) {
                     this.logs.push({
                         type: 'error',
@@ -230,7 +298,7 @@ const analysis = {
                 else if (metadesc.content.length > this.settings.metadesc.max) {
                     this.logs.push({
                         type: 'error',
-                        msg: `Длина Meta Description больше ${ this.settings.metadesc.min } символ${ this.sklonenie(metadesc.content.length, ['а', 'ов', 'ов']) }`
+                        msg: `Длина Meta Description больше ${ this.settings.metadesc.max } символ${ this.sklonenie(metadesc.content.length, ['а', 'ов', 'ов']) }`
                     });
                 }
                 else {
@@ -300,12 +368,7 @@ const analysis = {
      *
      * Не анализирует есть ли указанное изображение на сервере.
      */
-    imgAnalysis() {
-        // document.querySelectorAll('img:not([alt])')
-
-        let imagesSizes = [];
-        let imagesNoAlt = [];
-        let imagesEmptyAlt = [];
+    imagesAnalysis() {
 
         /**
          * Поиск изображений заданных форматов
@@ -318,18 +381,7 @@ const analysis = {
             // let imagesFormats = document.querySelectorAll('[src$=".png"]');
         }
 
-        document.querySelectorAll('img').forEach((img, indexImg) => {
-
-            /**
-             * Проверка атрибута alt
-             */
-            if (!img.hasAttribute('alt')) {
-                imagesNoAlt.push(img);
-            }
-            else if (img.getAttribute('alt') === '') {
-                imagesEmptyAlt.push(img);
-            }
-
+        document.querySelectorAll('img').forEach(img => {
 
             /**
              * Проверка размеров изображения
@@ -337,7 +389,7 @@ const analysis = {
              *    - фактические размеры (naturalWidth, naturalHeight)
              */
             if ((img.clientWidth < img.naturalWidth) || (img.clientHeight < img.naturalHeight)) {
-                imagesSizes.push(img);
+                this.images.sizes.push(img);
             }
 
 
@@ -359,20 +411,40 @@ const analysis = {
         });
 
 
-        if (imagesNoAlt.length > 0 || imagesEmptyAlt.length > 0) {
+        // if (this.images.noAlt.length > 0 || this.images.emptyAlt.length > 0) {
+        //     this.logs.push({
+        //         type: 'error',
+        //         msg: `Обнаружено ${ this.images.noAlt.length + this.images.emptyAlt.length } изображений у которых отсутствует или пустой атрибут alt.`,
+        //         count: this.images.noAlt.length + this.images.emptyAlt.length,
+        //         typeImages: '' // noAlt || emptyAlt
+        //     });
+        // }
+
+        if (this.images.noAlt.length > 0) {
             this.logs.push({
                 type: 'error',
-                msg: `Обнаружено ${ imagesNoAlt.length + imagesEmptyAlt.length } изображений у которых отсутствует или пустой атрибут alt.`,
-                count: imagesNoAlt.length + imagesEmptyAlt.length
+                msg: `Обнаружено ${ this.images.noAlt.length } изображений у которых отсутствует атрибут alt.`,
+                count: this.images.noAlt.length,
+                typeImages: 'noAlt'
+            });
+        }
+
+        if (this.images.emptyAlt.length > 0) {
+            this.logs.push({
+                type: 'error',
+                msg: `Обнаружено ${ this.images.emptyAlt.length } изображений у которых пустой атрибут alt.`,
+                count: this.images.emptyAlt.length,
+                typeImages: 'emptyAlt'
             });
         }
 
 
-        if (imagesSizes.length > 0) {
+        if (this.images.sizes.length > 0) {
             this.logs.push({
                 type: 'error',
-                msg: `Обнаружено ${ imagesSizes.length } изображений фактический размер которых больше отображаемого. Эти изображения требуют отдельной оптимизации.`,
-                count: imagesSizes.length
+                msg: `Обнаружено ${ this.images.sizes.length } изображений фактический размер которых больше отображаемого. Эти изображения требуют отдельной оптимизации.`,
+                count: this.images.sizes.length,
+                typeImages: 'sizes'
             });
         }
 
@@ -382,38 +454,31 @@ const analysis = {
      * Анализ ссылок
      */
     linksAnalysis() {
-        /**
-         * Ссылки без содержимого (нет текста или картинки)
-         */
-        let emptyLinks = document.querySelectorAll('a:empty');
-
-        if (emptyLinks.length >= 1) {
+        if (this.links.empty.length > 0) {
             this.logs.push({
                 type: 'error',
-                msg: `На странице обнаружено ${ emptyLinks.length } пустые ссылки (без содержимого).`,
-                count: emptyLinks.length,
-                links: emptyLinks
+                msg: `На странице обнаружено ${ this.links.empty.length } ${ this.sklonenie(this.links.empty.length, ['пустая ссылка', 'пустые ссылки', 'пустых ссылок']) } (без содержимого).`,
+                count: this.links.empty.length,
+                links: this.links.empty,
+                typeLinks: 'empty'
             });
         }
 
 
-        /**
-         * Внешние ссылки
-         */
-        let outerLinks = [];
-
         document.querySelectorAll('a').forEach(link => {
             if (link.hostname && link.hostname !== window.location.hostname) {
-                outerLinks.push(link);
+                this.links.outerLinksData.push({href: link.href});
+                this.links.outer.push(link);
             }
         });
 
-        if (outerLinks.length >= 1) {
+        if (this.links.outer.length > 0) {
             this.logs.push({
                 type: 'warning',
-                // msg: `На странице обнаружено ${ outerLinks.length } внешних ссылки.`,
-                msg: `На странице обнаружено ${ outerLinks.length } ${ this.sklonenie(outerLinks.length, ['внешняя ссылка', 'внешних ссылки', 'внешних ссылок']) }.`,
-                links: outerLinks
+                msg: `На странице обнаружено ${ this.links.outer.length } ${ this.sklonenie(this.links.outer.length, ['внешняя ссылка', 'внешних ссылки', 'внешних ссылок']) }.`,
+                count: this.links.outer.length,
+                links: this.links.outerLinksData,
+                typeLinks: 'outer'
             });
         }
     },
@@ -501,7 +566,7 @@ const analysis = {
         this.titleAnalysis();
         this.metaAnalysis();
         this.linksAnalysis();
-        this.imgAnalysis();
+        this.imagesAnalysis();
 
         // this.headlineAnalysis();
         // console.log(this.getLinks());
@@ -564,6 +629,4 @@ const analysis = {
     }
 }
 
-addEventListener('load', analysis.setSettings.bind(analysis));
-
-console.log('analysis-new');
+addEventListener('load', analysisApp.setSettings.bind(analysisApp));
