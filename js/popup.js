@@ -1,13 +1,9 @@
 const popupApp = {
-    settings: {
-        updates: false // Уже обновлялся? Чтоб не дублировать вызов event() в init()
-    },
 
+    /**
+     * Запрос в analysis_page.js → analysisApp → event
+     */
     getAnalysis() {
-
-        /**
-         * Запрос в analysis_page.js → analysisApp → event
-         */
         chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
             chrome.tabs.sendMessage(tabs[0].id, {action: 'request_analysis'}, logs => {
                 console.log(logs);
@@ -141,35 +137,6 @@ const popupApp = {
         document.querySelector('.block__' + typeError).append(imgBlock);
     },
 
-    scrollItems(el, i) {
-        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-            chrome.tabs.sendMessage(tabs[0].id, { popup: "scroll_el", el: el, index: i })
-        })
-    },
-
-    // scroll(e) {
-    //     let el = e.target;
-
-    //     if (el.classList == 'notAlt' || el.classList == 'emptyAlt' || el.classList == 'exceedingSize' || el.classList == 'imgSortFormat') {
-    //         let index = (function () {
-    //             let images = el.parentNode.parentNode.querySelectorAll('img');
-    //             for (let i = 0; i < images.length; i++) {
-    //                 if (images[i] === el) return i;
-    //             }
-    //         })();
-
-    //         popupApp.scrollItems(el.getAttribute('class'), index);
-    //     }
-
-    //     if (el.classList == 'btn__empty_link') {
-    //         popupApp.scrollItems('emptylink', el.textContent - 1)
-    //     }
-    //     if (el.classList == 'btn__outer_link') {
-    //         popupApp.scrollItems('outerlink', el.textContent - 1)
-    //     }
-
-    // },
-
     /**
      * @namespace
      * @param {object} params 
@@ -183,48 +150,44 @@ const popupApp = {
         });
     },
 
+    /**
+     * Обновить/выполнить заново анализ страницы
+     */
     update() {
-        popupApp.settings.updates = true;
-
-        let containers = ['header', 'block__error', 'block__warning', 'block__success'];
-
-        containers.forEach(blok => {
-            let elPopup = document.querySelector('.' + blok);
+        ['header', 'block__error', 'block__warning', 'block__success'].forEach(selector => {
+            let elPopup = document.querySelector(`.${ selector }`);
             while (elPopup.firstChild) {
                 elPopup.removeChild(elPopup.firstChild);
             }
         })
 
         chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-            chrome.tabs.sendMessage(tabs[0].id, { popup: "updates" });
+            chrome.tabs.sendMessage(tabs[0].id, {action: 'updates'});
         });
 
-        this.init();
+        this.getAnalysis();
     },
 
     event() {
-        if (!popupApp.settings.updates) {
-            // document.querySelector('.block__error').addEventListener('click', e => popupApp.scroll(e));
-            // document.querySelector('.block__warning').addEventListener('click', e => popupApp.scroll(e));
-            document.querySelector('.update').addEventListener('click', () => this.update());
+        document.getElementById('btn_update').addEventListener('click', () => this.update());
+        document.getElementById('btn_open_options').addEventListener('click', () => chrome.runtime.openOptionsPage());
 
-            document.querySelector('.block__error').addEventListener('click', e => popupApp.imgSave(e));
-            document.querySelector('.block__warning').addEventListener('click', e => popupApp.imgSave(e));
-        }
+        // document.querySelector('.block__error').addEventListener('click', e => popupApp.imgSave(e));
+        // document.querySelector('.block__warning').addEventListener('click', e => popupApp.imgSave(e));
     },
 
-    imgSave(e) {
-        let el = e.target;
-        let idImg;
+    // imgSave(e) {
+    //     let el = e.target;
+    //     let idImg;
 
-        if (el.classList == 'btn-img-download') {
-            idImg = el.getAttribute('id').split('_')[1];
+    //     if (el.classList == 'btn-img-download') {
+    //         idImg = el.getAttribute('id').split('_')[1];
 
-            chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-                chrome.tabs.sendMessage(tabs[0].id, { popup: "download_img", id: idImg })
-            })
-        }
-    },
+    //         chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    //             chrome.tabs.sendMessage(tabs[0].id, { popup: "download_img", id: idImg })
+    //         })
+    //     }
+    // },
 
     sklonenie(num, txt) {
         let cases = [2, 0, 1, 1, 1, 2];
@@ -272,12 +235,10 @@ const popupApp = {
                 messageNotAnalysis.innerHTML = `<div class="messageNotAnalysis">${chrome.i18n.getMessage("popup_analysis_disabled_settings")}</div>`;//Анализ выключен в настройках расширения.
                 document.querySelector('.header').append(messageNotAnalysis);
 
-                // chrome.browserAction.setIcon({}, function callback)
+                // chrome.browserAction.setIcon({}, function callback);
             }
         });
     }
 }
 
 popupApp.init();
-
-document.getElementById('btn_open_options').addEventListener('click', () => chrome.runtime.openOptionsPage());

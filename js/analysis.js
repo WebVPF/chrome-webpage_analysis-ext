@@ -63,8 +63,6 @@ const analysisApp = {
          * @param {function} sendResponse - отправить ответ
          */
         chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-            // console.log(this);
-
             // TODO расскоментировать после присвоения ID
             // if (sender.id == this.extIdMarket || sender.id == this.extIdDevelop) {
 
@@ -124,9 +122,11 @@ const analysisApp = {
                     element.scrollIntoView({block: "center", behavior: "smooth"});
                 }
 
-                // if (request.popup == 'updates') {
-                //     analysisApp.update();
-                // }
+                else if (request.action == 'updates') {
+                    analysisApp.clearAnalysis();
+                    // analysisApp.init();
+                    analysisApp.controlAnalysis();
+                }
 
                 else if (request.action == 'getHostname') {
                     sendResponse({hostname: window.location.hostname});
@@ -240,6 +240,17 @@ const analysisApp = {
             }
 
             currentLevel = tagLavel;
+        });
+    },
+
+    /**
+     * Анализ заголовков
+     */
+    headlineAnalysis() {
+        let headlines = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+
+        headlines.forEach(headline => {
+            // let currentH = headline.tagName.replace('H', '');
         });
     },
 
@@ -402,7 +413,12 @@ const analysisApp = {
 
 
             /**
-             * Слэш в закрывающем теге
+             * Слэш в закрывающем тэге
+             *
+             * В новых рекомендациях W3C рекомендуется тэг img закрывать без слеша: <img src="...">
+             * Это связано с современными методами оптимизации кода HTML, когда значения атрибутов могут
+             * указываться без кавычек: <img alt=Описание >
+             *
              * Браузер удаляет слэш и поэтому его не видно???
              */
             // img.outerHTML.substring(img.outerHTML.length - 2);
@@ -410,15 +426,6 @@ const analysisApp = {
 
         });
 
-
-        // if (this.images.noAlt.length > 0 || this.images.emptyAlt.length > 0) {
-        //     this.logs.push({
-        //         type: 'error',
-        //         msg: `Обнаружено ${ this.images.noAlt.length + this.images.emptyAlt.length } изображений у которых отсутствует или пустой атрибут alt.`,
-        //         count: this.images.noAlt.length + this.images.emptyAlt.length,
-        //         typeImages: '' // noAlt || emptyAlt
-        //     });
-        // }
 
         if (this.images.noAlt.length > 0) {
             this.logs.push({
@@ -452,6 +459,10 @@ const analysisApp = {
 
     /**
      * Анализ ссылок
+     *
+     * TODO
+     * - Отсутствует атрибут href
+     * - Пустой атрибут href
      */
     linksAnalysis() {
         if (this.links.empty.length > 0) {
@@ -484,52 +495,6 @@ const analysisApp = {
     },
 
     /**
-     * 
-     * @returns {Array}
-     */
-    getLinks() {
-        let links = [];
-
-        document.querySelectorAll('a').forEach(link => {
-            /**
-             * @namespace
-             * @property {object} data - Данные с анализом ссылки
-             * @property {boolean} data.missingHref - Отсутствует атрибут href
-             * @property {boolean} data.emptyHref - Пустой атрибут href
-             * @property {boolean} data.external - Это внешняя ссылка
-             * @property {NodeElement} data.node - Сама ссылка как DOM-элемент
-             */
-            let data = {
-                node: link
-            }
-
-
-            if (link.hasAttribute('href')) {
-                data.missingHref = false;
-
-                data.emptyHref = link.getAttribute('href') === '';
-
-                if (data.emptyHref) {
-                    data.external = link.hostname !== window.location.hostname;
-                }
-            }
-            else {
-                data.missingHref = true;
-            }
-
-
-            if (data.missingHref || data.emptyHref) {
-                links.push(data);
-            }
-            else if (this.settings.outerLinks && data.external) {
-                links.push(data);
-            }
-        });
-
-        return links;
-    },
-
-    /**
      * Проверка длины текста на заданный диапазон (от .. до ..)
      *
      * @param {string} txt
@@ -550,14 +515,34 @@ const analysisApp = {
     },
 
     /**
-     * Анализ заголовков
+     * Преобразовует строку в массив
+     *
+     * @param {string} string - Строка с перечисленными через запятую элементами
+     * @returns {Array} - Массив из строк
      */
-    headlineAnalysis() {
-        let headlines = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+    stringListToArray(string) {
+        if (typeof string === 'string') {
+            return string.split(',').map(el => el.trim());
+        }
 
-        headlines.forEach(headline => {
-            // let currentH = headline.tagName.replace('H', '');
-        });
+        return [];
+    },
+
+    /**
+     * Очистить данные
+     */
+    clearAnalysis() {
+        console.log('clearAnalysis');
+
+        this.logs.splice(0, this.logs.length);
+
+        this.links.empty = document.querySelectorAll('a:empty');
+        this.links.outer.splice(0, this.links.outer.length);
+        this.links.outerLinksData.splice(0, this.links.outerLinksData.length);
+
+        this.images.noAlt = document.querySelectorAll('img:not([alt])');
+        this.images.emptyAlt = document.querySelectorAll('img[alt=""]');
+        this.images.sizes.splice(0, this.images.sizes.length);
     },
 
     controlAnalysis() {
@@ -569,7 +554,6 @@ const analysisApp = {
         this.imagesAnalysis();
 
         // this.headlineAnalysis();
-        // console.log(this.getLinks());
 
 
 
@@ -583,20 +567,6 @@ const analysisApp = {
         let countErrorLogs = this.logs.filter(log => log.type == 'error').length;
 
         chrome.runtime.sendMessage({errors: countErrorLogs, warnings: countWarningLogs});
-    },
-
-    /**
-     * Преобразовует строку в массив
-     *
-     * @param {string} string - Строка с перечисленными через запятую элементами
-     * @returns {Array} - Массив из строк
-     */
-    stringListToArray(string) {
-        if (typeof string === 'string') {
-            return string.split(',').map(el => el.trim());
-        }
-
-        return [];
     },
 
     init() {
