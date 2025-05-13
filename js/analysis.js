@@ -209,49 +209,70 @@ const analysisApp = {
     },
 
     /**
-     * Проверка заголовков
+     * TODO
+     * Эксперементальная опция - Проверка заголовков
      */
     headers() {
-        if (document.querySelectorAll('h1').length) {
-            if (document.querySelectorAll('h1').length > 1 ) {
-                // На странице больше одного заголовка H1 (не рекомендуется) https://developer.mozilla.org/ru/docs/Web/HTML/Element/Heading_Elements#%D0%B8%D0%B7%D0%B1%D0%B5%D0%B3%D0%B0%D0%B9%D1%82%D0%B5_%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F_%D0%BD%D0%B5%D1%81%D0%BA%D0%BE%D0%BB%D1%8C%D0%BA%D0%B8%D1%85_%D1%8D%D0%BB%D0%B5%D0%BC%D0%B5%D0%BD%D1%82%D0%BE%D0%B2_h1_%D0%BD%D0%B0_%D0%BE%D0%B4%D0%BD%D0%BE%D0%B9_%D1%81%D1%82%D1%80%D0%B0%D0%BD%D0%B8%D1%86%D0%B5
-            }
-        }
-        else {
-            // на странице отсутствует заголовок H1
-        }
-
-
         let allTagsH = document.querySelectorAll(':is(h1, h2, h3, h4, h5, h6)');
 
-
+        /**
+         * Уровни заголовков [1, 2, 2, 3, 2, 3, 3, 4, 2, ...]
+         */
         let lavelsTagH = [];
-
         allTagsH.forEach(h => lavelsTagH.push(Number(h.tagName.split('')[1])));
-
 
 
         let currentLevel = 0;
 
-        lavelsTagH.forEach(tagLavel => {
-            if (tagLavel > currentLevel && tagLavel !== currentLevel + 1) {
+        lavelsTagH.forEach((tagLevel, indexTag) => {
+            if (tagLevel > currentLevel && tagLevel !== currentLevel + 1) {
                 // Неправильная структура уровней заголовков.
                 console.log('Неправильная структура уровней заголовков.');
             }
 
-            currentLevel = tagLavel;
+            currentLevel = tagLevel;
         });
     },
 
     /**
      * Анализ заголовков
      */
-    headlineAnalysis() {
-        let headlines = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+    headingsAnalysis() {
+        let nodesH1 = document.querySelectorAll('h1');
 
-        headlines.forEach(headline => {
-            // let currentH = headline.tagName.replace('H', '');
-        });
+        /**
+         * Заголовок H1
+         */
+        if (nodesH1.length === 1) {
+            if (nodesH1[0].textContent.trim().length > 0) {
+                this.logs.push({type: 'success', msg: 'На странице есть заголовок H1.'});
+            } else {
+                this.logs.push({type: 'error', msg: 'Пустой заголовок H1.'});
+            }
+        }
+        else {
+            let msgH1;
+
+            if (nodesH1.length > 1) {
+                // Не рекомендуется более одного заголовка H1 https://developer.mozilla.org/ru/docs/Web/HTML/Element/Heading_Elements#%D0%B8%D0%B7%D0%B1%D0%B5%D0%B3%D0%B0%D0%B9%D1%82%D0%B5_%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F_%D0%BD%D0%B5%D1%81%D0%BA%D0%BE%D0%BB%D1%8C%D0%BA%D0%B8%D1%85_%D1%8D%D0%BB%D0%B5%D0%BC%D0%B5%D0%BD%D1%82%D0%BE%D0%B2_h1_%D0%BD%D0%B0_%D0%BE%D0%B4%D0%BD%D0%BE%D0%B9_%D1%81%D1%82%D1%80%D0%B0%D0%BD%D0%B8%D1%86%D0%B5
+                msgH1 = `На странице более одного заголовка H1, что не рекомендуется стандартом. На данный момент на странице ${ nodesH1.length } заголов${ this.sklonenie(nodesH1.length, ['ок', 'ка', 'ков']) } H1.`;
+            } else {
+                msgH1 = 'На странице отсутствует заголовок H1.';
+            }
+
+            this.logs.push({type: 'error', msg: msgH1});
+        }
+
+
+        /**
+         * Структура заголовков
+         */
+        this.headers();
+        // let headlines = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+
+        // headlines.forEach(headline => {
+        //     // let currentH = headline.tagName.replace('H', '');
+        // });
     },
 
     /**
@@ -532,8 +553,6 @@ const analysisApp = {
      * Очистить данные
      */
     clearAnalysis() {
-        console.log('clearAnalysis');
-
         this.logs.splice(0, this.logs.length);
 
         this.links.empty = document.querySelectorAll('a:empty');
@@ -550,12 +569,9 @@ const analysisApp = {
 
         this.titleAnalysis();
         this.metaAnalysis();
+        this.headingsAnalysis();
         this.linksAnalysis();
         this.imagesAnalysis();
-
-        // this.headlineAnalysis();
-
-
 
         this.listens();
         console.log(this.logs);
