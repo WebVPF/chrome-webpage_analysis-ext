@@ -98,6 +98,31 @@ const popupApp = {
                                 div.append(blockListImages);
                             }
 
+                            /**
+                             * Повторяющиеся ID
+                             */
+                            if (log.hasOwnProperty('listID')) {
+                                const blockListAnchors = document.createElement('div');
+                                blockListAnchors.classList.add('anchors');
+
+                                log.listID.forEach(anchor => {
+                                    const anchorElement = document.createElement('div');
+                                    anchorElement.classList.add('anchor');
+
+                                    const iconElement = document.createElement('div');
+                                    iconElement.innerHTML = '<svg class="icon"><use xlink:href="#icon-anchor"></use></svg>';
+
+                                    const textAnchorElement = document.createElement('div');
+                                    textAnchorElement.textContent = anchor;
+
+                                    anchorElement.append(iconElement, textAnchorElement);
+
+                                    blockListAnchors.append(anchorElement);
+                                });
+
+                                div.append(blockListAnchors);
+                            }
+
                             blockLogs.append(wrap);
                         });
                     }

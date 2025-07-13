@@ -516,6 +516,35 @@ const analysisApp = {
     },
 
     /**
+     * Повторяющиеся ID
+     * на странице не должно быть повторяющихся id, все id должны быть уникальными.
+     */
+    duplicateIdsAnalysis() {
+        const elementsWithId = document.querySelectorAll('[id]');
+        const allIds = Array.from(elementsWithId).map(el => el.id);
+        const nonEmptyIds = allIds.filter(id => id.trim() !== "");
+
+        // Находим дубликаты
+        const duplicateIds = nonEmptyIds.filter((id, index) => nonEmptyIds.indexOf(id) !== index);
+        const uniqueDuplicates = [...new Set(duplicateIds)]; // Уникальные дубликаты
+
+        if (uniqueDuplicates.length > 0) {
+            this.logs.push({
+                type: 'error',
+                msg: 'Найдены дублирующиеся ID',
+                count: uniqueDuplicates.length,
+                listID: uniqueDuplicates,
+            });
+        }
+        else {
+            this.logs.push({
+                type: 'success',
+                msg: 'Дубликатов ID не найдено.',
+            });
+        }
+    },
+
+    /**
      * Проверка длины текста на заданный диапазон (от .. до ..)
      *
      * @param {string} txt
@@ -565,16 +594,17 @@ const analysisApp = {
     },
 
     controlAnalysis() {
-        console.log(this.settings);
+        // console.log(this.settings);
 
         this.titleAnalysis();
         this.metaAnalysis();
         this.headingsAnalysis();
         this.linksAnalysis();
         this.imagesAnalysis();
+        this.duplicateIdsAnalysis();
 
         this.listens();
-        console.log(this.logs);
+        // console.log(this.logs);
 
         /**
          * Отправка кол-ва ошибок и предупреждений в background.js для вывода их в бейдже на иконке расширения
