@@ -324,19 +324,22 @@ const analysisApp = {
                 if (metadesc.content.length < this.settings.metadesc.min) {
                     this.logs.push({
                         type: 'error',
-                        msg: `Длина Meta Description меньше ${ this.settings.metadesc.min } символ${ this.sklonenie(metadesc.content.length, ['а', 'ов', 'ов']) }`
+                        msg: `Длина Meta Description меньше ${ this.settings.metadesc.min } символ${ this.sklonenie(metadesc.content.length, ['а', 'ов', 'ов']) }`,
+                        quote: metadesc.content
                     });
                 }
                 else if (metadesc.content.length > this.settings.metadesc.max) {
                     this.logs.push({
                         type: 'error',
-                        msg: `Длина Meta Description больше ${ this.settings.metadesc.max } символ${ this.sklonenie(metadesc.content.length, ['а', 'ов', 'ов']) }`
+                        msg: `Длина Meta Description больше ${ this.settings.metadesc.max } символ${ this.sklonenie(metadesc.content.length, ['а', 'ов', 'ов']) }`,
+                        quote: metadesc.content
                     });
                 }
                 else {
                     this.logs.push({
                         type: 'success',
-                        msg: `Длина Meta Description ${ metadesc.content.length } символ${ this.sklonenie(metadesc.content.length, ['', 'а', 'ов']) }`
+                        msg: `Длина Meta Description ${ metadesc.content.length } символ${ this.sklonenie(metadesc.content.length, ['', 'а', 'ов']) }`,
+                        quote: metadesc.content
                     });
                 }
             }

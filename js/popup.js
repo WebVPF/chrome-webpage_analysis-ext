@@ -30,6 +30,13 @@ const popupApp = {
 
                             wrap.append(badge, div);
 
+                            if (log.hasOwnProperty('quote')) {
+                                const quote = document.createElement('blockquote');
+                                quote.textContent = log.quote;
+
+                                div.append(quote);
+                            }
+
                             if (log.hasOwnProperty('tags')) {
                                 let blockListTags = document.createElement('div');
                                 blockListTags.classList.add('flex-mtkey');
