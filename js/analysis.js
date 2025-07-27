@@ -5,6 +5,7 @@ const analysisApp = {
      * @property {string} Object[].type - Тип результата проверки: 'success', 'warning' или 'error'
      * @property {string} Object[].msg - Сообщение о результате проверки
      * @property {number} Object[].count - Кол-во ошибок. Необязательно. Если нет, то например для бейджа выводится 1
+     * @property {string} Object[].quote - Цитата
      */
     logs: [],
 
@@ -245,9 +246,16 @@ const analysisApp = {
          */
         if (nodesH1.length === 1) {
             if (nodesH1[0].textContent.trim().length > 0) {
-                this.logs.push({type: 'success', msg: 'На странице есть заголовок H1.'});
-            } else {
-                this.logs.push({type: 'error', msg: 'Пустой заголовок H1.'});
+                this.logs.push({
+                    type: 'success',
+                    msg: 'На странице есть заголовок H1.',
+                });
+            }
+            else {
+                this.logs.push({
+                    type: 'error',
+                    msg: 'Пустой заголовок H1.',
+                });
             }
         }
         else {
@@ -260,7 +268,10 @@ const analysisApp = {
                 msgH1 = 'На странице отсутствует заголовок H1.';
             }
 
-            this.logs.push({type: 'error', msg: msgH1});
+            this.logs.push({
+                type: 'error',
+                msg: msgH1,
+            });
         }
 
 
@@ -285,7 +296,7 @@ const analysisApp = {
             if (titleElements[0].textContent === '') {
                 this.logs.push({
                     type: 'error',
-                    msg: 'У страницы пустой тэг title.'
+                    msg: 'У страницы пустой тэг title.',
                 });
             }
             else {
@@ -299,13 +310,13 @@ const analysisApp = {
         else if (titleElements.length > 1) {
             this.logs.push({
                 type: 'error',
-                msg: 'У страницы несколько тэгов title.'
+                msg: 'У страницы несколько тэгов title.',
             });
         }
         else {
             this.logs.push({
                 type: 'error',
-                msg: 'На странице отсутствует тэг title.'
+                msg: 'На странице отсутствует тэг title.',
             });
         }
     },
@@ -323,13 +334,13 @@ const analysisApp = {
             if (metadesc === null) {
                 this.logs.push({
                     type: 'error',
-                    msg: 'У страницы нет Meta Description'
+                    msg: 'У страницы нет Meta Description',
                 });
             }
             else if (!metadesc.content.length) {
                 this.logs.push({
                     type: 'error',
-                    msg: 'Пустой Meta Description'
+                    msg: 'Пустой Meta Description',
                 });
             }
             else if (this.settings.metadesc.active) {
@@ -337,21 +348,21 @@ const analysisApp = {
                     this.logs.push({
                         type: 'error',
                         msg: `Длина Meta Description меньше ${ this.settings.metadesc.min } символ${ this.sklonenie(metadesc.content.length, ['а', 'ов', 'ов']) }`,
-                        quote: metadesc.content
+                        quote: metadesc.content,
                     });
                 }
                 else if (metadesc.content.length > this.settings.metadesc.max) {
                     this.logs.push({
                         type: 'error',
                         msg: `Длина Meta Description больше ${ this.settings.metadesc.max } символ${ this.sklonenie(metadesc.content.length, ['а', 'ов', 'ов']) }`,
-                        quote: metadesc.content
+                        quote: metadesc.content,
                     });
                 }
                 else {
                     this.logs.push({
                         type: 'success',
                         msg: `Длина Meta Description ${ metadesc.content.length } символ${ this.sklonenie(metadesc.content.length, ['', 'а', 'ов']) }`,
-                        quote: metadesc.content
+                        quote: metadesc.content,
                     });
                 }
             }
@@ -368,7 +379,7 @@ const analysisApp = {
                     this.logs.push({
                         type: 'warning',
                         msg: 'Обнаружено повторяющийся Meta Description',
-                        content: metadesc.content
+                        content: metadesc.content,
                     });
                 }
             });
@@ -383,13 +394,13 @@ const analysisApp = {
             if (metakey === null) {
                 this.logs.push({
                     type: 'error',
-                    msg: 'У страницы нет Meta Keywords'
+                    msg: 'У страницы нет Meta Keywords',
                 });
             }
             else if (!metakey.content.length) {
                 this.logs.push({
                     type: 'error',
-                    msg: 'Пустой Meta Keywords'
+                    msg: 'Пустой Meta Keywords',
                 });
             }
             else {
@@ -398,7 +409,7 @@ const analysisApp = {
                 this.logs.push({
                     type: 'success',
                     msg: 'У страницы есть Meta Keywords',
-                    tags: arrKeywords // TODO определить ключ согласно выводу. Вырианты: tags, keys, labels
+                    tags: arrKeywords, // TODO определить ключ согласно выводу. Вырианты: tags, keys, labels
                 });
             }
         }
@@ -468,7 +479,7 @@ const analysisApp = {
                 type: 'error',
                 msg: `Обнаружено ${ this.images.noAlt.length } изображений у которых отсутствует атрибут alt.`,
                 count: this.images.noAlt.length,
-                typeImages: 'noAlt'
+                typeImages: 'noAlt',
             });
         }
 
@@ -477,7 +488,7 @@ const analysisApp = {
                 type: 'error',
                 msg: `Обнаружено ${ this.images.emptyAlt.length } изображений у которых пустой атрибут alt.`,
                 count: this.images.emptyAlt.length,
-                typeImages: 'emptyAlt'
+                typeImages: 'emptyAlt',
             });
         }
 
@@ -487,7 +498,7 @@ const analysisApp = {
                 type: 'error',
                 msg: `Обнаружено ${ this.images.sizes.length } изображений фактический размер которых больше отображаемого. Эти изображения требуют отдельной оптимизации.`,
                 count: this.images.sizes.length,
-                typeImages: 'sizes'
+                typeImages: 'sizes',
             });
         }
 
