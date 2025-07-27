@@ -279,16 +279,28 @@ const analysisApp = {
      * Проверка тэга <title></title>
      */
     titleAnalysis() {
-        if (document.querySelectorAll('head title').length === 1) {
-            if (document.querySelector('head title').textContent === '') {
+        const titleElements = document.querySelectorAll('head title');
+
+        if (titleElements.length === 1) {
+            if (titleElements[0].textContent === '') {
                 this.logs.push({
                     type: 'error',
                     msg: 'У страницы пустой тэг title.'
                 });
             }
             else {
-                this.logs.push({type: 'success', msg: 'У страницы есть тэг title.'});
+                this.logs.push({
+                    type: 'success',
+                    msg: 'У страницы есть тэг title.',
+                    quote: titleElements[0].textContent,
+                });
             }
+        }
+        else if (titleElements.length > 1) {
+            this.logs.push({
+                type: 'error',
+                msg: 'У страницы несколько тэгов title.'
+            });
         }
         else {
             this.logs.push({
