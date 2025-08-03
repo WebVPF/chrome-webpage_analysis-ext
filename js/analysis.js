@@ -42,7 +42,7 @@ const analysisApp = {
         /**
          * Изображения у которых фактический размер которых больше отображаемого
          */
-        sizes: []
+        sizes: [],
     },
 
     extIdDevelop: 'iflkknjnoociemphgnbobbjgkghanofl',
@@ -178,7 +178,7 @@ const analysisApp = {
              * @property {string} ext - Расширение изображения: png, gif и т.д.
              * @property {boolean} searchExt - Изображение с расширением которое задано в настройках в поиске изображений заданных форматов
              */
-            let imgData = {};
+            const imgData = {};
 
             if (!img.hasAttribute('src')) {
                 imgData.src = false;
@@ -194,7 +194,7 @@ const analysisApp = {
                  * Искать форматы изображений
                  */
                 if (this.settings.imgSearchFormats.active) {
-                    let formats = this.stringListToArray(this.settings.imgSearchFormats.list);
+                    const formats = this.stringListToArray(this.settings.imgSearchFormats.list);
 
                     let arr = img.currentSrc.split('.');
 
@@ -214,7 +214,7 @@ const analysisApp = {
      * Эксперементальная опция - Проверка заголовков
      */
     headers() {
-        let allTagsH = document.querySelectorAll(':is(h1, h2, h3, h4, h5, h6)');
+        const allTagsH = document.querySelectorAll(':is(h1, h2, h3, h4, h5, h6)');
 
         /**
          * Уровни заголовков [1, 2, 2, 3, 2, 3, 3, 4, 2, ...]
@@ -434,10 +434,11 @@ const analysisApp = {
         if (this.settings.imgSearchFormats.active) {
             // document.querySelectorAll('[src$=".png"]');
 
-            let formats = this.stringListToArray(this.settings.imgSearchFormats.list);
+            const formats = this.stringListToArray(this.settings.imgSearchFormats.list);
 
             // let imagesFormats = document.querySelectorAll('[src$=".png"]');
         }
+
 
         document.querySelectorAll('img').forEach(img => {
 
@@ -633,11 +634,20 @@ const analysisApp = {
         // console.log(this.logs);
 
         /**
+         * Кол-во предупреждений
+         * @type {number}
+         */
+        const countWarningLogs = this.logs.filter(log => log.type == 'warning').length;
+
+        /**
+         * Кол-во ошибок
+         * @type {number}
+         */
+        const countErrorLogs = this.logs.filter(log => log.type == 'error').length;
+
+        /**
          * Отправка кол-ва ошибок и предупреждений в background.js для вывода их в бейдже на иконке расширения
          */
-        let countWarningLogs = this.logs.filter(log => log.type == 'warning').length;
-        let countErrorLogs = this.logs.filter(log => log.type == 'error').length;
-
         chrome.runtime.sendMessage({errors: countErrorLogs, warnings: countWarningLogs});
     },
 
