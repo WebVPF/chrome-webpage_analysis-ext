@@ -584,9 +584,6 @@ const analysisApp = {
         if (txt.length >= min && txt.length <= max) {
             return true;
         }
-        // if (txt.length >= this.settings.metadesc.min && txt.length <= this.settings.metadesc.max) {
-        //     return true;
-        // }
 
         return false;
     },
@@ -606,7 +603,7 @@ const analysisApp = {
     },
 
     /**
-     * Очистить данные
+     * Очистить данные анализа
      */
     clearAnalysis() {
         this.logs.splice(0, this.logs.length);
@@ -618,6 +615,29 @@ const analysisApp = {
         this.images.noAlt = document.querySelectorAll('img:not([alt])');
         this.images.emptyAlt = document.querySelectorAll('img[alt=""]');
         this.images.sizes.splice(0, this.images.sizes.length);
+    },
+
+    /**
+     * Отправка кол-ва ошибок и предупреждений в background.js для вывода их в бейдже на иконке расширения
+     */
+    sendResultToBg() {
+        /**
+         * Кол-во предупреждений
+         * @type {number}
+         */
+        const countWarningLogs = this.logs.filter(log => log.type == 'warning').length;
+
+        /**
+         * Кол-во ошибок
+         * @type {number}
+         */
+        const countErrorLogs = this.logs.filter(log => log.type == 'error').length;
+
+
+        /**
+         * Отправка кол-ва ошибок и предупреждений в background.js
+         */
+        chrome.runtime.sendMessage({errors: countErrorLogs, warnings: countWarningLogs});
     },
 
     controlAnalysis() {
@@ -633,22 +653,7 @@ const analysisApp = {
         this.listens();
         // console.log(this.logs);
 
-        /**
-         * Кол-во предупреждений
-         * @type {number}
-         */
-        const countWarningLogs = this.logs.filter(log => log.type == 'warning').length;
-
-        /**
-         * Кол-во ошибок
-         * @type {number}
-         */
-        const countErrorLogs = this.logs.filter(log => log.type == 'error').length;
-
-        /**
-         * Отправка кол-ва ошибок и предупреждений в background.js для вывода их в бейдже на иконке расширения
-         */
-        chrome.runtime.sendMessage({errors: countErrorLogs, warnings: countWarningLogs});
+        this.sendResultToBg();
     },
 
     init() {
