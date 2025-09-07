@@ -322,6 +322,57 @@ const analysisApp = {
     },
 
     /**
+     * TODO
+     * Проверка meta-тэга robots: <meta name="robots" content="index, follow">
+     */
+    robotsAnalysis() {
+        const robotsElements = document.querySelectorAll('meta[name="robots"]');
+
+        if (robotsElements.length === 1) {
+            if (robotsElements[0].hasAttribute('content')) {
+                if (robotsElements[0].getAttribute('content') === 'index, follow') {
+                    this.logs.push({
+                        type: 'success',
+                        msg: 'У страницы есть мета-тэг robots. Индексация страницы разрешена для поисковых систем.',
+                        quote: titleElements[0].textContent,
+                    });
+                }
+                else if (robotsElements[0].getAttribute('content') === 'noindex, nofollow') {
+                    this.logs.push({
+                        type: 'error',
+                        msg: 'У страницы есть мета-тэг robots, который запрещает поисковым системам индексацию страницы.',
+                    });
+                }
+                else {
+                    this.logs.push({
+                        type: 'error',
+                        msg: 'У страницы есть мета-тэг robots, но в атрибуте content прописана какая то хрень.',
+                        // value: robotsElements[0].getAttribute('content'), // TODO
+                    });
+                }
+            }
+            else {
+                this.logs.push({
+                    type: 'error',
+                    msg: 'У страницы есть мета-тэг robots, но у него отсутствует атрибут content.',
+                });
+            }
+        }
+        else if (robotsElements.length > 1) {
+            this.logs.push({
+                type: 'error',
+                msg: 'У страницы несколько мета-тэгов rabots.',
+            });
+        }
+        else {
+            this.logs.push({
+                type: 'error',
+                msg: 'На странице отсутствует мета-тэг rabots.',
+            });
+        }
+    },
+
+    /**
      * Анализ meta тэгов
      */
     metaAnalysis() {
@@ -644,6 +695,7 @@ const analysisApp = {
         // console.log(this.settings);
 
         this.titleAnalysis();
+        this.robotsAnalysis();
         this.metaAnalysis();
         this.headingsAnalysis();
         this.linksAnalysis();
