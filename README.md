@@ -24,3 +24,12 @@
     + `meta-desc`
     + `meta-keys`
 - Проверка на дублирующиеся id. Все id должны быть уникальными в пределах одного документа.
+
+## TODO
+
+- наличие meta-тэга `robots` и его значения: `<meta name="robots" content="index, follow">`
+- тэг `canonical`: `<link rel="canonical" href="https://site.com">`
+- Определён ли язык сайта, через атрибут `lang` у тэга `html`: `<html lang="ru">`
+- Мета-тэги Open Graf и Twitter.
+- Проверить встроены ли счётчики (Analitics, Яндекс.Метрика) и другие сторонние сервисы.
+- Иерархическая структура заголовков H2-H6.
