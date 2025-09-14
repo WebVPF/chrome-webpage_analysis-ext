@@ -334,7 +334,7 @@ const analysisApp = {
                     this.logs.push({
                         type: 'success',
                         msg: 'У страницы есть мета-тэг robots. Индексация страницы разрешена для поисковых систем.',
-                        quote: titleElements[0].textContent,
+                        quote: 'index, follow',
                     });
                 }
                 else if (robotsElements[0].getAttribute('content') === 'noindex, nofollow') {
