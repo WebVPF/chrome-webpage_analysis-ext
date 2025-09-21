@@ -322,7 +322,6 @@ const analysisApp = {
     },
 
     /**
-     * TODO
      * Проверка meta-тэга robots: <meta name="robots" content="index, follow">
      */
     robotsAnalysis() {
@@ -347,7 +346,7 @@ const analysisApp = {
                     this.logs.push({
                         type: 'error',
                         msg: 'У страницы есть мета-тэг robots, но в атрибуте content прописана какая то хрень.',
-                        // value: robotsElements[0].getAttribute('content'), // TODO
+                        quote: robotsElements[0].getAttribute('content'),
                     });
                 }
             }
