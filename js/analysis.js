@@ -322,6 +322,39 @@ const analysisApp = {
     },
 
     /**
+     * Проверка наличия канонического адреса страницы <link rel="canonical" href="https://site.com/">
+     */
+    canonicalAnalysis() {
+        const canonicalTag = document.querySelector('head link[rel="canonical"]');
+
+        if (canonicalTag === null) {
+            this.logs.push({
+                type: 'error',
+                msg: 'Отсутствует канонический адрес страницы.',
+            });
+        }
+        else if (!canonicalTag.hasAttribute('href')) {
+            this.logs.push({
+                type: 'error',
+                msg: 'У тэга canonical не указан канонический адрес страницы.',
+            });
+        }
+        else if (canonicalTag.href.length) {
+            this.logs.push({
+                type: 'success',
+                msg: 'Для страницы указан канонический адрес:',
+                quote: `canonical="${ canonicalTag.href }"`,
+            });
+        }
+        else {
+            this.logs.push({
+                type: 'error',
+                msg: 'У тэга canonical пустой атрибут href.',
+            });
+        }
+    },
+
+    /**
      * Проверка meta-тэга robots: <meta name="robots" content="index, follow">
      */
     robotsAnalysis() {
@@ -694,6 +727,7 @@ const analysisApp = {
         // console.log(this.settings);
 
         this.titleAnalysis();
+        this.canonicalAnalysis();
         this.robotsAnalysis();
         this.metaAnalysis();
         this.headingsAnalysis();
